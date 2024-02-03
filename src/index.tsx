@@ -1,17 +1,19 @@
 import { Provider } from 'react-redux'
 import ReactDom from 'react-dom';
-import {BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
-import './index.css'
+import {ThemeProvider} from "@mui/material/styles"
 import { store } from './app/store'
 import App from './app/App'
+import theme from './app/materialStyle';
 
 
 ReactDom.render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
-
+    <ThemeProvider theme={theme}>
+      <Router>
+        <App />
+      </Router>
+    </ThemeProvider>
   </Provider>, document.getElementById('root')
 )

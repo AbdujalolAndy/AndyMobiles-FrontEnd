@@ -1,0 +1,67 @@
+/* Navbar Style */
+.navbar-container {
+    z-index: 100;
+}
+
+.navbar {
+    padding: 10px 40px;
+}
+
+.navbar-brand {
+    letter-spacing: 3px;
+    font-weight: 700;
+    font-size: 23px;
+}
+
+.nav>.nav-item>a {
+    cursor: pointer;
+    color: rgb(113, 112, 112);
+    font-weight: bold;
+}
+
+.nav>.nav-item>a:after {
+    display: block;
+    content: "";
+    border-bottom: 2px solid black;
+    transform: scaleX(0);
+    transition: 0.3s ease-in-out;
+}
+
+.nav>.nav-item>a:hover::after {
+    transform: scaleX(1);
+}
+
+.nav-badge{
+    height: 20px;
+    width: 20px;
+    font-size:12px;
+    font-weight: bold;
+    color: white;
+}
+
+.underline {
+    border-bottom: 2px solid black;
+}
+
+.navbar-address{
+    background-color: rgb(238, 231, 231);
+    height: 150px;
+}
+.address-title{
+    font-size: 48px;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 20px;
+}
+.address-link a:nth-child(1){
+    text-decoration: none;
+    color: #565454;
+    font-weight: 400;
+}
+.address-link a:nth-child(2){
+    text-decoration: none;
+    color: #2e2d2d;
+    font-weight: 600;
+}
+
+/* Navbar Style */
