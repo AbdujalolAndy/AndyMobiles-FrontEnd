@@ -7,8 +7,8 @@ export const NavbarOthers = (props: any) => {
     const current_url = `/${props.addressTitle.toLowerCase()}`
     return (
         <Box className="otherNavbar">
-            <Container className="navbar-container">
-                <Box className="navbar" flexDirection={"row"}>
+            <Container className="navbar-container position-static">
+                <Box className="navbar " flexDirection={"row"}>
                     <Box className="navbar-brand nav-item">
                         <NavLink to="/" className={"nav-link"}>
                             AndyMobiles
@@ -16,7 +16,7 @@ export const NavbarOthers = (props: any) => {
                     </Box>
                     <Stack className="nav navbar" flexDirection={"row"}>
                         <Box className="nav-item">
-                            <NavLink to="/" className={"nav-link"} activeClassName="underline">
+                            <NavLink to="/" className={"nav-link"} >
                                 Home
                             </NavLink>
                         </Box>

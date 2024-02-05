@@ -1,8 +1,8 @@
 
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Box, Stack, Container, Button } from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation, Autoplay } from "swiper/modules"
+import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules"
 import { NavLink } from "react-router-dom";
 import "swiper/css"
 import "../../css/general.css"
@@ -17,6 +17,18 @@ export const HomeNavbar = () => {
         //@ts-ignore
         progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
     };;
+    const [scrolled, setScrolled] = useState<Number>(0)
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        }
+
+    }, [])
+
     return (
         <Box className="HomePage">
             <Stack className={"position-relative"} justifyContent={"center"} flexDirection={"row"}>
@@ -25,63 +37,89 @@ export const HomeNavbar = () => {
                     loop={true}
                     spaceBetween={30}
                     speed={1000}
-
                     autoplay={{
-                        delay: 2500
+                        delay: 6000,
                     }}
+                    effect="fade"
                     navigation={true}
-                    modules={[Autoplay, Navigation]}
+                    modules={[Autoplay, Navigation, EffectFade]}
                     onAutoplayTimeLeft={onAutoplayTimeLeft}
                     className="homeSwiper"
                 >
-                    <SwiperSlide className="slide_image_1">
+                    <SwiperSlide className=" slide_item_1 slide_vid position-relative">
+                        <video
+                            loop
+                            muted
+                            autoPlay
+                            playsInline
+                            disableRemotePlayback
+                            className="w-100"
+                        >
+                            <source
+                                type="video/mp4"
+                                data-src="//images.samsung.com/is/content/samsung/assets/us/home/01172024/HOME_E3_Main-KV_1440x640_pc_LTR.mp4"
+                                src="//images.samsung.com/is/content/samsung/assets/us/home/01172024/HOME_E3_Main-KV_1440x640_pc_LTR.mp4"
+                            />
+                        </video>
                         <Container>
-                            <div className="slide_info fs-1">
-                                <div className="slide-subtitle fs-6">
-                                    New Release from sumsung
+                            <div className="slide_vid_info position-absolute">
+                                <div className="vid-subtitle text-secondary">
+                                    New
                                 </div>
-                                <div className="slide-title">
-                                    GALAXY AI, Create yourself
+                                <div className="vid-title fs-1 text-secondary fw-bold">
+                                    Galaxy S24 ULTRA
                                 </div>
-                                <Button className="btn btn-outline-danger">
-                                    Shop Now
-                                </Button>
+                                <button className="btn btn-warning text-light fw-bold">
+                                    Purchase
+                                </button>
                             </div>
                         </Container>
                     </SwiperSlide>
-                    <SwiperSlide className="slide_image_1">
+                    <SwiperSlide className="slide_item_2 ">
+                        <Container className=" slide_item_2 d-flex justify-content-center align-items-center">
+                            <div className="slide_vid_info">
+                                <div className="vid-subtitle text-light">
+                                    New
+                                </div>
+                                <div className="vid-title fs-1 text-secondary fw-bold">
+                                    IPHONE 15 Pro
+                                </div>
+                                <button className="btn btn-warning text-light fw-bold">
+                                    Purchase
+                                </button>
+                            </div>
+                            <img src="/icons/apples.jpg" alt="" />
+                        </Container>
+                    </SwiperSlide>
+                    <SwiperSlide className="slide_vid position-relative">
+                        <video
+                            loop
+                            muted
+                            autoPlay
+                            playsInline
+                            disableRemotePlayback
+                            className="w-100"
+                        >
+                            <source
+                                type="video/mp4"
+                                data-src="//images.samsung.com/is/content/samsung/assets/us/home/01172024/HOME_E3_Main-KV_1440x640_pc_LTR.mp4"
+                                src="//images.samsung.com/is/content/samsung/assets/us/home/01172024/HOME_E3_Main-KV_1440x640_pc_LTR.mp4"
+                            />
+                        </video>
                         <Container>
-                            <div className="slide_info fs-1">
-                                <div className="slide-subtitle fs-6">
-                                    New Release from sumsung
+                            <div className="slide_vid_info position-absolute">
+                                <div className="vid-subtitle text-secondary">
+                                    New
                                 </div>
-                                <div className="slide-title">
-                                    GALAXY AI, Create yourself
+                                <div className="vid-title fs-1 text-secondary fw-bold">
+                                    Galaxy S24 ULTRA
                                 </div>
-                                <Button className="btn btn-outline-danger">
-                                    Shop Now
-                                </Button>
+                                <button className="btn btn-warning">
+                                    Purchase
+                                </button>
                             </div>
                         </Container>
-
                     </SwiperSlide>
-                    <SwiperSlide className="slide_image_1">
-                        <Container>
-                            <div className="slide_info fs-1">
-                                <div className="slide-subtitle fs-6">
-                                    New Release from sumsung
-                                </div>
-                                <div className="slide-title">
-                                    GALAXY AI, Create yourself
-                                </div>
-                                <Button className="btn btn-outline-danger">
-                                    Shop Now
-                                </Button>
-                            </div>
-                        </Container>
-
-                    </SwiperSlide>
-
                     <div className="autoplay-progress" slot="container-end">
                         <svg viewBox="0 0 48 48" ref={progressCircle}>
                             <circle cx="24" cy="24" r="14"></circle>
@@ -89,64 +127,64 @@ export const HomeNavbar = () => {
                         <span ref={progressContent}>=</span>
                     </div>
                 </Swiper>
-                <Container className="position-absolute top-0 navbar-container">
-                    <Box className="navbar" flexDirection={"row"}>
+                <Box className={scrolled ? "bg-light navbar-container" : 'navbar-container container'}>
+                    <Box className={scrolled ? "navbar container" : "navbar"} flexDirection={"row"}>
                         <Box className="navbar-brand nav-item">
                             <NavLink to="/" className={"nav-link"}>
-                                AndyMobiles
+                                <span className="text-secondary">Andy</span><span className="text-warning">Mobiles</span>
                             </NavLink>
                         </Box>
                         <Stack className="nav navbar" flexDirection={"row"}>
                             <Box className="nav-item">
-                                <NavLink to="/" className={"nav-link"} activeClassName="underline">
+                                <NavLink to="/" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     Home
                                 </NavLink>
                             </Box>
                             <Box className="nav-item" >
-                                <NavLink to="/brands" className={"nav-link"} activeClassName="underline">
+                                <NavLink to="/brands" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     Brands
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/products" className={"nav-link"} activeClassName="underline">
+                                <NavLink to="/products" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     Products
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/blogs" className={"nav-link"} activeClassName="underline">
+                                <NavLink to="/blogs" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     Blog
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/community" className={"nav-link"} activeClassName="underline">
+                                <NavLink to="/community" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     Community
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/about" className={"nav-link"} activeClassName="underline">
+                                <NavLink to="/about" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     About us
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/faq" className={"nav-link"} activeClassName="underline">
+                                <NavLink to="/faq" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     Faq
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/contact" className={"nav-link"} activeClassName="underline">
+                                <NavLink to="/contact" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     Contact us
                                 </NavLink>
                             </Box>
                         </Stack>
                         <Stack className="nav-features fs-5 gap-4" flexDirection={"row"}>
                             <Box className="nav-item">
-                                <NavLink to="/" className="nav-link"><i className="fa-solid fa-search"></i></NavLink>
+                                <NavLink to="/" className={scrolled ? "nav-link text-dark" : "nav-link text-light"}><i className="fa-solid fa-search"></i></NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/" className="nav-link"><i className="fa-solid fa-user"></i></NavLink>
+                                <NavLink to="/" className={scrolled ? "nav-link text-dark" : "nav-link text-light"}><i className="fa-solid fa-user"></i></NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/" className="position-relative nav-link">
+                                <NavLink to="/" className={scrolled ? "nav-link text-dark position-relative" : "nav-link text-light position-relative"}>
                                     <i className="fa-regular fa-heart"></i>
                                     <span className="position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle nav-badge text-center">
                                         0
@@ -154,7 +192,7 @@ export const HomeNavbar = () => {
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/" className="nav-link position-relative">
+                                <NavLink to="/" className={scrolled ? "nav-link text-dark position-relative" : "nav-link text-light position-relative"}>
                                     <i className="fa-brands fa-shopify"></i>
                                     <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
                                         0
@@ -163,7 +201,7 @@ export const HomeNavbar = () => {
                             </Box>
                         </Stack>
                     </Box>
-                </Container>
+                </Box>
             </Stack>
         </Box>
     )

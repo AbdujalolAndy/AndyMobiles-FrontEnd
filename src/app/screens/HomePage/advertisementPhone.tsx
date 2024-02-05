@@ -9,6 +9,7 @@ export const AdPhone = () => {
                 playsInline={true}
                 autoPlay
                 src="/vid/ads_media.mp4"
+                className="w-100"
             >
             </video>
         </Box>

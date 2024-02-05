@@ -1,8 +1,10 @@
 import { Box, Button, Container, Stack } from "@mui/material"
+import { useEffect, useState } from "react"
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
+import { Favorite } from "@mui/icons-material"
 
-
+const phone_list = ["never_settle.jpg", "real_me.jpg", "never_settle.jpg", "real_me.jpg", "never_settle.jpg", "real_me.jpg", "never_settle.jpg", "real_me.jpg", "never_settle.jpg", "real_me.jpg"]
 export const NewProducts = () => {
     return (
         <Container className="hot-products mt-5">
@@ -10,25 +12,30 @@ export const NewProducts = () => {
                 Coming Soon
             </Box>
             <Box className="hot-product-subtitle">
-                Hurry up to buy, and experiece ultimate power of SmartPhones 
+                Hurry up to buy, and experiece ultimate power of SmartPhones
             </Box>
             <Swiper
                 slidesPerView={5}
                 loop={true}
-                autoplay={true}
+                autoplay={
+                    {
+                        delay: 1000,
+                        pauseOnMouseEnter: true
+                    }
+                }
                 pagination={{
                     clickable: true,
                 }}
                 modules={[Autoplay, Pagination, Navigation]}
                 className="product-swiper cards"
             >
-                {Array.from({ length: 10 }).map(ele => (
-                    <SwiperSlide className="">
-                        <Box className={"slider-card border-0"}>
+                {Array.from({ length: 10 }).map((ele, index) => (
+                    <SwiperSlide className="swiper-card">
+                        <Box className={"slider-card border-0"} id="card">
                             <div className="card-img">
-                                <img src="/icons/phone.jpg" alt="phone1" />
+                                <img src={`/products/${phone_list[index]}`} alt="phone1" />
                                 <Stack className="card-features" gap="5px">
-                                    <Box><i className="fa-regular fa-heart"></i></Box>
+                                    <Box><Favorite sx={{ fill: "red" }} /></Box>
                                     <Box><i className="fa-solid fa-search"></i></Box>
                                     <Box><i className="fa-solid fa-wallet text-danger"></i></Box>
                                 </Stack>
@@ -58,7 +65,6 @@ export const NewProducts = () => {
                             </div>
                         </Box>
                     </SwiperSlide>
-                    
                 ))}
             </Swiper>
         </Container>

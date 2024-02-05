@@ -1,8 +1,11 @@
 /* Navbar Style */
 .navbar-container {
     z-index: 100;
+    position: fixed;
+    margin-top: 0px;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
 }
-
 .navbar {
     padding: 10px 40px;
 }
@@ -22,7 +25,7 @@
 .nav>.nav-item>a:after {
     display: block;
     content: "";
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid rgb(188, 159, 52);
     transform: scaleX(0);
     transition: 0.3s ease-in-out;
 }
@@ -40,11 +43,11 @@
 }
 
 .underline {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid rgb(249, 163, 35);
 }
 
 .navbar-address{
-    background-color: rgb(238, 231, 231);
+    background-color: rgb(237, 235, 235);
     height: 150px;
 }
 .address-title{

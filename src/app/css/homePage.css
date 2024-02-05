@@ -1,9 +1,38 @@
 /* Swiper Style */
 .homeSwiper {
-    height: 500px;
+    height: 600px;
     background-color: aliceblue;
 }
 
+.swiper-card {
+    padding-top: 25px;
+}
+
+.slide_vid_info {
+    transform: scaleY(0);
+    transition: transform .3s ease-in-out;
+    top: 30%;
+    animation: vid_info_appear .3s forwards ease-in-out;
+}
+
+@keyframes vid_info_appear {
+    0% {
+        transform: scaleY(0.5);
+    }
+
+    100% {
+        transform: scaleY(1);
+    }
+}
+
+.slide_vid_info div:nth-child(2) {
+    margin-bottom: 50px;
+}
+
+.slide_item_2 {
+    background-color: black;
+    gap: 100px;
+}
 
 .autoplay-progress {
     position: absolute;
@@ -33,10 +62,6 @@
     stroke-dashoffset: calc(125.6 * (1 - var(--progress)));
     stroke-dasharray: 125.6;
     transform: rotate(-90deg);
-}
-
-.slide_image_1 {
-    background-image: url('');
 }
 
 .slide_info {
@@ -75,8 +100,17 @@
 
 .slider-card {
     width: 210px;
-    height: 320px;
+    height: 350px;
     position: relative;
+    transform: scale(1);
+    transition: all 0.3s ease-in-out;
+    padding: 10px;
+}
+
+.slider-card:hover {
+    box-shadow: 0px 0px 10px black;
+    border-radius: 20px;
+    transform: scale(1.1);
 }
 
 .card-img img {
@@ -104,10 +138,10 @@
     width: 35px;
     height: 35px;
     line-height: 40px;
-    background-color: #fff;
+    background-color: #eee8e8;
     text-align: center;
     margin-bottom: 5px;
-    color: #7e7e7e;
+    color: black;
     border-radius: 10px;
     z-index: 2;
     cursor: pointer;
@@ -152,11 +186,48 @@
 
 /* Hot Products */
 
+/* Our Brands */
+
+.bg {
+    background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
+    position: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.brand_cards {
+    margin: 100px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.brand_card {
+    width: 150px;
+}
+
+.brand_img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px dashed gray;
+    overflow: hidden;
+}
+
+
+/* Our Brands */
+
 /* Deals TYPES STYLES */
 .deal-contract {
+    position: relative;
+    z-index: 10;
     height: 250px;
     width: 100%;
-    background-color: aliceblue;
+    background: #e7f2f8;
 }
 
 
@@ -195,31 +266,30 @@
 
 /* for Firefox */
 .ads_phone {
+    position: relative;
     justify-content: center;
-    height: 690px;
+    height: 820px;
     width: 100%;
+    margin: 0 auto;
     overflow: hidden;
     margin-top: 70px;
+    z-index: 10;
+    box-shadow: 0px 0px 90px black;
 }
 
 /* Advetisement Phone */
 
 /* Sale Products */
+.homeProducts{
+    padding-top: 100px;
+}
 :root {
     --surface-color: #fff;
     --curve: 40;
 }
 
-* {
-    box-sizing: border-box;
-}
 
-body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background-color: #fef8f8;
-}
-
-.cards {
+.product_cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
@@ -228,22 +298,22 @@ body {
     list-style-type: none;
 }
 
-.card {
+.product_card {
     position: relative;
+    width: 22%;
     display: block;
-    width: 21%;
-    height: 300px;
+    height: 400px;
     border-radius: calc(var(--curve) * 1px);
     overflow: hidden;
     text-decoration: none;
 }
 
-.card__image {
+.product_card .card__image {
     width: 100%;
-    height: auto;
+    height: 90%;
 }
 
-.card__overlay {
+.product_card .card__overlay {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -255,7 +325,7 @@ body {
     transition: .2s ease-in-out;
 }
 
-.card:hover .card__overlay {
+.product_card:hover .card__overlay {
     transform: translateY(0);
 }
 
@@ -285,7 +355,7 @@ body {
     d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z");
 }
 
-.card:hover .card__header {
+.product_card:hover .card__header {
     transform: translateY(0);
 }
 
@@ -327,3 +397,7 @@ body {
 }
 
 /* Sale Products */
+
+/* Community Posts */
+
+/* Community Posts */
