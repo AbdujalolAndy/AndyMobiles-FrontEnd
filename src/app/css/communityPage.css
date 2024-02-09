@@ -1,0 +1,89 @@
+/* My Sellers Style */
+.communityPage{
+    margin-top: 50px;
+}
+.my_sellers{
+    width: 30%;
+
+}
+
+.my_info img{
+    width: 100px;
+}
+
+.chat_group{
+    background-color: aliceblue;
+    border-radius: 10px;
+    max-height: 70vh;
+    overflow-y: scroll;
+    box-shadow: 0 0 5px black;
+}
+.chat_group img{
+    width: 60px;
+}
+
+.collocutor{
+    border-bottom: 1px solid black;
+}
+.collocutor_info{
+    padding: 10px 15px;
+}
+
+.chat_board{
+    width: 100vh;
+    background: rgb(255, 255, 255);
+    border-radius: 20px;
+    border: 1px solid gray;
+    overflow: hidden;
+    box-shadow: 0 0 5px black;
+}
+.chat_board_title{
+    border-bottom: 1px solid gray;
+    padding: 10px;
+    background-color: white;
+}
+.chat_board_title img{
+    width: 50px;
+}
+
+.chat{
+    padding: 20px 40px;
+}
+.messages{
+    height: 550px;
+}
+
+.chat img{
+    width: 40px;
+}
+
+.chat_sender .sender_msg{
+    background-color: aliceblue;
+    border-radius: 0 10px 10px 10px;
+    padding: 5px 15px;
+}
+.chat_reciever .sender_msg{
+    background-color: aliceblue;
+    border-radius: 10px 0px 10px 10px ;
+    padding: 5px 15px;
+}
+
+
+.type_msg input{
+    border-radius: 10px !important;
+    padding: 10px 15px !important;
+}
+.type_msg button{
+    position: absolute;
+    background-color: rgb(132, 128, 128);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    right: 10px;
+    top:7px
+}
+.type_msg button i{
+    color: white;
+}
+
+/* My Sellers Style */

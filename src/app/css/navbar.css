@@ -48,7 +48,8 @@
 
 .navbar-address{
     background-color: rgb(237, 235, 235);
-    height: 150px;
+    height: 230px;
+    padding-top: 70px;
 }
 .address-title{
     font-size: 48px;

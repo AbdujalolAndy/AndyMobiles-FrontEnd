@@ -1,0 +1,117 @@
+
+.productPage{
+    background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.products{
+    padding-bottom: 100px;
+}
+.filter_product {
+    height:135vh;
+    width: 20%;
+    background-color: aliceblue;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.filter-title {
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.filter_name {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 18px;
+    font-size: 21px;
+    line-height: inherit;
+    color: #333;
+    border: 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.accordion,
+.accordion-item {
+    background-color: transparent;
+    border-bottom: 1px solid rgb(120, 114, 114);
+    padding: 5px 0;
+}
+
+.accordion-button {
+    background-color: transparent;
+}
+
+.accordion-button:focus {
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+    border-radius: none;
+}
+
+.accordion-button:not(:focus) {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+/* PODUCT STYLE */
+.products{
+    width: 80%;
+}
+.product_item {
+    border: 1px solid gray;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 260px;
+    color: #4f4e4e;
+    opacity: 0;
+    transition: all .2s ease-in-out;
+}
+
+.product_item:hover{
+    box-shadow: 0px 0px 10px black;
+}
+.product_img {
+    width: 200px;
+    overflow: hidden;
+}
+
+.product_img img {
+    height: 100%;
+    transform: scale(1);
+    transition: transform .2s ease-in-out;
+}
+.product_img button{
+    height: 40px;
+    width: 40px;
+    border: 1px solid gray;
+    border-radius: 50%;
+    z-index: 10;
+    background-color: #e5e5e5;
+    right: 10px;
+    top: 5px;
+}
+
+.product_item img:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.product_item-color {}
+
+.product_item-color_list {
+    top: 58px;
+    right: 50px;
+}
+
+.product_item {
+    font-size: 13px;
+}
+.product_statistics{
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+}
+
+/* PODUCT STYLE */

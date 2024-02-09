@@ -1,14 +1,30 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Stack, Container, Button } from "@mui/material"
 import { NavLink } from "react-router-dom";
 import "../../css/navbar.css"
 
 export const NavbarOthers = (props: any) => {
     const current_url = `/${props.addressTitle.toLowerCase()}`
+    const [scrolled, setScrolled] = useState<boolean>(false)
+    useEffect(() => {
+        const handleScroll = () => {
+            if(window.scrollY>50){
+                setScrolled(true)
+            }else{
+                setScrolled(false)
+            }
+
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        }
+
+    }, [])
     return (
         <Box className="otherNavbar">
-            <Container className="navbar-container position-static">
-                <Box className="navbar " flexDirection={"row"}>
+            <Stack className={scrolled ? "bg-light navbar-container" : ' container'}>
+                <Box className={scrolled?"navbar container":"navbar container position-absolute "} flexDirection={"row"}>
                     <Box className="navbar-brand nav-item">
                         <NavLink to="/" className={"nav-link"}>
                             AndyMobiles
@@ -81,7 +97,7 @@ export const NavbarOthers = (props: any) => {
                         </Box>
                     </Stack>
                 </Box>
-            </Container>
+            </Stack>
             <Box className="navbar-address">
                 <Container>
                     <Box className="address-title">

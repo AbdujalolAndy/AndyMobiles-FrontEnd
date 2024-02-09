@@ -20,13 +20,13 @@ const App: React.FC = () => {
   return (
     <div>
       {pathname == "/" ? <HomeNavbar /> :
-        (pathname == "/brands" ? <NavbarOthers addressTitle="Brands" /> :
-          (pathname == "/products" ? <NavbarOthers addressTitle="Products" /> :
-            pathname == "/blogs" ? <NavbarOthers addressTitle="Blogs" /> :
-              pathname == "/community" ? <NavbarOthers addressTitle="Community" /> :
-                pathname == "/faq" ? <NavbarOthers addressTitle="Faq" /> :
-                  pathname == "/about" ? <NavbarOthers addressTitle="About" /> :
-                    pathname == "/contact" ? <NavbarOthers addressTitle="Contact" /> :
+        (pathname.includes("/brands")? <NavbarOthers addressTitle="Brands" /> :
+          (pathname.includes("/products") ? <NavbarOthers addressTitle="Products" /> :
+            pathname.includes("/blogs") ? <NavbarOthers addressTitle="Blogs" /> :
+              pathname.includes("/community") ? <NavbarOthers addressTitle="Community" /> :
+                pathname.includes("/faq") ? <NavbarOthers addressTitle="Faq" /> :
+                  pathname.includes("/about") ? <NavbarOthers addressTitle="About" /> :
+                    pathname.includes("/contact") ? <NavbarOthers addressTitle="Contact" /> :
                       ""
           ))}
       <Switch>
