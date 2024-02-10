@@ -161,11 +161,6 @@ export const HomeNavbar = () => {
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/about" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
-                                    About us
-                                </NavLink>
-                            </Box>
-                            <Box className="nav-item">
                                 <NavLink to="/faq" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     Faq
                                 </NavLink>

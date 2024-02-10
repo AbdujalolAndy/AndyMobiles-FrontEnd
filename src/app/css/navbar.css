@@ -6,6 +6,13 @@
     width: 100%;
     transition: all 0.3s ease-in-out;
 }
+.navbar_wrapper{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #2e2d2d;
+    opacity: 0.4;
+}
 .navbar {
     padding: 10px 40px;
 }
@@ -48,7 +55,11 @@
 
 .navbar-address{
     background-color: rgb(237, 235, 235);
-    height: 230px;
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 430px;
+    width: 100%;
     padding-top: 70px;
 }
 .address-title{

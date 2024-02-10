@@ -1,0 +1,11 @@
+.contact_data {
+    width: 600px;
+}
+.contact_data  .contact_data_one div{
+    width: 50%;
+}
+
+.contact_data textarea{
+    border: none;
+    border-bottom:1px solid gray;
+}

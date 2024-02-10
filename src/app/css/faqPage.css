@@ -1,0 +1,14 @@
+.faqPage {
+    padding-top: 70px;
+    background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.faq_body {
+    margin-bottom: 100px;
+}
+
+.faq_body .question_item {
+    width: 45%;
+}

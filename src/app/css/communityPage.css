@@ -30,8 +30,8 @@
 }
 
 .chat_board{
-    width: 100vh;
-    background: rgb(255, 255, 255);
+    width: 800px;
+    background: rgb(225, 223, 223);
     border-radius: 20px;
     border: 1px solid gray;
     overflow: hidden;

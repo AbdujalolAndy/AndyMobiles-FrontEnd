@@ -4,13 +4,20 @@ import { NavLink } from "react-router-dom";
 import "../../css/navbar.css"
 
 export const NavbarOthers = (props: any) => {
+    const wallpapers: any = {
+        Faq: "https://searchengineland.com/wp-content/seloads/2015/06/question-ask-faq-raise-hand-ss-1920.jpg",
+        Community: "https://img.freepik.com/free-vector/people-crowd-diverse-characters-waving-hand_107791-14082.jpg?w=1380&t=st=1707456518~exp=1707457118~hmac=3265d932d404d7892ad0eac511bc5923cddc8e6fa6c8abdf89635bbb25fe940c",
+        Blogs: "https://img.freepik.com/free-photo/toy-bricks-table_144627-48267.jpg?w=1380&t=st=1707456941~exp=1707457541~hmac=1851a13574596c1f54cbf7b0c8bd455a37a8738e6573dd98e30546460ae2be19",
+        Contact:"https://weddingsathilton.com/wp-content/uploads/2021/04/getintouch.jpg"
+    }
+    const image_url = wallpapers[props.addressTitle]
     const current_url = `/${props.addressTitle.toLowerCase()}`
     const [scrolled, setScrolled] = useState<boolean>(false)
     useEffect(() => {
         const handleScroll = () => {
-            if(window.scrollY>50){
+            if (window.scrollY > 50) {
                 setScrolled(true)
-            }else{
+            } else {
                 setScrolled(false)
             }
 
@@ -22,62 +29,58 @@ export const NavbarOthers = (props: any) => {
 
     }, [])
     return (
-        <Box className="otherNavbar">
-            <Stack className={scrolled ? "bg-light navbar-container" : ' container'}>
-                <Box className={scrolled?"navbar container":"navbar container position-absolute "} flexDirection={"row"}>
+        <Box className="otherNavbar position-relative">
+            <div className="navbar_wrapper"></div>
+            <Stack className={scrolled ? "bg-light navbar-container" : ' bg-light container'}>
+                <Box className={scrolled ? "navbar container" : " text-light navbar container position-absolute "} flexDirection={"row"}>
                     <Box className="navbar-brand nav-item">
-                        <NavLink to="/" className={"nav-link"}>
-                            AndyMobiles
+                        <NavLink to="/" className={"nav-link text-light"}>
+                            <span className={scrolled ? "text-dark" : "text-light"}>Andy</span><span className="text-warning">Mobiles</span>
                         </NavLink>
                     </Box>
                     <Stack className="nav navbar" flexDirection={"row"}>
                         <Box className="nav-item">
-                            <NavLink to="/" className={"nav-link"} >
+                            <NavLink to="/" className={scrolled ? "nav-link" : "nav-link text-light"} >
                                 Home
                             </NavLink>
                         </Box>
                         <Box className="nav-item" >
-                            <NavLink to="/brands" className={"nav-link"} activeClassName="underline">
+                            <NavLink to="/brands" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 Brands
                             </NavLink>
                         </Box>
                         <Box className="nav-item">
-                            <NavLink to="/products" className={"nav-link"} activeClassName="underline">
+                            <NavLink to="/products" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 Products
                             </NavLink>
                         </Box>
                         <Box className="nav-item">
-                            <NavLink to="/blogs" className={"nav-link"} activeClassName="underline">
+                            <NavLink to="/blogs" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 Blog
                             </NavLink>
                         </Box>
                         <Box className="nav-item">
-                            <NavLink to="/community" className={"nav-link"} activeClassName="underline">
+                            <NavLink to="/community" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 Community
                             </NavLink>
                         </Box>
                         <Box className="nav-item">
-                            <NavLink to="/about" className={"nav-link"} activeClassName="underline">
-                                About us
-                            </NavLink>
-                        </Box>
-                        <Box className="nav-item">
-                            <NavLink to="/faq" className={"nav-link"} activeClassName="underline">
+                            <NavLink to="/faq" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 Faq
                             </NavLink>
                         </Box>
                         <Box className="nav-item">
-                            <NavLink to="/contact" className={"nav-link"} activeClassName="underline">
+                            <NavLink to="/contact" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 Contact us
                             </NavLink>
                         </Box>
                     </Stack>
                     <Stack className="nav-features fs-5 gap-4" flexDirection={"row"}>
                         <Box className="nav-item">
-                            <NavLink to="/" className="nav-link"><i className="fa-solid fa-search"></i></NavLink>
+                            <NavLink to="/" className={scrolled ? "nav-link" : "nav-link text-light"}><i className="fa-solid fa-search"></i></NavLink>
                         </Box>
                         <Box className="nav-item">
-                            <NavLink to="/" className="nav-link"><i className="fa-solid fa-user"></i></NavLink>
+                            <NavLink to="/" className={scrolled ? "nav-link" : "nav-link text-light"}><i className="fa-solid fa-user"></i></NavLink>
                         </Box>
                         <Box className="nav-item">
                             <NavLink to="/" className="position-relative nav-link">
@@ -98,7 +101,7 @@ export const NavbarOthers = (props: any) => {
                     </Stack>
                 </Box>
             </Stack>
-            <Box className="navbar-address">
+            <Box className="navbar-address" style={{ backgroundImage: `url(${image_url})` }}>
                 <Container>
                     <Box className="address-title">
                         {props.addressTitle}
