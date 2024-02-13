@@ -156,6 +156,11 @@ export const HomeNavbar = () => {
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
+                                <NavLink to="/myPage" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
+                                    My Page
+                                </NavLink>
+                            </Box>
+                            <Box className="nav-item">
                                 <NavLink to="/community" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     Community
                                 </NavLink>

@@ -8,7 +8,8 @@ export const NavbarOthers = (props: any) => {
         Faq: "https://searchengineland.com/wp-content/seloads/2015/06/question-ask-faq-raise-hand-ss-1920.jpg",
         Community: "https://img.freepik.com/free-vector/people-crowd-diverse-characters-waving-hand_107791-14082.jpg?w=1380&t=st=1707456518~exp=1707457118~hmac=3265d932d404d7892ad0eac511bc5923cddc8e6fa6c8abdf89635bbb25fe940c",
         Blogs: "https://img.freepik.com/free-photo/toy-bricks-table_144627-48267.jpg?w=1380&t=st=1707456941~exp=1707457541~hmac=1851a13574596c1f54cbf7b0c8bd455a37a8738e6573dd98e30546460ae2be19",
-        Contact:"https://weddingsathilton.com/wp-content/uploads/2021/04/getintouch.jpg"
+        Contact:"https://weddingsathilton.com/wp-content/uploads/2021/04/getintouch.jpg",
+        "My Page":"https://m-cdn.phonearena.com/images/article/64576-wide-two_1200/The-Best-Phones-to-buy-in-2024---our-top-10-list.webp?1707223752"
     }
     const image_url = wallpapers[props.addressTitle]
     const current_url = `/${props.addressTitle.toLowerCase()}`
@@ -57,6 +58,11 @@ export const NavbarOthers = (props: any) => {
                         <Box className="nav-item">
                             <NavLink to="/blogs" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 Blog
+                            </NavLink>
+                        </Box>
+                        <Box className="nav-item">
+                            <NavLink to="/myPage" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
+                                My Page
                             </NavLink>
                         </Box>
                         <Box className="nav-item">

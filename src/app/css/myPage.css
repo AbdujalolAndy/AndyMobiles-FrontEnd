@@ -1,0 +1,218 @@
+.myPage {
+    background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-bottom: 200px;
+}
+
+.setting_controller {
+    width: 30%;
+    margin-top: 30px;
+    background-color: aliceblue;
+    border-radius: 10px;
+}
+
+.settings_items {
+    width: 100%;
+}
+
+.user_info {
+    position: relative;
+    display: flex;
+    height: 200px;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background: linear-gradient(to right, rgb(252, 255, 97), rgb(251, 193, 20));
+}
+
+.user_type {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: aliceblue;
+    padding: 5px;
+    border-radius: 10px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.user_img {
+    position: absolute;
+    background-color: white;
+    bottom: -60px;
+    height: 150px;
+    width: 150px;
+    display: flex;
+    border: 2px dashed gray;
+    border-radius: 50%;
+    justify-content: center;
+}
+
+.user_img img {
+    width: 140px;
+}
+
+.user_name {
+    padding-top: 40px;
+}
+
+.settings_items {
+    margin-top: 30px;
+}
+
+.settings_items button {
+    font-size: 18px;
+    font-weight: bold;
+    max-width: 100%;
+    align-items: start;
+    transition: border .2s ease-in-out;
+    padding: 5px 20px;
+}
+
+.settings_items button:focus {
+    background-color: aliceblue;
+}
+
+/* Acconu Info */
+.account_info {
+    background-color: white;
+    width: 80%;
+}
+
+/* Acconu Info */
+.my_account_header {
+    position: relative;
+    border-radius: 100px 0 0 0;
+    height: 300px;
+    width: 100%;
+    background-color: beige;
+}
+
+.my_account_header>div {
+    position: absolute;
+    bottom: -120px;
+    width: 100%;
+    left: 50px
+}
+
+.account_img {
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    height: 160px;
+    width: 160px;
+    background-color: white;
+    box-shadow: 0 0px 3px black;
+}
+
+.account_img img {
+    width: 140px
+}
+
+.my_account_body {
+    padding: 150px 30px 0 30px;
+}
+
+/* Bank Transition */
+.bank_cards {
+    width: 400px;
+    border-radius: 20px;
+}
+
+.bank_card {
+    background-image: url("https://bankmeister.com/assets/images/card/532.png");
+    background-size: contain;
+    background-position: center;
+    height: 300px;
+    width: 100px;
+    background-repeat: no-repeat;
+}
+
+.card_add_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 100px;
+    background-color: rgb(204, 219, 233);
+}
+.card_add_btn a{
+    display: block;
+    font-size: 40px;
+    padding: 10px 25px;
+    border-radius: 10px;
+    background-color: aliceblue;
+}
+.card_add{
+    margin-top: 60px;
+    width: 600px;
+}
+
+/* Bank Transition */
+
+/* Wish List Style */
+.wishList_amount{
+    width:600px;
+    background-color: aliceblue;
+    padding: 20px;
+    margin: 70px auto 0 auto
+}
+.wishList_amount tr, td, th{
+    border: 1px solid gray !important;
+}
+.terms_check input{
+    opacity: 1 !important;
+    position: static !important;
+}
+/* Wish List Style */
+
+/* Followers Style */
+.follow_title{
+    margin: 25px 0;
+}
+.follow_item{
+    width:600px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+    border: 1px solid gray;
+}
+.follow_item:hover{
+    box-shadow: 0 0 10px black;
+}
+.follow_item img{
+    width:70px
+}
+/* Followers Style */
+
+/* Posts Style */
+.targetPosts{
+    height: 500px;
+}
+.targetPost{
+    background-color: aliceblue;
+    border-radius: 0 20px 20px 0;
+    box-shadow: 0 0 5px black;
+    width: 600px;
+}
+.targetPost .post_img{
+    overflow: hidden;
+}
+.targetPost img{
+    width: 150px;
+    transform: scale(1);
+    transition:  transform.2s ease-in-out;
+}
+.targetPost img:hover{
+    transform: scale(1.2);
+}
+.read_more{
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
+    color: rgb(140, 139, 137);
+}
+/* Posts Style */

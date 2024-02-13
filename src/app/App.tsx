@@ -12,6 +12,7 @@ import AboutUsPage from './screens/AboutUsPage'
 import ContactUsPage from './screens/ContactUsPage'
 import "./css/general.css"
 import "./css/navbar.css"
+import MyPage from './screens/MyPage'
 
 
 
@@ -20,14 +21,15 @@ const App: React.FC = () => {
   return (
     <div>
       {pathname == "/" ? <HomeNavbar /> :
-        (pathname.includes("/brands")? <NavbarOthers addressTitle="Brands" /> :
+        (pathname.includes("/brands") ? <NavbarOthers addressTitle="Brands" /> :
           (pathname.includes("/products") ? <NavbarOthers addressTitle="Products" /> :
             pathname.includes("/blogs") ? <NavbarOthers addressTitle="Blogs" /> :
               pathname.includes("/community") ? <NavbarOthers addressTitle="Community" /> :
                 pathname.includes("/faq") ? <NavbarOthers addressTitle="Faq" /> :
                   pathname.includes("/about") ? <NavbarOthers addressTitle="About" /> :
                     pathname.includes("/contact") ? <NavbarOthers addressTitle="Contact" /> :
-                      ""
+                      pathname.includes("/myPage") ? <NavbarOthers addressTitle="My Page" /> :
+                        ""
           ))}
       <Switch>
         <Route path="/brands">
@@ -41,6 +43,9 @@ const App: React.FC = () => {
         </Route>
         <Route path="/community">
           < CommunityPage />
+        </Route>
+        <Route path="/myPage">
+          < MyPage />
         </Route>
         <Route path="/faq">
           < FaqPage />
