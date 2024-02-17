@@ -1,6 +1,7 @@
-.productPage{
+.productPage {
     padding-bottom: 100px;
 }
+
 .allProducts {
     background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
     background-repeat: no-repeat;
@@ -70,7 +71,6 @@
     overflow: hidden;
     height: 260px;
     color: #4f4e4e;
-    opacity: 0;
     transition: all .2s ease-in-out;
 }
 
@@ -104,16 +104,17 @@
     cursor: pointer;
     transform: scale(1.2);
 }
-
-.product_item-color {}
-
-.product_item-color_list {
-    top: 58px;
-    right: 50px;
-}
-
 .product_item {
     font-size: 13px;
+}
+
+.product_item .select_color{
+    position: relative;
+}
+.select_color>div{
+    position: absolute;
+    top:15px;
+    right: 40px;
 }
 
 .product_statistics {
@@ -128,27 +129,32 @@
     width: 400px;
     height: 700px;
 }
-.single_product_img  .product_swiper{
+
+.single_product_img .product_swiper {
     height: 70px;
 }
-.chosen_product{
+
+.chosen_product {
     margin-top: 50px;
 }
 
-.product_swiper .product_swiper_item{
+.product_swiper .product_swiper_item {
     height: 100px;
     width: 100px;
     margin: 0 10px;
 }
-.inner_img img{
+
+.inner_img img {
     height: 500px;
 }
-.product_swiper .product_swiper_item img{
+
+.product_swiper .product_swiper_item img {
     width: 100%;
     height: 100%;
 }
-.product_info{
-    width:400px;
+
+.product_info {
+    width: 400px;
 }
 
 .product_info .product_storage {
@@ -158,7 +164,8 @@
     cursor: pointer;
     color: rgb(183, 181, 181);
 }
-.product_info .product_color{
+
+.product_info .product_color {
     display: flex;
     justify-content: center;
     padding: 3px;
@@ -170,16 +177,17 @@
     cursor: pointer;
 }
 
-.product_info .product_quantity_count{
+.product_info .product_quantity_count {
     cursor: pointer;
     border-bottom: 1px solid black;
 }
 
-.product_info .buy_terms input{
+.product_info .buy_terms input {
     position: relative !important;
     opacity: 1 !important;
 }
-.product_share a{
+
+.product_share a {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -191,38 +199,53 @@
     background-color: #333;
     color: #e5e5e5;
 }
-.product_share a:hover{
+
+.product_share a:hover {
     background-color: #757474;
+}
+
+.chosen_product_tab{
+    transition: all .2s ease-in-out;
+}
+.chosen_product_tab:hover {
+    color: black;
+}
+.chosen_product_tab:focus{
+    background-color: transparent;
 }
 
 /* Chosen Product Style */
 
 /* Product rating Style */
-.poduct_review{
+.poduct_review {
     border: 1px solid rgb(109, 106, 106);
-    padding:25px
+    padding: 25px
 }
-.poduct_review .poduct_review_item{
-    padding:10px 0;
-    border-bottom:1px solid rgb(67, 63, 63) ;
+
+.poduct_review .poduct_review_item {
+    padding: 10px 0;
+    border-bottom: 1px solid rgb(67, 63, 63);
 }
 
 /* Product rating Style */
 
 /* Product Write Review */
-.reviewPage .review_title input{
+.reviewPage .review_title input {
     font-size: 17px;
     border: 1px solid rgb(148, 143, 143);
     padding: 5px;
     border-radius: 10px;
 }
-.reviewPage i{
+
+.reviewPage i {
     cursor: pointer;
 }
-.reviewPage textarea{
+
+.reviewPage textarea {
     height: 100px;
     padding: 5px;
     border-radius: 10px;
     margin-bottom: 50px;
 }
+
 /* Product Write Review */

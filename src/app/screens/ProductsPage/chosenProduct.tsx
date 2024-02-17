@@ -10,6 +10,7 @@ import { TabContext, TabPanel } from "@mui/lab";
 import ProductDescription from "./ProductDescription";
 import ProductReview from "./productReview";
 import ReviewWriting from "./reviewWriting";
+import RelatedProducts from "./relatedProducts";
 
 export const ChosenProduct = (props: any) => {
     const { product_id } = useParams<{ product_id: string }>()
@@ -172,10 +173,10 @@ export const ChosenProduct = (props: any) => {
             <Box className={"container"}>
                 <TabContext value={value}>
                     <Stack alignItems={"center"}>
-                        <Tabs className={"mt-5"}>
-                            <Tab value={"1"} label="Description" onClick={() => handleValue("1")} />
-                            <Tab value={"2"} label="Review" onClick={() => handleValue("2")} />
-                            <Tab value={"3"} label="Leave A REVIEW" onClick={() => handleValue("3")} />
+                        <Tabs className={"mt-5s"}>
+                            <Tab value={"1"} className={value == "1" ? "chosen_product_tab text-dark fw-bold" : "chosen_product_tab"} label="Description" onClick={() => handleValue("1")} />
+                            <Tab value={"2"} className={value == "2" ? "chosen_product_tab text-dark fw-bold" : "chosen_product_tab"} label="Review" onClick={() => handleValue("2")} />
+                            <Tab value={"3"} className={value == "3" ? "chosen_product_tab text-dark fw-bold" : "chosen_product_tab"} label="Leave A REVIEW" onClick={() => handleValue("3")} />
                         </Tabs>
                     </Stack>
                     <TabPanel value={"1"}>
@@ -188,6 +189,7 @@ export const ChosenProduct = (props: any) => {
                         <ReviewWriting />
                     </TabPanel>
                 </TabContext>
+                <RelatedProducts/>
             </Box>
         </Box>
     )

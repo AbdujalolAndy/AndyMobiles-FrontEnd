@@ -28,7 +28,7 @@ const ReviewWriting = () => {
                 <input type="text" placeholder="Give your review a title" />
             </div>
             <div className="review_body">
-                <span className="fs-4 text-secondary">Body of Review </span><span className="fs-5">({characters})</span>
+                <div className="mb-2"><span className="fs-4 text-secondary">Body of Review </span><span className={characters<0?"fs-5 text-danger":"fs-5"}>({characters})</span></div>
                 <textarea cols={40} placeholder="Write your comments here" onChange={handleCharacterLimit}></textarea>
             </div>
             <Stack alignItems={"end mb-3"}>

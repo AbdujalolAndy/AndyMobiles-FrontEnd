@@ -1,17 +1,22 @@
 import { Box, Stack, Tab, Tabs } from "@mui/material";
-import "../../css/myPage.css"
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { useState } from "react";
+import { TabContext, TabPanel } from "@mui/lab";
+import { useEffect, useRef, useState } from "react";
+import { Player } from "@lordicon/react";
 import Footer from "../../components/footer";
 import { MyAccount } from "./myAccount";
 import BankTransition from "./bankTransition";
 import WishList from "./wishList";
-import Followers from "./follow";
 import Follow from "./follow";
 import Posts from "./posts";
+import {TuiEditor} from "../../components/tuiEditor/tuiEditor"
+import "../../css/myPage.css";
 
 const MyPage = () => {
     const [value, setValue] = useState<string>("1")
+
+    useEffect(() => {
+    }, []);
+
     function handleValue(order: string) {
         setValue(order)
     }
@@ -32,12 +37,75 @@ const MyPage = () => {
                                 orientation="vertical"
                                 className="settings_items"
                             >
-                                <Tab value="1" label="User Account" style={value == "1" ? { borderRight: "4px solid black", backgroundColor: "white" } : {}} onClick={() => handleValue("1")} />
-                                <Tab value="2" label="Bank cards" style={value == "2" ? { borderRight: "4px solid black", backgroundColor: "white" } : {}} onClick={() => handleValue("2")} />
-                                <Tab value="3" label="wish list" style={value == "3" ? { borderRight: "4px solid black", backgroundColor: "white" } : {}} onClick={() => handleValue("3")} />
-                                <Tab value="4" label="followers" style={value == "4" ? { borderRight: "4px solid black", backgroundColor: "white" } : {}} onClick={() => handleValue("4")} />
-                                <Tab value="5" label="followings" style={value == "5" ? { borderRight: "4px solid black", backgroundColor: "white" } : {}} onClick={() => handleValue("5")} />
-                                <Tab value="6" label="posts" style={value == "6" ? { borderRight: "4px solid black", backgroundColor: "white" } : {}} onClick={() => handleValue("6")} />
+                                <Stack
+                                    flexDirection={"row"}
+                                    style={value == "1" ? { borderLeft: "4px solid black", backgroundColor: "white" } : {}}
+                                    onClick={() => handleValue("1")} alignItems={"center"}
+                                    sx={{ padding: "0 0 0 10px" }}
+                                >
+                                    <i className="fa-solid fa-user fs-3"></i>
+                                    <Tab value="1" label="User Account" />
+                                </Stack>
+                                <Stack
+                                    flexDirection={"row"}
+                                    style={value == "2" ? { borderLeft: "4px solid black", backgroundColor: "white" } : {}}
+                                    onClick={() => handleValue("2")}
+                                    alignItems={"center"}
+                                    sx={{ padding: "0 0 0 10px" }}
+                                >
+                                    <i className={"fa-solid fa-piggy-bank fs-3"}></i>
+                                    <Tab value="2" label="Bank cards" />
+                                </Stack>
+                                <Stack
+                                    flexDirection={"row"}
+                                    style={value == "3" ? { borderLeft: "4px solid black", backgroundColor: "white" } : {}}
+                                    onClick={() => handleValue("3")}
+                                    alignItems={"center"}
+                                    sx={{ padding: "0 0 0 10px" }}
+                                >
+                                    <i className="fa-solid fa-basket-shopping fs-3"></i>
+                                    <Tab value="3" label="wish list" />
+                                </Stack>
+                                <Stack
+                                    flexDirection={"row"}
+                                    style={value == "4" ? { borderLeft: "4px solid black", backgroundColor: "white" } : {}}
+                                    onClick={() => handleValue("4")}
+                                    alignItems={"center"}
+                                    sx={{ padding: "0 0 0 10px" }}
+                                >
+                                    <i className="fa-solid fa-users fs-3"></i>
+                                    <Tab value="4" label="followers" />
+                                </Stack>
+                                <Stack
+                                    flexDirection={"row"}
+                                    style={value == "5" ? { borderLeft: "4px solid black", backgroundColor: "white" } : {}}
+                                    onClick={() => handleValue("5")}
+                                    alignItems={"center"}
+                                    sx={{ padding: "0 0 0 10px" }}
+                                >
+                                    <i className="fa-solid fa-user-plus fs-3"></i>
+                                    <Tab value="5" label="followings" />
+                                </Stack>
+                                <Stack
+                                    flexDirection={"row"}
+                                    style={value == "6" ? { borderLeft: "4px solid black", backgroundColor: "white" } : {}}
+                                    onClick={() => handleValue("6")}
+                                    alignItems={"center"}
+                                    sx={{ padding: "0 0 0 10px" }}
+                                >
+                                    <i className="fa-solid fa-message fs-3"></i>
+                                    <Tab value="6" label="posts" />
+                                </Stack>
+                                <Stack
+                                    flexDirection={"row"}
+                                    style={value == "7" ? { borderLeft: "4px solid black", backgroundColor: "white" } : {}}
+                                    onClick={() => handleValue("7")}
+                                    alignItems={"center"}
+                                    sx={{ padding: "0 0 0 10px" }}
+                                >
+                                    <i className="fa-solid fa-signature fs-3"></i>
+                                    <Tab value="7" label="Write a post" />
+                                </Stack>
                             </Tabs>
                         </Stack>
                         <TabPanel value={"1"} className={"account_info"}>
@@ -58,6 +126,9 @@ const MyPage = () => {
                         <TabPanel value={"6"} className={"account_info"}>
                             <Posts />
                         </TabPanel>
+                        <TabPanel value={"7"} className={"account_info"}>
+                            <TuiEditor />
+                        </TabPanel>
                     </Stack>
                 </TabContext>
             </Box>
@@ -67,3 +138,4 @@ const MyPage = () => {
 }
 
 export default MyPage;
+

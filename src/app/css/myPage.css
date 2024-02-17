@@ -10,6 +10,7 @@
     margin-top: 30px;
     background-color: aliceblue;
     border-radius: 10px;
+    max-height: 700px;
 }
 
 .settings_items {

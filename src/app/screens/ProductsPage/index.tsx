@@ -14,7 +14,7 @@ const ProductsPage = () => {
         <Box>
             <Box className="productPage">
                 <Switch>
-                    <Route path={`${location}/product/:product_id`}>
+                    <Route path={`${location}/:product_id`}>
                         <ChosenProduct />
                     </Route>
                     <Route path={`${location}`}>

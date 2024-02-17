@@ -168,22 +168,24 @@ const AllProducts = () => {
                                     <button className="position-absolute"><Favorite style={{ fill: "red" }} /></button>
                                     <img src="/icons/phone.jpg" alt="phone" className="w-100" />
                                 </div>
-                                <div className="product_item-info position-relative p-2">
+                                <div className="product_item-info p-2">
                                     <div className="product_name pb-2  fs-5 text-center fw-bold">Apple Iphone 15 Pro Max</div>
-                                    <select name="" id="" className="product_colors form-select" onChange={handleColor}>
-                                        <option value="Black">Black</option>
-                                        <option value="Blue">Blue</option>
-                                        <option value="Gold">Gold</option>
-                                        <option value="Green">Green</option>
-                                        <option value="Gray">Gray</option>
-                                    </select>
-                                    <Stack className="product_item-color_list position-absolute" flexDirection={"row"} gap={"3px"}>
-                                        <div className="bg-dark" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Black" ? "2px solid red" : "" }}></div>
-                                        <div style={{ width: "15px", height: "15px", borderRadius: '50%', backgroundColor: "blue", border: chosenColor === "Blue" ? "2px solid red" : "" }}></div>
-                                        <div className="bg-warning" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Gold" ? "2px solid red" : "" }}></div>
-                                        <div className="bg-success" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Green" ? "2px solid red" : "" }}></div>
-                                        <div className="bg-secondary" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Gray" ? "2px solid red" : "" }}></div>
-                                    </Stack>
+                                    <div className="select_color">
+                                        <select className="product_colors form-select" onChange={handleColor}>
+                                            <option value="Black">Black</option>
+                                            <option value="Blue">Blue</option>
+                                            <option value="Gold">Gold</option>
+                                            <option value="Green">Green</option>
+                                            <option value="Gray">Gray</option>
+                                        </select>
+                                        <Stack flexDirection={"row"} gap={"3px"}>
+                                            <div className="bg-dark" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Black" ? "2px solid red" : "" }}></div>
+                                            <div style={{ width: "15px", height: "15px", borderRadius: '50%', backgroundColor: "blue", border: chosenColor === "Blue" ? "2px solid red" : "" }}></div>
+                                            <div className="bg-warning" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Gold" ? "2px solid red" : "" }}></div>
+                                            <div className="bg-success" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Green" ? "2px solid red" : "" }}></div>
+                                            <div className="bg-secondary" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Gray" ? "2px solid red" : "" }}></div>
+                                        </Stack>
+                                    </div>
                                     <div className="product_item-info mt-3">
                                         <Stack className="actual_price" flexDirection={"row"}>
                                             <i className="fa-solid fa-circle-plus p-1 me-2"></i>
