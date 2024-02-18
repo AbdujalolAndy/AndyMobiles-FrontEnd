@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from "react"
-import { Box, Stack, Container, Button } from "@mui/material"
+import { Box, Stack, Container, Button, Menu, MenuItem } from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules"
 import { NavLink } from "react-router-dom";
@@ -8,7 +8,7 @@ import "swiper/css"
 import "../../css/general.css"
 import "../../css/navbar.css"
 
-export const HomeNavbar = () => {
+export const HomeNavbar = (props: any) => {
     const progressCircle = useRef(null);
     const progressContent = useRef(null);
     const onAutoplayTimeLeft = (s: any, time: any, progress: any) => {
@@ -28,7 +28,6 @@ export const HomeNavbar = () => {
         }
 
     }, [])
-
     return (
         <Box className="HomePage">
             <Stack className={"position-relative"} justifyContent={"center"} flexDirection={"row"}>
@@ -176,15 +175,12 @@ export const HomeNavbar = () => {
                                 </NavLink>
                             </Box>
                         </Stack>
-                        <Stack className="nav-features fs-5 gap-4" flexDirection={"row"}>
+                        <Stack className="nav-features fs-5 gap-4" flexDirection={"row"} alignItems={"center"}>
                             <Box className="nav-item">
-                                <NavLink to="/" className={scrolled ? "nav-link text-dark" : "nav-link text-light"}><i className="fa-solid fa-search"></i></NavLink>
+                                <NavLink to="/" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"}><i className="fa-solid fa-search"></i></NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/" className={scrolled ? "nav-link text-dark" : "nav-link text-light"}><i className="fa-solid fa-user"></i></NavLink>
-                            </Box>
-                            <Box className="nav-item">
-                                <NavLink to="/" className={scrolled ? "nav-link text-dark position-relative" : "nav-link text-light position-relative"}>
+                                <NavLink to="/" className={scrolled ? "nav-link text-dark position-relative" : "nav-link text-secondary position-relative"}>
                                     <i className="fa-regular fa-heart"></i>
                                     <span className="position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle nav-badge text-center">
                                         0
@@ -192,12 +188,22 @@ export const HomeNavbar = () => {
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/" className={scrolled ? "nav-link text-dark position-relative" : "nav-link text-light position-relative"}>
+                                <NavLink to="/" className={scrolled ? "nav-link text-dark position-relative" : "nav-link text-secondary position-relative"}>
                                     <i className="fa-brands fa-shopify"></i>
                                     <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
                                         0
                                     </span>
                                 </NavLink>
+                            </Box>
+                            <Box className="nav-item auth_user dropdown">
+                                <button className=" btn btn-outline-secondary border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ boxShadow: "none" }}>
+                                    <i className="fa-solid fa-user"></i>
+                                </button>
+                                <ul className="dropdown-menu">
+                                    <li><button className="dropdown-item" >Logn In</button></li>
+                                    <li><button className="dropdown-item" onClick={props.handleSignUpOpen}>Sign Up</button></li>
+                                    <li><button className="dropdown-item" >Something else here</button></li>
+                                </ul>
                             </Box>
                         </Stack>
                     </Box>

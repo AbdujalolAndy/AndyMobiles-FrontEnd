@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Route, Switch, useLocation } from 'react-router-dom'
 import HomePage from './screens/HomePage'
 import BrandsPage from './screens/BrandPage'
@@ -13,14 +13,21 @@ import ContactUsPage from './screens/ContactUsPage'
 import "./css/general.css"
 import "./css/navbar.css"
 import MyPage from './screens/MyPage'
+import Footer from './components/footer'
+import { AuthenticationModal } from './components/authModal'
 
 
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
+  const [openAuth, setOpenAuth] = useState(false)
+  function handleSignUpClose() { setOpenAuth(false) }
+  function handleSignUpOpen() { setOpenAuth(true) }
   return (
     <div>
-      {pathname == "/" ? <HomeNavbar /> :
+      {pathname == "/" ? <HomeNavbar
+        handleSignUpOpen={handleSignUpOpen}
+      /> :
         (pathname.includes("/brands") ? <NavbarOthers addressTitle="Brands" /> :
           (pathname.includes("/products") ? <NavbarOthers addressTitle="Products" /> :
             pathname.includes("/blogs") ? <NavbarOthers addressTitle="Blogs" /> :
@@ -60,6 +67,11 @@ const App: React.FC = () => {
           <HomePage />
         </Route>
       </Switch>
+      <Footer />
+      <AuthenticationModal
+        openAuth={openAuth}
+        handleSignUpClose={handleSignUpClose}
+      />
     </div>
   )
 }
