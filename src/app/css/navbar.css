@@ -6,13 +6,15 @@
     width: 100%;
     transition: all 0.3s ease-in-out;
 }
-.navbar_wrapper{
+
+.navbar_wrapper {
     position: absolute;
     height: 100%;
     width: 100%;
     background-color: #2e2d2d;
     opacity: 0.4;
 }
+
 .navbar {
     padding: 10px 40px;
 }
@@ -41,41 +43,117 @@
     transform: scaleX(1);
 }
 
-.nav-badge{
+.nav-features .nav-item button {
+    box-shadow: none;
+}
+
+.nav-features .nav-item button:focus {
+    background-color: transparent;
+}
+
+.nav-badge {
     height: 20px;
     width: 20px;
-    font-size:12px;
+    font-size: 12px;
     font-weight: bold;
     color: white;
 }
+
 .underline {
     border-bottom: 2px solid rgb(249, 163, 35);
 }
 
-.navbar-address{
+.navbar-address {
     background-color: rgb(237, 235, 235);
-    background-size:cover;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     height: 430px;
     width: 100%;
     padding-top: 70px;
 }
-.address-title{
+
+
+.address-title {
     font-size: 48px;
     line-height: 1.5;
     color: #333;
     margin-bottom: 20px;
 }
-.address-link a:nth-child(1){
+
+.address-link a:nth-child(1) {
     text-decoration: none;
     color: #565454;
     font-weight: 400;
 }
-.address-link a:nth-child(2){
+
+.address-link a:nth-child(2) {
     text-decoration: none;
     color: #2e2d2d;
     font-weight: 600;
 }
 
 /* Navbar Style */
+
+/* Basket Modal Style */
+.basket_modal {
+    width: 25%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0%;
+    border: none;
+    padding: 20px 30px;
+    transition: transform 4s ease-in-out;
+    transform: translateX(-100%);
+}
+
+.basket_modal .basket_products {
+    max-height: 450px;
+    overflow-y: scroll;
+}
+
+.basket_modal .close_toggle {
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transform: rotate(0);
+    transition: transform 1s ease-in-out;
+}
+
+.basket_modal .close_toggle:hover {
+    transform: rotate(180deg);
+}
+
+.basket_products .product_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #c6bfbf;
+    width: 100px;
+    padding: 15px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.basket_products .product_remove_btn:hover {
+    color: rgb(214, 63, 158);
+    cursor: pointer;
+}
+
+.basket_modal .terms input{
+    position: relative;
+    opacity:1;
+    padding: 0 ;
+    margin: 0;
+}
+.basket_modal .terms p{
+    font-size: 14px;
+}
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: relative;
+    pointer-events:visible;
+
+}
+
+/* Basket Modal Style */

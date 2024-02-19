@@ -15,18 +15,23 @@ import "./css/navbar.css"
 import MyPage from './screens/MyPage'
 import Footer from './components/footer'
 import { AuthenticationModal } from './components/authModal'
+import { Basket } from './components/basket'
 
 
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
   const [openAuth, setOpenAuth] = useState(false)
+  const [openBasket, setOpenBasket] = useState(false)
   function handleSignUpClose() { setOpenAuth(false) }
   function handleSignUpOpen() { setOpenAuth(true) }
+  function handleBasketOpen() { setOpenBasket(true) }
+  function handleBasketClose() { setOpenBasket(false) }
   return (
     <div>
       {pathname == "/" ? <HomeNavbar
         handleSignUpOpen={handleSignUpOpen}
+        handleBasketOpen={handleBasketOpen}
       /> :
         (pathname.includes("/brands") ? <NavbarOthers addressTitle="Brands" /> :
           (pathname.includes("/products") ? <NavbarOthers addressTitle="Products" /> :
@@ -71,6 +76,10 @@ const App: React.FC = () => {
       <AuthenticationModal
         openAuth={openAuth}
         handleSignUpClose={handleSignUpClose}
+      />
+      <Basket
+        openBasket={openBasket}
+        handleBasketClose={handleBasketClose}
       />
     </div>
   )

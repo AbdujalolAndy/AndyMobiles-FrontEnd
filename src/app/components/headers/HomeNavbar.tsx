@@ -188,21 +188,23 @@ export const HomeNavbar = (props: any) => {
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/" className={scrolled ? "nav-link text-dark position-relative" : "nav-link text-secondary position-relative"}>
+                                <button  
+                                className={scrolled ? "btn btn-outline-secondary border-0 position-relative" : "btn btn-outline-secondary border-0 position-relative"}
+                                onClick={props.handleBasketOpen}
+                                >
                                     <i className="fa-brands fa-shopify"></i>
                                     <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
                                         0
                                     </span>
-                                </NavLink>
+                                </button>
                             </Box>
                             <Box className="nav-item auth_user dropdown">
-                                <button className=" btn btn-outline-secondary border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ boxShadow: "none" }}>
+                                <button className="btn btn-outline-secondary border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ boxShadow: "none" }}>
                                     <i className="fa-solid fa-user"></i>
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li><button className="dropdown-item" >Logn In</button></li>
-                                    <li><button className="dropdown-item" onClick={props.handleSignUpOpen}>Sign Up</button></li>
-                                    <li><button className="dropdown-item" >Something else here</button></li>
+                                    <li><button className="dropdown-item" onClick={props.handleSignUpOpen}>Register</button></li>
+                                    <li><button className="dropdown-item" >Track My Order</button></li>
                                 </ul>
                             </Box>
                         </Stack>

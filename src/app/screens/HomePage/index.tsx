@@ -8,6 +8,7 @@ import SaleProducts from "./products"
 import CommunityPosts from "./communityPost"
 import Footer from "../../components/footer"
 import { OurBrands } from "./ourBrands"
+import ServiceInfo from "./serviceInfo"
 
 function HomePage() {
     return (
@@ -18,7 +19,7 @@ function HomePage() {
             <AdPhone />
             <SaleProducts />
             <CommunityPosts />
-            <Footer />
+            <ServiceInfo />
         </Box>
     )
 }
