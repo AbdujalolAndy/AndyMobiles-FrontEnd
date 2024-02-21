@@ -1,7 +1,6 @@
 import { Box, Stack, Tab, Tabs } from "@mui/material";
 import { TabContext, TabPanel } from "@mui/lab";
 import { useEffect, useRef, useState } from "react";
-import { Player } from "@lordicon/react";
 import Footer from "../../components/footer";
 import { MyAccount } from "./myAccount";
 import BankTransition from "./bankTransition";

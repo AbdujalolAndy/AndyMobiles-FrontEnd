@@ -1,17 +1,17 @@
 import { Box, Container, Stack, Tab } from "@mui/material"
 import { useEffect, useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab"
-import { SaleProducts } from "./saleProducts";
+import { HomeProducts } from "./homeProducts";
 
-const HomeProducts = () => {
+const HomeSortProducts = () => {
     const [scrolled, setScrolled] = useState<boolean>(false)
     const [value, setValue] = useState<string>("1")
     useEffect(() => {
         function handleScroll() {
-            setScrolled(window.scrollY > 1600)
+            setScrolled(window.scrollY > 1900)
         }
         window.addEventListener("scroll", handleScroll)
-        return()=>{
+        return () => {
             window.removeEventListener("scroll", handleScroll)
         }
     }, [value])
@@ -30,17 +30,17 @@ const HomeProducts = () => {
                     </TabList>
                 </Stack>
                 <TabPanel value={"1"}>
-                    <SaleProducts scrolled={scrolled} />
+                    <HomeProducts scrolled={scrolled}  products={12} />
                 </TabPanel>
                 <TabPanel value={"2"}>
-                    <SaleProducts scrolled={scrolled} />
+                    <HomeProducts scrolled={scrolled}  products={9} />
                 </TabPanel>
                 <TabPanel value={"3"}>
-                    <SaleProducts scrolled={scrolled} />
+                    <HomeProducts scrolled={scrolled}  products={4} />
                 </TabPanel>
             </TabContext>
         </Container>
     )
 }
 
-export default HomeProducts;
+export default HomeSortProducts;

@@ -1,94 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Container } from '@mui/material';
-import "../../css/communityPost.css"
-
-
+import { Box, Container, Stack } from '@mui/material';
+import Marquee from "react-fast-marquee"
 function CommunityPosts() {
     const [scrolled, setScrolled] = useState<boolean>(false)
     useEffect(() => {
         function scrollHandle() {
             if (window.scrollY > 2700) {
                 setScrolled(true)
-            }else{
+            } else {
                 setScrolled(false)
             }
         }
         window.addEventListener("scroll", scrollHandle)
-        return()=>{
+        return () => {
             window.removeEventListener("scroll", scrollHandle)
         }
     }, [])
-    function optionHandle(ele: any) {
-        document.querySelectorAll(".option").forEach((ele) => ele.classList.remove("active"))
-        ele.target.classList.add("active")
-    };
+
     return (
-        <Box className="communityPage">
-            <Box className='d-flex justify-content-center position-relative'>
-                <div className="option-wrapper position-absolute"></div>
-                <div data-aos="fade-right" className={scrolled?"options aos-animate container":""}>
-                    <div className={"option active"} onClick={optionHandle} style={{ backgroundImage: "url(https://66.media.tumblr.com/6fb397d822f4f9f4596dff2085b18f2e/tumblr_nzsvb4p6xS1qho82wo1_1280.jpg)" }}>
-                        <div className="shadow"></div>
-                        <div className="label">
-                            <div className="icon">
-                                <i className="fas fa-walking"></i>
+        <Box className="communityHomePosts">
+            <Marquee
+                pauseOnHover={true}
+                style={{ padding: "20px 0" }}
+            >
+                {Array.from({ length: 10 }).map((ele, index) => (
+                    <>
+                        <Box className={"post_card"}>
+                            <img src="/icons/blog_1.jpg" alt="" />
+                            <div className="post_body">
+                                <Stack direction={"row"} className="post_info_header" gap={"10px"}>
+                                    <Stack direction={"row"} gap={"5px"}>
+                                        <div><i className="fa-solid fa-calendar-days"></i></div>
+                                        <div>2024.01.30</div>
+                                    </Stack>
+                                    <span>|</span>
+                                    <div className="author text-warning fw-bold">
+                                        Shon
+                                    </div>
+                                </Stack>
+                                <div className="post_title pt-3">
+                                    Power of every smartphone is amazing
+                                </div>
+                                <div className="post_text">
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                </div>
                             </div>
-                            <div className="info">
-                                <div className="main">Blonkisoaz</div>
-                                <div className="sub">Omuke trughte a otufta</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={"option"} onClick={optionHandle} style={{ backgroundImage: "url(https://66.media.tumblr.com/8b69cdde47aa952e4176b4200052abf4/tumblr_o51p7mFFF21qho82wo1_1280.jpg)" }}>
-                        <div className="shadow"></div>
-                        <div className="label">
-                            <div className="icon">
-                                <i className="fas fa-snowflake"></i>
-                            </div>
-                            <div className="info">
-                                <div className="main">Oretemauw</div>
-                                <div className="sub">Omuke trughte a otufta</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={"option"} onClick={optionHandle} style={{ backgroundImage: "url(https://66.media.tumblr.com/5af3f8303456e376ceda1517553ba786/tumblr_o4986gakjh1qho82wo1_1280.jpg)" }}>
-                        <div className="shadow"></div>
-                        <div className="label">
-                            <div className="icon">
-                                <i className="fas fa-tree"></i>
-                            </div>
-                            <div className="info">
-                                <div className="main">Iteresuselle</div>
-                                <div className="sub">Omuke trughte a otufta</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={"option"} onClick={optionHandle} style={{ backgroundImage: "url(https://66.media.tumblr.com/5516a22e0cdacaa85311ec3f8fd1e9ef/tumblr_o45jwvdsL11qho82wo1_1280.jpg)" }}>
-                        <div className="shadow"></div>
-                        <div className="label">
-                            <div className="icon">
-                                <i className="fas fa-tint"></i>
-                            </div>
-                            <div className="info">
-                                <div className="main">Idiefe</div>
-                                <div className="sub">Omuke trughte a otufta</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={"option"} onClick={optionHandle} style={{ backgroundImage: "url(https://66.media.tumblr.com/f19901f50b79604839ca761cd6d74748/tumblr_o65rohhkQL1qho82wo1_1280.jpg)" }}>
-                        <div className="shadow"></div>
-                        <div className="label">
-                            <div className="icon">
-                                <i className="fas fa-sun"></i>
-                            </div>
-                            <div className="info">
-                                <div className="main">Inatethi</div>
-                                <div className="sub">Omuke trughte a otufta</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Box>
+                        </Box>
+                    </>
+                ))}
+            </Marquee>
         </Box>
     );
 }
