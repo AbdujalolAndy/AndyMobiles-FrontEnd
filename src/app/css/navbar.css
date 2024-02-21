@@ -1,4 +1,7 @@
 /* Navbar Style */
+.otherNavbar{
+    height: 300px;
+}
 .navbar-container {
     z-index: 100;
     position: fixed;
@@ -68,28 +71,33 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: 430px;
+    height: 100%;
     width: 100%;
     padding-top: 70px;
 }
 
 
 .address-title {
+    position: relative;
+    z-index: 10;
     font-size: 48px;
     line-height: 1.5;
-    color: #333;
+    color: white;
     margin-bottom: 20px;
 }
-
+.navbar-address .address-link{
+    position: relative;
+    z-index: 9;
+}
 .address-link a:nth-child(1) {
     text-decoration: none;
-    color: #565454;
+    color: black;
     font-weight: 400;
 }
 
 .address-link a:nth-child(2) {
     text-decoration: none;
-    color: #2e2d2d;
+    color: white;
     font-weight: 600;
 }
 

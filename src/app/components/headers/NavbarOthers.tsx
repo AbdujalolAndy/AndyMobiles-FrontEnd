@@ -5,6 +5,7 @@ import "../../css/navbar.css"
 
 export const NavbarOthers = (props: any) => {
     const wallpapers: any = {
+        Brands:"https://beb-consultancy.b-cdn.net/wp-content/uploads/2018/10/Contracts-Agreements.jpg",
         Faq: "https://searchengineland.com/wp-content/seloads/2015/06/question-ask-faq-raise-hand-ss-1920.jpg",
         Community: "https://img.freepik.com/free-vector/people-crowd-diverse-characters-waving-hand_107791-14082.jpg?w=1380&t=st=1707456518~exp=1707457118~hmac=3265d932d404d7892ad0eac511bc5923cddc8e6fa6c8abdf89635bbb25fe940c",
         Blogs: "https://img.freepik.com/free-photo/toy-bricks-table_144627-48267.jpg?w=1380&t=st=1707456941~exp=1707457541~hmac=1851a13574596c1f54cbf7b0c8bd455a37a8738e6573dd98e30546460ae2be19",
@@ -109,7 +110,7 @@ export const NavbarOthers = (props: any) => {
             </Stack>
             <Box className="navbar-address" style={{ backgroundImage: `url(${image_url})` }}>
                 <Container>
-                    <Box className="address-title">
+                    <Box className="address-title text-warning">
                         {props.addressTitle}
                     </Box>
                     <Box className="address-link">

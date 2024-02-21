@@ -2,7 +2,6 @@
     background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
     background-repeat: no-repeat;
     background-size: cover;
-    padding-bottom: 200px;
 }
 .brand_name{
     background:-webkit-linear-gradient(rgb(229, 193, 193), white);
@@ -10,6 +9,7 @@
     -webkit-text-fill-color: transparent;
 }
 .card {
+    box-sizing: border-box;
     height: 30rem;
     border-radius: 10px;
     overflow: hidden;
@@ -74,6 +74,5 @@
 }
 .brand_pagination{
     box-shadow: none;
-    background-color: transparent;
-    
+    background-color: transparent
 }

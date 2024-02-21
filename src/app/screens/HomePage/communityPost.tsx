@@ -26,7 +26,10 @@ function CommunityPosts() {
                 {Array.from({ length: 10 }).map((ele, index) => (
                     <>
                         <Box className={"post_card"}>
-                            <img src="/icons/blog_1.jpg" alt="" />
+                            <div className="post_img">
+                                <img src="/icons/blog_1.jpg" alt="" />
+                                <div className='post_type'>Evaluation</div>
+                            </div>
                             <div className="post_body">
                                 <Stack direction={"row"} className="post_info_header" gap={"10px"}>
                                     <Stack direction={"row"} gap={"5px"}>
