@@ -3,7 +3,6 @@ import { Route, Switch, useLocation, useRouteMatch } from "react-router-dom"
 import { ChosenProduct } from "./chosenProduct"
 import AllProducts from "./allProducts"
 import { Box } from "@mui/material"
-import Footer from "../../components/footer"
 import "../../css/productPage.css"
 
 
@@ -22,7 +21,6 @@ const ProductsPage = () => {
                     </Route>
                 </Switch>
             </Box>
-            <Footer />
         </Box>
     )
 }

@@ -2,6 +2,9 @@
 .otherNavbar{
     height: 300px;
 }
+.productNavbar{
+    height: 420px;
+}
 .navbar-container {
     z-index: 100;
     position: fixed;
@@ -9,6 +12,7 @@
     width: 100%;
     transition: all 0.3s ease-in-out;
 }
+
 
 .navbar_wrapper {
     position: absolute;
@@ -100,7 +104,18 @@
     color: white;
     font-weight: 600;
 }
-
+.productNavbar .product_ads_swiper{
+    position: absolute;
+    top:0px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+.productNavbar .product_ads_swiper video{
+    width: 100%;
+}
 /* Navbar Style */
 
 /* Basket Modal Style */

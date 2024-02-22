@@ -10,12 +10,13 @@ import CommunityPage from './screens/CommunityPage'
 import FaqPage from './screens/FaqPage'
 import AboutUsPage from './screens/AboutUsPage'
 import ContactUsPage from './screens/ContactUsPage'
-import "./css/general.css"
-import "./css/navbar.css"
 import MyPage from './screens/MyPage'
 import Footer from './components/footer'
 import { AuthenticationModal } from './components/authModal'
 import { Basket } from './components/basket'
+import { ProductNavbar } from './components/headers/productNavbar'
+import "./css/general.css"
+import "./css/navbar.css"
 
 
 
@@ -34,7 +35,7 @@ const App: React.FC = () => {
         handleBasketOpen={handleBasketOpen}
       /> :
         (pathname.includes("/brands") ? <NavbarOthers addressTitle="Brands" /> :
-          (pathname.includes("/products") ? <NavbarOthers addressTitle="Products" /> :
+          (pathname.includes("/products") ? <ProductNavbar addressTitle="Products" /> :
             pathname.includes("/blogs") ? <NavbarOthers addressTitle="Blogs" /> :
               pathname.includes("/community") ? <NavbarOthers addressTitle="Community" /> :
                 pathname.includes("/faq") ? <NavbarOthers addressTitle="Faq" /> :

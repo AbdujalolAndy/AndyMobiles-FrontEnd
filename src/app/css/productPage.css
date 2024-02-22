@@ -1,23 +1,18 @@
-.productPage {
-    padding-bottom: 100px;
-}
-
 .allProducts {
     background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.products {
-    padding-bottom: 100px;
-}
 
 .filter_product {
-    height: 135vh;
-    width: 20%;
-    background-color: aliceblue;
+    height: auto;
+    width: 25%;
+    box-shadow: 0 0 5px black;
+    background-color: white;
     padding: 10px;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .filter-title {
@@ -60,13 +55,30 @@
     box-shadow: none;
 }
 
+.colors_list>div div {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.storage #storage_list>div>div {
+    width: 60px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px dashed black;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
 /* PODUCT STYLE */
 .products {
     width: 80%;
 }
 
 .product_item {
-    border: 1px solid gray;
+    background-color: white;
+    box-shadow: 0px 0px 10px black;
     border-radius: 10px;
     overflow: hidden;
     height: 260px;
@@ -74,12 +86,7 @@
     transition: all .2s ease-in-out;
 }
 
-.product_item:hover {
-    box-shadow: 0px 0px 10px black;
-}
-
 .product_img {
-    width: 200px;
     overflow: hidden;
 }
 
@@ -104,16 +111,18 @@
     cursor: pointer;
     transform: scale(1.2);
 }
+
 .product_item {
     font-size: 13px;
 }
 
-.product_item .select_color{
+.product_item .select_color {
     position: relative;
 }
-.select_color>div{
+
+.select_color>div {
     position: absolute;
-    top:15px;
+    top: 15px;
     right: 40px;
 }
 
@@ -204,13 +213,15 @@
     background-color: #757474;
 }
 
-.chosen_product_tab{
+.chosen_product_tab {
     transition: all .2s ease-in-out;
 }
+
 .chosen_product_tab:hover {
     color: black;
 }
-.chosen_product_tab:focus{
+
+.chosen_product_tab:focus {
     background-color: transparent;
 }
 
