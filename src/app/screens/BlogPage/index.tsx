@@ -1,19 +1,23 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import { Box, Container, Pagination, PaginationItem, Stack, Tab } from "@mui/material"
 import { BlogsPage } from "./blogs"
-import "../../css/blogPage.css"
 import { useEffect, useState } from "react"
 import { ArrowBack, ArrowForward } from "@mui/icons-material"
-import Footer from "../../components/footer"
 import { Route, Switch, useRouteMatch } from "react-router-dom"
 import { ViewerPage } from "../../components/tuiEditor/tuiViewer"
+import "../../css/blogPage.css"
 
 const BlogPage = () => {
+    //Initilizations
     const blogPath = useRouteMatch().path;
-    const [value, setValue] = useState<string>("1")
+    const [value, setValue] = useState<string>("1");
+
+    //3 circle React Hook 
     useEffect(() => {
 
     }, [])
+
+    //Handlers
     function handleValue(num: string) {
         setValue(num)
     }
@@ -22,21 +26,28 @@ const BlogPage = () => {
             <Container>
                 <Switch>
                     <Route path={`${blogPath}/:id`}>
-                        <ViewerPage/>
+                        <ViewerPage />
                     </Route>
                     <Route path={blogPath}>
                         <TabContext value={value}>
-                            <Stack flexDirection={"row"} justifyContent={"space-between"}>
+                            <Stack
+                                style={{ position: "relative", zIndex: '2' }}
+                                flexDirection={"row"}
+                                justifyContent={"space-between"}
+                            >
                                 <TabList >
-                                    <Tab className="fw-bold" value={"1"} label="All" onClick={() => handleValue("1")} />
-                                    <Tab className="fw-bold" value={"2"} label="Celebrities" onClick={() => handleValue("2")} />
-                                    <Tab className="fw-bold" value={"3"} label="Evaluation" onClick={() => handleValue("3")} />
-                                    <Tab className="fw-bold" value={"4"} label="Stories" onClick={() => handleValue("4")} />
+                                    <Tab className="blog_tab" value={"1"} label="All" onClick={() => handleValue("1")} />
+                                    <Tab className="blog_tab" value={"2"} label="Celebrities" onClick={() => handleValue("2")} />
+                                    <Tab className="blog_tab" value={"3"} label="Evaluation" onClick={() => handleValue("3")} />
+                                    <Tab className="blog_tab" value={"4"} label="Stories" onClick={() => handleValue("4")} />
                                 </TabList>
                                 <Stack className="blog_sorting" flexDirection={"row"} alignItems={"center"}>
-                                    <p className="pt-2" style={{ width: "100px" }}>Sort by: </p>
-                                    <select className="form-select fw-bold">
-                                        <option value="newest">Newest</option>
+                                    <div>Sort by: </div>
+                                    <select className="form-select fw-bold ">
+                                        <option value="newest">Date, new to old</option>
+                                        <option value="newest">Date, old to new</option>
+                                        <option value="newest">Alphabet A-z</option>
+                                        <option value="newest">Alphabet Z-a</option>
                                     </select>
                                 </Stack>
                             </Stack>
@@ -71,7 +82,6 @@ const BlogPage = () => {
                     </Route>
                 </Switch>
             </Container>
-            <Footer />
         </Box>
     )
 }
