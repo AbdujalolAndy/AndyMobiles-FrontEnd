@@ -13,7 +13,22 @@ const BankTransition = () => {
                 modules={[Navigation, Pagination]}
                 className="bank_cards"
             >
-                <SwiperSlide className="bank_card"></SwiperSlide>
+                <SwiperSlide className="bank_card">
+                    <div className="owner_name">
+                        Abdujalol Nabijonov
+                    </div>
+                    <div className="hide_info_card"></div>
+                    <div className="card_number">
+                        1234 **** **** 1121
+                    </div>
+                    <div className="card_expire">
+                        12/28
+                    </div>
+                    <div className="hide_info"></div>
+                    <div className="bank_cvc">
+                        126
+                    </div>
+                </SwiperSlide>
                 <SwiperSlide className="card_add_btn">
                     <a href="#card_add">
                         <i className="fa-solid fa-circle-plus text-dark"></i>

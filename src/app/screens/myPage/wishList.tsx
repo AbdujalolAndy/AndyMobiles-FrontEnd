@@ -3,10 +3,10 @@ import { Box, Button, Stack, Table, TableBody, TableCell, TableHead, TableRow } 
 const WishList = () => {
     return (
         <Box className={"wishList"}>
-            <div className="wish_list_title text-center text-warning fw-bold fs-3 mb-4">
+            <div className="wish_list_title text-start text-warning fw-bold fs-3 mb-4">
                 Wishlist Products
             </div>
-            <div className="wish_list">
+            <div className="wish_list mt-5">
                 <Table>
                     <TableHead>
                         <TableRow>

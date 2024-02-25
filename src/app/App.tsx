@@ -41,7 +41,7 @@ const App: React.FC = () => {
                 pathname.includes("/faq") ? <NavbarOthers addressTitle="Faq" /> :
                   pathname.includes("/about") ? <NavbarOthers addressTitle="About" /> :
                     pathname.includes("/contact") ? <NavbarOthers addressTitle="Contact" /> :
-                      pathname.includes("/myPage") ? <NavbarOthers addressTitle="My Page" /> :
+                      pathname.includes("/user-page") ? <NavbarOthers addressTitle="My Page" /> :
                         ""
           ))}
       <Switch>
@@ -57,7 +57,7 @@ const App: React.FC = () => {
         <Route path="/community">
           < CommunityPage />
         </Route>
-        <Route path="/myPage">
+        <Route path="/user-page">
           < MyPage />
         </Route>
         <Route path="/faq">

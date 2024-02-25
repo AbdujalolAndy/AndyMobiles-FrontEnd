@@ -62,7 +62,7 @@ export const NavbarOthers = (props: any) => {
                             </NavLink>
                         </Box>
                         <Box className="nav-item">
-                            <NavLink to="/myPage" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
+                            <NavLink to="/user-page" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 My Page
                             </NavLink>
                         </Box>

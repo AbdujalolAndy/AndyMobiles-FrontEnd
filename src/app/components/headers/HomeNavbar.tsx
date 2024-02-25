@@ -155,7 +155,7 @@ export const HomeNavbar = (props: any) => {
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/myPage" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
+                                <NavLink to="/user-page" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     My Page
                                 </NavLink>
                             </Box>

@@ -10,11 +10,16 @@
     margin-top: 30px;
     background-color: aliceblue;
     border-radius: 10px;
-    max-height: 700px;
+    max-height: 750px;
 }
 
 .settings_items {
     width: 100%;
+
+}
+
+.settings_items {
+    cursor: pointer;
 }
 
 .user_info {
@@ -39,6 +44,20 @@
     opacity: 0.9;
 }
 
+.myPage .user_logout {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #DBDDEF;
+    height: 50px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.myPage .user_logout img {
+    width: 30px;
+}
+
 .user_img {
     position: absolute;
     background-color: white;
@@ -53,6 +72,12 @@
 
 .user_img img {
     width: 140px;
+    transform: rotateY(0);
+    transition: transform 0.7s ease-in-out;
+}
+
+.user_img img:hover {
+    transform: rotateY(360deg);
 }
 
 .user_name {
@@ -78,11 +103,17 @@
 
 /* Acconu Info */
 .account_info {
-    background-color: white;
-    width: 80%;
+    background-color: transparent;
+    width: 70%;
 }
 
 /* Acconu Info */
+.my_account {
+    overflow: hidden;
+}
+
+
+
 .my_account_header {
     position: relative;
     border-radius: 100px 0 0 0;
@@ -94,26 +125,88 @@
 .my_account_header>div {
     position: absolute;
     bottom: -120px;
+    width: 750px;
+    left: 50px;
+    background-color: transparent;
+}
+
+.my_account_header .update_pic_btn {
+    position: relative;
+    height: 70px;
+    width: 70px;
+    font-size: 30px;
+    border: none;
+    box-shadow: 0 0 5px black;
+    border-radius: 50%;
+    margin-top: 15px;
+}
+
+.my_account_header .update_pic_btn input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.my_account_header .update_pic_btn:focus {
+    background-color: transparent;
+}
+
+.my_account .setting_controller {
+    position: absolute;
+    width: 380px;
+    background-color: transparent;
+    right: 0px;
+    top: 370px;
+}
+
+.my_account .setting_controller>button {
+    box-shadow: none;
+    font-weight: bold;
+    border-radius: 0;
+}
+
+
+.my_account .setting_controller>button::after {
+    display: block;
+    content: "";
     width: 100%;
-    left: 50px
+    height: 1px;
+    background-color: rgb(246, 188, 30);
+    transform: scaleX(0%);
+    transition: transform .3s ease-in-out;
+}
+
+.my_account .setting_controller>button:hover::after {
+    transform: scaleX(100%);
+}
+
+.my_account .setting_controller>button:focus {
+    background-color: transparent;
 }
 
 .account_img {
-    display: flex;
-    justify-content: center;
-    border-radius: 50%;
-    height: 160px;
-    width: 160px;
     background-color: white;
-    box-shadow: 0 0px 3px black;
+    border-radius: 50%;
 }
 
 .account_img img {
-    width: 140px
+    width: 140px;
+    border-radius: 50%;
 }
 
 .my_account_body {
-    padding: 150px 30px 0 30px;
+    padding: 180px 30px 0 30px;
+    width: 200%;
+}
+
+.my_account_body>div {
+    width: 50%;
+    transition: all .6s ease-in-out;
+}
+
+
+.my_account_body .update_description textarea {
+    height: 100px;
 }
 
 /* Bank Transition */
@@ -123,12 +216,64 @@
 }
 
 .bank_card {
+    position: relative;
     background-image: url("https://bankmeister.com/assets/images/card/532.png");
     background-size: contain;
     background-position: center;
     height: 300px;
     width: 100px;
     background-repeat: no-repeat;
+}
+
+.bank_card .owner_name {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    background-color: #DBDDEF;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.bank_card .hide_info_card {
+    position: absolute;
+    width: 150px;
+    height: 50px;
+    background-color: #DBDDEF;
+    top: 70px;
+    right: 30px;
+}
+
+.bank_card .hide_info {
+    position: absolute;
+    width: 70px;
+    height: 20px;
+    background-color: #DBDDEF;
+    bottom: 74px;
+    left: 10px
+}
+
+.bank_card .card_number {
+    position: absolute;
+    top: 120px;
+    left: 130px;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+.bank_card .bank_cvc {
+    position: absolute;
+    bottom: 72px;
+    left: 125px;
+    font-weight: bold;
+}
+
+
+.bank_card .card_expire {
+    position: absolute;
+    bottom: 100px;
+    right: 163px;
+    font-weight: bold;
 }
 
 .card_add_btn {
@@ -139,14 +284,16 @@
     width: 100px;
     background-color: rgb(204, 219, 233);
 }
-.card_add_btn a{
+
+.card_add_btn a {
     display: block;
     font-size: 40px;
     padding: 10px 25px;
     border-radius: 10px;
     background-color: aliceblue;
 }
-.card_add{
+
+.card_add {
     margin-top: 60px;
     width: 600px;
 }
@@ -154,66 +301,325 @@
 /* Bank Transition */
 
 /* Wish List Style */
-.wishList_amount{
-    width:600px;
+.wishList_amount {
+    width: 600px;
     background-color: aliceblue;
     padding: 20px;
     margin: 70px auto 0 auto
 }
-.wishList_amount tr, td, th{
+
+.wishList_amount tr,
+td,
+th {
     border: 1px solid gray !important;
 }
-.terms_check input{
+
+.terms_check input {
     opacity: 1 !important;
     position: static !important;
 }
+
 /* Wish List Style */
 
+/* Track Order Style */
+
+.trackPage .track_order {
+    background-color: white;
+    box-shadow: 0 0 5px black;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.order-tracking {
+    text-align: center;
+    width: 24.33%;
+    position: relative;
+    display: block;
+}
+
+.order-tracking .is-complete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    border: 0px solid #AFAFAF;
+    background-color: #f7be16;
+    margin: 0 auto;
+    transition: background 0.25s linear;
+    -webkit-transition: background 0.25s linear;
+    z-index: 2;
+}
+
+
+.order-tracking.completed .is-complete {
+    border-color: #27aa80;
+    border-width: 0px;
+    background-color: #27aa80;
+}
+
+.order-tracking.completed .is-complete:after {
+    border-color: #fff;
+    border-width: 0px 3px 3px 0;
+    width: 7px;
+    left: 11px;
+    opacity: 1;
+}
+
+.order-tracking p {
+    color: #A4A4A4;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 0;
+    line-height: 20px;
+}
+
+.order-tracking p span {
+    font-size: 14px;
+}
+
+.order-tracking.completed p {
+    color: #000;
+}
+
+.order-tracking::before {
+    content: '';
+    display: block;
+    height: 3px;
+    width: calc(100% - 40px);
+    background-color: #f7be16;
+    top: 20px;
+    position: absolute;
+    left: calc(-50% + 20px);
+    z-index: 0;
+}
+
+.order-tracking:first-child:before {
+    display: none;
+}
+
+.order-tracking.completed:before {
+    background-color: #27aa80;
+}
+
+.trackPage .order_track_controller button {
+    box-shadow: none;
+
+    border-radius: 0;
+}
+
+.trackPage .order_track_controller .btn_status {
+    border-bottom: 1px solid black;
+}
+
+.trackPage button:focus {
+    background-color: transparent;
+
+}
+
+.trackPage .order_track_controller button::after {
+    display: block;
+    content: "";
+    height: 2px;
+    width: 100%;
+    transform: scaleX(0%);
+    background-color: #f7be16;
+    transition: transform .3s ease-in-out;
+}
+
+.trackPage .order_track_controller button:hover::after {
+    transform: scaleX(100%)
+}
+
+.trackPage .processing_body {
+    background-color: white;
+    margin-top: 15px;
+    box-shadow: 0 0 5px black;
+    border-radius: 20px;
+    overflow: hidden;
+
+}
+
+.processing_body>div {
+    width: 300%;
+    transition: transform .3s ease-in-out
+}
+
+.delivery_details {
+    max-height: max-content;
+    max-width: 100%;
+    height: 100%;
+    overflow: auto;
+    resize: "horizontal";
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.delivery_details input:focus {
+    outline: none !important;
+}
+
+.delivery_details .province_select {
+    width: 160px;
+}
+
+.delivery_details .address_filling {
+    background-color: #F4F4F4;
+}
+
+.delivery_details .form-control {
+    padding: 0 !important;
+}
+
+.order_checkout {
+    padding: 20px;
+    max-height: 500px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    width: 33.3%;
+    transition: transform .3s ease-in-out;
+}
+
+.process_checkout {
+    height: 500px;
+    width: 33%;
+    padding: 20px;
+    transition: transform .3s ease-in-out;
+}
+
+.trackPage .list_of_orders {
+    background-color: white;
+    box-shadow: 0 0 5px black;
+    margin-top: 15px;
+    border-radius: 20px;
+    padding: 20px 20px 0 20px;
+    max-height: 360px;
+}
+
+.list_of_orders .order_filter input[type="text"] {
+    width: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 0 5px;
+}
+
+
+
+.trackPage .delivery_details {
+    width: 400px
+}
+
+.trackPage .processed_products {
+    max-height: 350px;
+    padding: 10px 0;
+    overflow-y: scroll;
+}
+
+.processed_products .processed_product_img {
+    width: 40px;
+    height: 60px;
+    padding: 5px;
+    background-color: #F1F1F1;
+    border-radius: 3px;
+    border: 1px solid gray;
+}
+
+.processed_products .processed_product_img img {
+    width: 100%;
+    height: 100%;
+}
+
+.processing_body .finished_orders {
+    width: 33%;
+}
+
+.processing_body .finished_orders {
+    overflow-y: scroll;
+}
+
+.finished_orders .product_order{
+    margin-top: 30px;
+    max-height: 200px;
+    box-shadow: 0 0 5px black;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.processing_body .finished_orders .order_info {
+    padding: 15px;
+    width: 45%;
+    height: 100%;
+    background-color: #F6F6F6;
+    border-right: 1px solid black;
+}
+.finished_orders .purchased_products{
+    width: 55%;
+    padding: 10px 5px;
+}
+.trackPage button:focus{
+    color:black;
+}
+/* Track Order Style */
+
 /* Followers Style */
-.follow_title{
+.follow_title {
     margin: 25px 0;
 }
-.follow_item{
-    width:600px;
+
+.follow_item {
+    width: 600px;
     padding: 10px;
     border-radius: 10px;
     transition: box-shadow 0.3s ease-in-out;
     cursor: pointer;
     border: 1px solid gray;
+    background-color: #46576a;
 }
-.follow_item:hover{
+
+.follow_item:hover {
     box-shadow: 0 0 10px black;
 }
-.follow_item img{
-    width:70px
+
+.follow_item img {
+    width: 70px
 }
+
 /* Followers Style */
 
 /* Posts Style */
-.targetPosts{
+.targetPosts {
     height: 500px;
 }
-.targetPost{
+
+.targetPost {
     background-color: aliceblue;
     border-radius: 0 20px 20px 0;
     box-shadow: 0 0 5px black;
     width: 600px;
 }
-.targetPost .post_img{
+
+.targetPost .post_img {
     overflow: hidden;
 }
-.targetPost img{
+
+.targetPost img {
     width: 150px;
     transform: scale(1);
-    transition:  transform.2s ease-in-out;
+    transition: transform.2s ease-in-out;
 }
-.targetPost img:hover{
+
+.targetPost img:hover {
     transform: scale(1.2);
 }
-.read_more{
+
+.read_more {
     bottom: 10px;
     right: 10px;
     font-size: 12px;
     color: rgb(140, 139, 137);
 }
+
 /* Posts Style */
