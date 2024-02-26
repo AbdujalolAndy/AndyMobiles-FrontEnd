@@ -1,4 +1,7 @@
 /* Swiper Style */
+.homePage{
+    position: relative;
+}
 .homeSwiper {
     height: 600px;
     background-color: aliceblue;
