@@ -57,13 +57,13 @@ export const ProductNavbar = (props: any) => {
                             </NavLink>
                         </Box>
                         <Box className="nav-item">
-                            <NavLink to="/myPage" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
+                            <NavLink to="/user-page" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 My Page
                             </NavLink>
                         </Box>
                         <Box className="nav-item">
-                            <NavLink to="/community" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
-                                Community
+                            <NavLink to="/track-order" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
+                                Track Order
                             </NavLink>
                         </Box>
                         <Box className="nav-item">

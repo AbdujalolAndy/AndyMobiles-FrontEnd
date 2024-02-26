@@ -12,7 +12,6 @@ import { TuiEditor } from "../../components/tuiEditor/tuiEditor"
 import { Route, Switch, useLocation, useRouteMatch } from "react-router-dom"
 import OtherPage from "./otherPage"
 import "../../css/myPage.css";
-import TrackOrder from "./trackOrder";
 
 const MyPage = () => {
     const [value, setValue] = useState<string>("1")
@@ -78,16 +77,6 @@ const MyPage = () => {
                                         </Stack>
                                         <Stack
                                             flexDirection={"row"}
-                                            style={value == "4" ? { borderLeft: "4px solid black", backgroundColor: "white" } : {}}
-                                            onClick={() => handleValue("4")}
-                                            alignItems={"center"}
-                                            sx={{ padding: "0 0 0 10px" }}
-                                        >
-                                            <i className="fa-solid fa-map-location fs-3"></i>
-                                            <Tab value="4" label="Track Order" />
-                                        </Stack>
-                                        <Stack
-                                            flexDirection={"row"}
                                             style={value == "5" ? { borderLeft: "4px solid black", backgroundColor: "white" } : {}}
                                             onClick={() => handleValue("5")}
                                             alignItems={"center"}
@@ -136,9 +125,6 @@ const MyPage = () => {
                                 </TabPanel>
                                 <TabPanel value={"3"} className={"account_info"}>
                                     <WishList />
-                                </TabPanel>
-                                <TabPanel value={"4"} className={"account_info"}>
-                                    <TrackOrder/>
                                 </TabPanel>
                                 <TabPanel value={"5"} className={"account_info"}>
                                     <Follow action_enable={true} />

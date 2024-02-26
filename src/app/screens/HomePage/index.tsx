@@ -8,6 +8,8 @@ import ServiceInfo from "./serviceInfo"
 import HomeSortProducts from "./homeSortProducts"
 import "../../css/homePage.css"
 import "swiper/swiper-bundle.css"
+import Footer from "../../components/footer"
+import { DownToUpBtn } from "../../components/features/downToUpBtn"
 
 function HomePage() {
     return (
@@ -19,6 +21,8 @@ function HomePage() {
             <HomeSortProducts />
             <ServiceInfo />
             <CommunityPosts />
+            <Footer />
+            <DownToUpBtn />
         </Box>
     )
 }

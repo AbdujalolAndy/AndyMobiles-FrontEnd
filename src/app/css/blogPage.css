@@ -1,4 +1,11 @@
 /* Blog Card Style */
+
+.blogPage{
+    background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .blog_sorting>div:nth-child(1) {
     width: 150px;
     font-weight: bold;
@@ -21,7 +28,8 @@
 .blogPage .blog_tab {
     font-weight: bold;
 }
-.blogPage .blog_tab:focus{
+
+.blogPage .blog_tab:focus {
     background-color: transparent;
 }
 

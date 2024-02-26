@@ -67,8 +67,8 @@ export const NavbarOthers = (props: any) => {
                             </NavLink>
                         </Box>
                         <Box className="nav-item">
-                            <NavLink to="/community" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
-                                Community
+                            <NavLink to="/track-order" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
+                                Track Order
                             </NavLink>
                         </Box>
                         <Box className="nav-item">
@@ -114,7 +114,7 @@ export const NavbarOthers = (props: any) => {
                         {props.addressTitle}
                     </Box>
                     <Box className="address-link">
-                        <NavLink to='/'>
+                        <NavLink to='/' className={"text-light"}>
                             Home{" "}
                         </NavLink>
                         <NavLink to={current_url}>

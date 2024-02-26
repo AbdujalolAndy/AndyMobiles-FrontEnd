@@ -1,0 +1,254 @@
+/* Track Order Style */
+.trackPage{
+    background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.trackPage>div{
+    margin-top: 70px;
+}
+.trackPage .track_order {
+    background-color: white;
+    box-shadow: 0 0 5px black;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.order-tracking {
+    text-align: center;
+    width: 24.33%;
+    position: relative;
+    display: block;
+}
+
+.order-tracking .is-complete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    border: 0px solid #AFAFAF;
+    background-color: #f7be16;
+    margin: 0 auto;
+    transition: background 0.25s linear;
+    -webkit-transition: background 0.25s linear;
+    z-index: 2;
+}
+
+
+.order-tracking.completed .is-complete {
+    border-color: #27aa80;
+    border-width: 0px;
+    background-color: #27aa80;
+}
+
+.order-tracking.completed .is-complete:after {
+    border-color: #fff;
+    border-width: 0px 3px 3px 0;
+    width: 7px;
+    left: 11px;
+    opacity: 1;
+}
+
+.order-tracking p {
+    color: #A4A4A4;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 0;
+    line-height: 20px;
+}
+
+.order-tracking p span {
+    font-size: 14px;
+}
+
+.order-tracking.completed p {
+    color: #000;
+}
+
+.order-tracking::before {
+    content: '';
+    display: block;
+    height: 3px;
+    width: calc(100% - 40px);
+    background-color: #f7be16;
+    top: 20px;
+    position: absolute;
+    left: calc(-50% + 20px);
+    z-index: 0;
+}
+
+.order-tracking:first-child:before {
+    display: none;
+}
+
+.order-tracking.completed:before {
+    background-color: #27aa80;
+}
+
+.trackPage .order_track_controller button {
+    box-shadow: none;
+
+    border-radius: 0;
+}
+
+.trackPage .order_track_controller .btn_status {
+    border-bottom: 1px solid black;
+}
+
+.trackPage button:focus {
+    background-color: transparent;
+
+}
+
+.trackPage .order_track_controller button::after {
+    display: block;
+    content: "";
+    height: 2px;
+    width: 100%;
+    transform: scaleX(0%);
+    background-color: #f7be16;
+    transition: transform .3s ease-in-out;
+}
+
+.trackPage .order_track_controller button:hover::after {
+    transform: scaleX(100%)
+}
+
+.trackPage .processing_body {
+    background-color: white;
+    margin-top: 15px;
+    box-shadow: 0 0 5px black;
+    border-radius: 20px;
+    overflow: hidden;
+
+}
+
+.processing_body>div {
+    width: 300%;
+    transition: transform .3s ease-in-out
+}
+
+.delivery_details {
+    max-height: max-content;
+    max-width: 100%;
+    height: 100%;
+    overflow: auto;
+    resize: "horizontal";
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.delivery_details input:focus {
+    outline: none !important;
+}
+
+.delivery_details .province_select {
+    width: 160px;
+}
+
+.delivery_details .address_filling {
+    background-color: #F4F4F4;
+}
+
+.delivery_details .form-control {
+    padding: 0 !important;
+}
+
+.order_checkout {
+    padding: 20px;
+    max-height: 500px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    width: 33.3%;
+    transition: transform .3s ease-in-out;
+}
+
+.process_checkout {
+    height: 500px;
+    width: 33%;
+    padding: 20px;
+    transition: transform .3s ease-in-out;
+}
+
+.trackPage .list_of_orders {
+    background-color: white;
+    box-shadow: 0 0 5px black;
+    margin-top: 15px;
+    border-radius: 20px;
+    padding: 20px 20px 0 20px;
+    max-height: 360px;
+}
+
+.list_of_orders .order_filter input[type="text"] {
+    width: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 0 5px;
+}
+
+
+
+.trackPage .delivery_details {
+    width: 400px
+}
+
+.trackPage .processed_products {
+    max-height: 350px;
+    padding: 10px 0;
+    overflow-y: scroll;
+}
+
+.processed_products .processed_product_img {
+    width: 40px;
+    height: 60px;
+    padding: 5px;
+    background-color: #F1F1F1;
+    border-radius: 3px;
+    border: 1px solid gray;
+}
+
+.processed_products .processed_product_img img {
+    width: 100%;
+    height: 100%;
+}
+
+.processing_body .finished_orders {
+    width: 33%;
+}
+
+.processing_body .finished_orders {
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+}
+
+.finished_orders .product_order {
+    margin-top: 30px;
+    max-height: 200px;
+    box-shadow: 0 0 5px black;
+    width: 95%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.processing_body .finished_orders .order_info {
+    padding: 15px;
+    width: 45%;
+    height: 100%;
+    background-color: #F6F6F6;
+    border-right: 1px solid black;
+}
+
+.finished_orders .purchased_products {
+    width: 55%;
+    padding: 10px 20px;
+}
+
+.trackPage button:focus {
+    color: black;
+}
+
+/* Track Order Style */

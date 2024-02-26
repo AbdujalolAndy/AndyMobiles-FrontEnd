@@ -6,7 +6,7 @@ import ProductsPage from './screens/ProductsPage'
 import { NavbarOthers } from './components/headers/NavbarOthers'
 import { HomeNavbar } from './components/headers/HomeNavbar'
 import BlogPage from './screens/BlogPage'
-import CommunityPage from './screens/CommunityPage'
+import TrackOrderPage from './screens/TrackOrderPage'
 import FaqPage from './screens/FaqPage'
 import AboutUsPage from './screens/AboutUsPage'
 import ContactUsPage from './screens/ContactUsPage'
@@ -17,6 +17,8 @@ import { Basket } from './components/basket'
 import { ProductNavbar } from './components/headers/productNavbar'
 import "./css/general.css"
 import "./css/navbar.css"
+import Chatting from './components/features/chattingModal'
+
 
 
 
@@ -37,7 +39,7 @@ const App: React.FC = () => {
         (pathname.includes("/brands") ? <NavbarOthers addressTitle="Brands" /> :
           (pathname.includes("/products") ? <ProductNavbar addressTitle="Products" /> :
             pathname.includes("/blogs") ? <NavbarOthers addressTitle="Blogs" /> :
-              pathname.includes("/community") ? <NavbarOthers addressTitle="Community" /> :
+              pathname.includes("/track-order") ? <NavbarOthers addressTitle="Track My Order" /> :
                 pathname.includes("/faq") ? <NavbarOthers addressTitle="Faq" /> :
                   pathname.includes("/about") ? <NavbarOthers addressTitle="About" /> :
                     pathname.includes("/contact") ? <NavbarOthers addressTitle="Contact" /> :
@@ -47,33 +49,40 @@ const App: React.FC = () => {
       <Switch>
         <Route path="/brands">
           <BrandsPage />
+          <Footer />
         </Route>
         <Route path="/products">
           <ProductsPage />
+          <Footer />
         </Route>
         <Route path="/blogs">
           < BlogPage />
+          <Footer />
         </Route>
-        <Route path="/community">
-          < CommunityPage />
+        <Route path="/track-order">
+          <TrackOrderPage />
+          <Footer />
         </Route>
         <Route path="/user-page">
           < MyPage />
+          <Footer />
         </Route>
         <Route path="/faq">
           < FaqPage />
+          <Footer />
         </Route>
         <Route path="/about">
           < AboutUsPage />
+          <Footer />
         </Route>
         <Route path="/contact">
           < ContactUsPage />
+          <Footer />
         </Route>
         <Route path='/'>
           <HomePage />
         </Route>
       </Switch>
-      <Footer />
       <AuthenticationModal
         openAuth={openAuth}
         handleSignUpClose={handleSignUpClose}
@@ -82,6 +91,7 @@ const App: React.FC = () => {
         openBasket={openBasket}
         handleBasketClose={handleBasketClose}
       />
+      <Chatting />
     </div>
   )
 }

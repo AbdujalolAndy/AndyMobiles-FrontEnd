@@ -1,6 +1,26 @@
-import { Box, Stack, Container } from "@mui/material"
+import React from "react";
+import { Box, Stack, Container } from "@mui/material";
+import { useEffect, useRef } from "react";
+import Typed from "typed.js"
 
 export const DealContract = () => {
+    // Initilizations
+    const textRef = useRef<any>()
+
+    //3circle React Hook
+    useEffect(() => {
+        const options = {
+            strings: ["ow, You can even pay monthly."],
+            startDelay: 300,
+            typeSpeed: 70,
+            backSpeed: 50,
+            backDelay: 150,
+            smartBackspace: true,
+            showCursor: false,
+            loop: true,
+        }
+        const typed = new Typed(textRef.current, options)
+    }, [])
     return (
         <Box className="deal-contract">
             <Container className="mt-5">
@@ -9,8 +29,11 @@ export const DealContract = () => {
                         <img src="/icons/monthly_payment.jpg" alt="" />
                     </div>
                     <div className="deal_info">
-                        <div className="deal_title fs-1 fw-bold">
-                            Now, You can even pay monthly.
+                        <div
+                            className="deal_title fs-1 fw-bold"
+                            style={{ width: "572px" }}
+                        >
+                            N<span ref={textRef}></span>
                         </div>
                         <p className="text-secondary fs-6">We offer to our trustfull clients to buy product for monthly payment.</p>
                         <Stack flexDirection={"row"} alignItems={"center"} gap={"20px"}>

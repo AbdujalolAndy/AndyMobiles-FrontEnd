@@ -160,8 +160,8 @@ export const HomeNavbar = (props: any) => {
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
-                                <NavLink to="/community" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
-                                    Community
+                                <NavLink to="/track-order" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
+                                    Track Orders
                                 </NavLink>
                             </Box>
                             <Box className="nav-item">
