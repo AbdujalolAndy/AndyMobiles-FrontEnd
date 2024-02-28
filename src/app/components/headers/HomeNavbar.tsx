@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from "react"
-import { Box, Stack, Container, Button, Menu, MenuItem } from "@mui/material"
+import { Box, Stack, Container } from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules"
 import { NavLink } from "react-router-dom";
@@ -182,7 +182,7 @@ export const HomeNavbar = (props: any) => {
                                     </span>
                                 </NavLink>
                             </Box>
-                            <Box className="nav-item">
+                            <Box className="nav-item basket_btn">
                                 <button  
                                 className={scrolled ? "btn btn-outline-secondary border-0 position-relative" : "btn btn-outline-secondary border-0 position-relative"}
                                 onClick={props.handleBasketOpen}

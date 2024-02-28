@@ -1,10 +1,12 @@
 /* Navbar Style */
-.otherNavbar{
+.otherNavbar {
     height: 300px;
 }
-.productNavbar{
+
+.productNavbar {
     height: 420px;
 }
+
 .navbar-container {
     z-index: 100;
     position: fixed;
@@ -89,10 +91,12 @@
     color: white;
     margin-bottom: 20px;
 }
-.navbar-address .address-link{
+
+.navbar-address .address-link {
     position: relative;
     z-index: 9;
 }
+
 .address-link a:nth-child(1) {
     text-decoration: none;
     color: black;
@@ -104,18 +108,21 @@
     color: white;
     font-weight: 600;
 }
-.productNavbar .product_ads_swiper{
+
+.productNavbar .product_ads_swiper {
     position: absolute;
-    top:0px;
+    top: 0px;
     height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
     overflow: hidden;
 }
-.productNavbar .product_ads_swiper video{
+
+.productNavbar .product_ads_swiper video {
     width: 100%;
 }
+
 /* Navbar Style */
 
 /* Basket Modal Style */
@@ -164,19 +171,26 @@
     cursor: pointer;
 }
 
-.basket_modal .terms input{
+.basket_modal .terms input {
     position: relative;
-    opacity:1;
-    padding: 0 ;
+    opacity: 1;
+    padding: 0;
     margin: 0;
 }
-.basket_modal .terms p{
+
+.basket_modal .terms p {
     font-size: 14px;
 }
-[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
     position: relative;
-    pointer-events:visible;
+    pointer-events: visible;
 
 }
 
 /* Basket Modal Style */
+
+.nav-features .auth_user button:focus, .basket_btn button:focus {
+    color: black
+}
