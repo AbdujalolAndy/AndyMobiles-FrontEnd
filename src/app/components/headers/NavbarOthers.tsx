@@ -5,12 +5,12 @@ import "../../css/navbar.css"
 
 export const NavbarOthers = (props: any) => {
     const wallpapers: any = {
-        Brands:"https://beb-consultancy.b-cdn.net/wp-content/uploads/2018/10/Contracts-Agreements.jpg",
+        Brands: "https://beb-consultancy.b-cdn.net/wp-content/uploads/2018/10/Contracts-Agreements.jpg",
         Faq: "https://searchengineland.com/wp-content/seloads/2015/06/question-ask-faq-raise-hand-ss-1920.jpg",
         Community: "https://img.freepik.com/free-vector/people-crowd-diverse-characters-waving-hand_107791-14082.jpg?w=1380&t=st=1707456518~exp=1707457118~hmac=3265d932d404d7892ad0eac511bc5923cddc8e6fa6c8abdf89635bbb25fe940c",
+        "Track My Order": "https://img.freepik.com/free-vector/isometric-e-commerce-elements-background_52683-536.jpg?w=1060&t=st=1709060021~exp=1709060621~hmac=814791e9597e2763ede47c0cf7b4fba8a622110c6d45b716189a3f03ade384dd",
         Blogs: "https://content-writing-india.com/blog/wp-content/uploads/2018/03/1080px.jpg",
-        Contact:"https://weddingsathilton.com/wp-content/uploads/2021/04/getintouch.jpg",
-        "My Page":"https://m-cdn.phonearena.com/images/article/64576-wide-two_1200/The-Best-Phones-to-buy-in-2024---our-top-10-list.webp?1707223752"
+        "My Page": "https://m-cdn.phonearena.com/images/article/64576-wide-two_1200/The-Best-Phones-to-buy-in-2024---our-top-10-list.webp?1707223752"
     }
     const image_url = wallpapers[props.addressTitle]
     const current_url = `/${props.addressTitle.toLowerCase()}`
@@ -74,11 +74,6 @@ export const NavbarOthers = (props: any) => {
                         <Box className="nav-item">
                             <NavLink to="/faq" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 Faq
-                            </NavLink>
-                        </Box>
-                        <Box className="nav-item">
-                            <NavLink to="/contact" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
-                                Contact us
                             </NavLink>
                         </Box>
                     </Stack>

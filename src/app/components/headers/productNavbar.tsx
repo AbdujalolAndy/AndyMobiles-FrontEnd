@@ -71,11 +71,6 @@ export const ProductNavbar = (props: any) => {
                                 Faq
                             </NavLink>
                         </Box>
-                        <Box className="nav-item">
-                            <NavLink to="/contact" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
-                                Contact us
-                            </NavLink>
-                        </Box>
                     </Stack>
                     <Stack className="nav-features fs-5 gap-4" flexDirection={"row"}>
                         <Box className="nav-item">

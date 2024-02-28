@@ -8,8 +8,6 @@ import { HomeNavbar } from './components/headers/HomeNavbar'
 import BlogPage from './screens/BlogPage'
 import TrackOrderPage from './screens/TrackOrderPage'
 import FaqPage from './screens/FaqPage'
-import AboutUsPage from './screens/AboutUsPage'
-import ContactUsPage from './screens/ContactUsPage'
 import MyPage from './screens/MyPage'
 import Footer from './components/footer'
 import { AuthenticationModal } from './components/authModal'
@@ -41,8 +39,6 @@ const App: React.FC = () => {
             pathname.includes("/blogs") ? <NavbarOthers addressTitle="Blogs" /> :
               pathname.includes("/track-order") ? <NavbarOthers addressTitle="Track My Order" /> :
                 pathname.includes("/faq") ? <NavbarOthers addressTitle="Faq" /> :
-                  pathname.includes("/about") ? <NavbarOthers addressTitle="About" /> :
-                    pathname.includes("/contact") ? <NavbarOthers addressTitle="Contact" /> :
                       pathname.includes("/user-page") ? <NavbarOthers addressTitle="My Page" /> :
                         ""
           ))}
@@ -69,14 +65,6 @@ const App: React.FC = () => {
         </Route>
         <Route path="/faq">
           < FaqPage />
-          <Footer />
-        </Route>
-        <Route path="/about">
-          < AboutUsPage />
-          <Footer />
-        </Route>
-        <Route path="/contact">
-          < ContactUsPage />
           <Footer />
         </Route>
         <Route path='/'>

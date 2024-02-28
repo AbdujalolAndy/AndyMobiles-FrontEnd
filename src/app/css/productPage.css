@@ -134,10 +134,40 @@
 
 /* PODUCT STYLE */
 /* Chosen Product Style */
+.chosen_product .product_assistant{
+    position: fixed;
+    z-index: 10000;
+    width: 300px;
+    bottom:50px;
+    left:10px;
+    transition: all .3s ease-in-out;
+}
+.product_assistant .assistant_img{
+    box-shadow: 0 0 5px #567fd6;
+    border-radius: 50%;
+    background-color: white;
+}
+.product_assistant .assistant_img span{
+    top:10px;
+    right:-10px;
+    padding: 9px;
+    border: 2px solid white;
+}
+.product_assistant .assitant_text{
+    box-shadow: 0 0 5px black;
+    padding: 5px;
+    border-radius:0 10px 10px 10px;
+    color: rgb(110, 108, 108);
+    font-weight: bold;
+    font-size: 12px;
+    background-color: white;
+}
+
 .single_product_img {
-    width: 400px;
+    width: 500px;
     height: 700px;
 }
+
 
 .single_product_img .product_swiper {
     height: 70px;
@@ -167,7 +197,7 @@
 }
 
 .product_info .product_storage {
-    border: 0.2px solid rgb(157, 157, 157);
+    border: 1px solid rgb(157, 157, 157);
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;

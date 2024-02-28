@@ -22,7 +22,7 @@ function HomePage() {
             <ServiceInfo />
             <CommunityPosts />
             <Footer />
-            <DownToUpBtn />
+            <DownToUpBtn address={"#"}/>
         </Box>
     )
 }

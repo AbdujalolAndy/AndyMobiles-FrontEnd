@@ -5,32 +5,76 @@ import 'react-fancybox/lib/fancybox.css'
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TabContext, TabPanel } from "@mui/lab";
 import ProductDescription from "./ProductDescription";
 import ProductReview from "./productReview";
 import ReviewWriting from "./reviewWriting";
 import RelatedProducts from "./relatedProducts";
+import PickUpCenter from "./pickupCenter";
+import ChattingClient from "../../components/features/clientChattingModal";
 
 export const ChosenProduct = (props: any) => {
+    //Initilizations
     const { product_id } = useParams<{ product_id: string }>()
-    const [chosenFeature, setChosenFeature] = useState<string>("")
+    const [chosenStorage, setChosenStorage] = useState<number>(0)
+    const [chosenColor, setChosenColor] = useState<string>("")
     const [quantity, setQuantity] = useState<number>(1);
-    const [value, setValue] = useState<string>("1")
-    function handleValue(order: string) {
-        setValue(order)
+    const [value, setValue] = useState<string>("1");
+    const [scrolled, setScrolled] = useState<boolean>(false);
+    const [termsAgree, setTermsAgree] = useState<boolean>(false);
+    const [openChat, setOpenChat] = useState<boolean>(false);
+    const styleStorage = {
+        borderColor: "black",
+        color: "black",
+        fontWeight: "bold"
     }
-    function handleChosenFeature(feature: string) {
-        setChosenFeature(feature)
+    const styleColor = {
+        borderColor: chosenColor,
+        color: chosenColor,
+        borderWidth: "2px"
     }
-    function addAmount() {
-        setQuantity(quantity + 1)
-    }
-    function removeAmount() {
-        setQuantity(quantity - 1)
-    }
+
+    //3 circle React Hook
+    useEffect(() => {
+        function handleScroll() { setScrolled(window.scrollY > 500) }
+        window.addEventListener("scroll", handleScroll)
+        return () => {
+            window.removeEventListener("scroll", handleScroll)
+        }
+    }, [])
+
+    //Handlers
+    function handleOpenChat() { setOpenChat(true) };
+    function handleCloseChat() { setOpenChat(false) };
+    function handleValue(order: string) { setValue(order) }
+    function handleChosenStorage(storage: number) { setChosenStorage(storage) }
+    function handleChosenColor(color: string) { setChosenColor(color) }
+    function hadleTermsUse(e: any) { setTermsAgree(e.target.checked) }
+    function addAmount() { setQuantity(quantity + 1) }
+    function removeAmount() { setQuantity(quantity - 1) }
     return (
         <Box className="chosen_product">
+            <ChattingClient openChat={openChat} handleCloseChat={handleCloseChat}/>
+            <Stack
+                onClick={handleOpenChat}
+                className={scrolled ? "product_assistant aos-animate" : "product_assistant"}
+                direction={"row"}
+                gap={"10px"}
+                alignItems={"center"}
+                data-aos="fade-right"
+                data-delay-aos={100}
+                style={openChat ? { display: "none" } : {}}
+            >
+
+                <div className="assistant_img position-relative"                 >
+                    <img src="/icons/default_user.svg" alt="assitant" width={"60px"} />
+                    <span className="position-absolute  translate-middle bg-success rounded-circle"></span>
+                </div>
+                <div className="assitant_text">
+                    Get our best New <span className="text-dark">Galaxy S24</span> deals. Chat with our experts!
+                </div>
+            </Stack>
             <Stack className="container" flexDirection={"row"} justifyContent={"center"} gap="50px">
                 <Box className={"product_imgs"}>
                     <div className="single_product_img">
@@ -95,10 +139,26 @@ export const ChosenProduct = (props: any) => {
                     <Stack className="mb-4" flexDirection={"row"} gap={"20px"} alignItems={"center"}>
                         <div className="fs-5">Storage:</div>
                         <Stack flexDirection={"row"} gap={"10px"}>
-                            <Box className={"product_storage"} style={chosenFeature == "128" ? { borderColor: "black", color: "black" } : {}} onClick={() => handleChosenFeature("128")}>128 GB</Box>
-                            <Box className={"product_storage"} style={chosenFeature == "256" ? { borderColor: "black", color: "black" } : {}} onClick={() => handleChosenFeature("256")}>256 GB</Box>
-                            <Box className={"product_storage"} style={chosenFeature == "512" ? { borderColor: "black", color: "black" } : {}} onClick={() => handleChosenFeature("512")}>512 GB</Box>
-                            <Box className={"product_storage"} style={chosenFeature == "1" ? { borderColor: "black", color: "black" } : {}} onClick={() => handleChosenFeature("1")}>1 TB</Box>
+                            <Box
+                                className={"product_storage"}
+                                style={chosenStorage == 128 ? styleStorage : {}}
+                                onClick={() => handleChosenStorage(128)}
+                            >128 GB</Box>
+                            <Box
+                                className={"product_storage"}
+                                style={chosenStorage == 256 ? styleStorage : {}}
+                                onClick={() => handleChosenStorage(256)}
+                            >256 GB</Box>
+                            <Box
+                                className={"product_storage"}
+                                style={chosenStorage == 512 ? styleStorage : {}}
+                                onClick={() => handleChosenStorage(512)}
+                            >512 GB</Box>
+                            <Box
+                                className={"product_storage"}
+                                style={chosenStorage == 1 ? styleStorage : {}}
+                                onClick={() => handleChosenStorage(1)}
+                            >1 TB</Box>
                         </Stack>
                     </Stack>
                     <Stack className="mb-4" flexDirection={"row"} gap={"40px"}>
@@ -106,26 +166,26 @@ export const ChosenProduct = (props: any) => {
                         <Stack flexDirection={"row"} gap={"10px"}>
                             <Box
                                 className="product_color"
-                                style={chosenFeature == "pink" ? { borderColor: "black", color: "black" } : {}}
-                                onClick={() => handleChosenFeature("pink")}>
+                                style={chosenColor == "pink" ? styleColor : {}}
+                                onClick={() => handleChosenColor("pink")}>
                                 <img src="/icons/pink_phone.webp" alt="" className="w-50" />
                             </Box>
                             <Box
                                 className="product_color"
-                                style={chosenFeature == "blue" ? { borderColor: "black", color: "black" } : {}}
-                                onClick={() => handleChosenFeature("blue")}>
+                                style={chosenColor == "blue" ? styleColor : {}}
+                                onClick={() => handleChosenColor("blue")}>
                                 <img src="/icons/blue_phone.webp" alt="" className="w-50" />
                             </Box>
                             <Box
                                 className="product_color"
-                                style={chosenFeature == "yellow" ? { borderColor: "black", color: "black" } : {}}
-                                onClick={() => handleChosenFeature("yellow")}>
+                                style={chosenColor == "yellow" ? styleColor : {}}
+                                onClick={() => handleChosenColor("yellow")}>
                                 <img src="/icons/yellow_phone.webp" alt="" className="w-50" />
                             </Box>
                             <Box
                                 className="product_color"
-                                style={chosenFeature == "black" ? { borderColor: "black", color: "black" } : {}}
-                                onClick={() => handleChosenFeature("black")}>
+                                style={chosenColor == "black" ? styleColor : {}}
+                                onClick={() => handleChosenColor("black")}>
                                 <img src="/icons/black_phone.webp" alt="" className="w-50" />
                             </Box>
                         </Stack>
@@ -144,16 +204,16 @@ export const ChosenProduct = (props: any) => {
                         <button className="btn btn-light"><i className="fa-regular fa-heart"></i></button>
                     </Stack>
                     <Stack className="buy_terms mb-1" flexDirection={"row"} gap={"10px"}>
-                        <input type="checkbox" id="buy_terms" />
+                        <input type="checkbox" id="buy_terms" onChange={hadleTermsUse} />
                         <label htmlFor="buy_terms">I agree with the terms and conditions</label>
                     </Stack>
-                    <button className="btn btn-warning mb-3">BUY IT NOW</button>
+                    <button className={termsAgree ? "btn btn-warning mb-3" : "btn btn-warning mb-3 disabled"} >BUY IT NOW</button>
                     <hr />
-                    <Box className="payment_guarantee mb-4">
-                        <p>Guaranteed safe checkout</p>
-                        <img src="https://lezada-demo.myshopify.com/cdn/shop/files/pay_1024x1024.png?v=1613763989" alt="gurantee" />
-                    </Box>
-                    <Stack className="product_share" flexDirection={"row"} gap={"30px"} alignItems={"center"}>
+                    <Stack direction={"row"} gap={"20px"} className="payment_guarantee ">
+                        <div>Guaranteed safe checkout:</div>
+                        <img src="https://lezada-demo.myshopify.com/cdn/shop/files/pay_1024x1024.png?v=1613763989" className="w-50" alt="gurantee" />
+                    </Stack>
+                    <Stack className="product_share mt-3" flexDirection={"row"} gap={"30px"} alignItems={"center"}>
                         <div className="fs-5">Share via: </div>
                         <Stack flexDirection={"row"} gap={"10px"}>
                             <a href="http://instagram.com" className="nav-link fs-4">
@@ -189,7 +249,8 @@ export const ChosenProduct = (props: any) => {
                         <ReviewWriting />
                     </TabPanel>
                 </TabContext>
-                <RelatedProducts/>
+                <PickUpCenter />
+                <RelatedProducts />
             </Box>
         </Box>
     )

@@ -3,7 +3,7 @@ import { Box, Stack } from "@mui/material"
 import "../../css/features.css"
 
 
-export const DownToUpBtn = () => {
+export const DownToUpBtn = (props:any) => {
     //Initilzaations
     const [scrolled, setScrolled] = useState<boolean>(false)
 
@@ -20,7 +20,7 @@ export const DownToUpBtn = () => {
     return (
         <Box className={"d-flex justify-content-end down-to-up"}>
             <Box data-aos="fade-up" data-aos-delay={1000} className={scrolled ? "aos-animate" : ""}>
-                <a href="#" className="down-to-up_item">
+                <a href={props.address} className="down-to-up_item">
                     <i className="fa-solid fa-angles-up"></i>
                 </a>
             </Box>

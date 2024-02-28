@@ -169,11 +169,6 @@ export const HomeNavbar = (props: any) => {
                                     Faq
                                 </NavLink>
                             </Box>
-                            <Box className="nav-item">
-                                <NavLink to="/contact" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
-                                    Contact us
-                                </NavLink>
-                            </Box>
                         </Stack>
                         <Stack className="nav-features fs-5 gap-4" flexDirection={"row"} alignItems={"center"}>
                             <Box className="nav-item">

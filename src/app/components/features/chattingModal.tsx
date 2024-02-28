@@ -78,7 +78,6 @@ const Chatting = () => {
                 direction={"row"}
                 gap={"10px"}
                 alignItems={"center"}
-                style={openChat ? {} : { display: "none" }}
             >
                 <input type="text" />
                 <Stack direction={"row"} gap={"10px"} alignItems={"center"}>
