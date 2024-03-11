@@ -125,7 +125,7 @@ export const HomeNavbar = (props: any) => {
                     <Box className={scrolled ? "navbar container" : "navbar"} flexDirection={"row"}>
                         <Box className="navbar-brand nav-item">
                             <NavLink to="/" className={"nav-link"}>
-                                <span className="text-secondary">Andy</span><span className="text-warning">Mobiles</span>
+                                <span className="text-secondary fs-1">Andy</span><span className="text-warning">Mobiles</span>
                             </NavLink>
                         </Box>
                         <Stack className="nav navbar" flexDirection={"row"}>

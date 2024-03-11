@@ -1,13 +1,13 @@
 .footer {
     margin-top: 100px;
     background-color: #6F7F97;
-    padding-top: 100px ;
+    padding-top: 50px ;
     padding-bottom: 50px;
 }
 
 .footer-col {
-    width: 25%;
-    padding: 0 15px;
+    width: 35%;
+    padding: 0 25px;
 }
 
 .footer-col h4 {
@@ -33,14 +33,15 @@
 .footer-col ul li:not(:last-child) {
     margin-bottom: 10px;
 }
-
+.footer-col ul{
+    width: 100%;
+}
 .footer-col ul li a {
     font-size: 16px;
     text-transform: capitalize;
-    color: #ffffff;
+    color: white;
     text-decoration: none;
-    font-weight: 300;
-    color: #bbbbbb;
+    font-weight: 500;
     display: block;
     transition: all 0.3s ease;
 }
@@ -58,7 +59,7 @@
     margin: 0 10px 10px 0;
     text-align: center;
     line-height: 40px;
-    border-radius: 50%;
+    border-radius: 20%;
     color: #ffffff;
     transition: all 0.5s ease;
 }
@@ -68,6 +69,17 @@
     background-color: #ffffff;
 }
 
+.email-col{
+    width: 500px;
+}
+
+.footer_email button{
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+    letter-spacing: 1px;
+    padding: 0 15px;
+}
 
 .wave {
     position: absolute;

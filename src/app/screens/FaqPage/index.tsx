@@ -49,7 +49,6 @@ const FaqPage = () => {
                     </div>
                 </TabContext>
             </Container>
-            <Footer />
         </Box>
     )
 }

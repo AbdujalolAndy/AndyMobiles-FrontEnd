@@ -40,7 +40,7 @@ export const DealContract = () => {
                             <div className="deal_learn">
                                 <a href=""> <span>LEARN MORE</span><i className="fa-solid ms-1 fa-arrow-up-right-from-square"></i></a>
                             </div>
-                            <button className="btn btn-outline-secondary rounded-pill ps-5 pe-5">Buy Now</button>
+                            <a href="/products" className="btn btn-outline-secondary rounded-pill ps-5 pe-5">Buy Now</a>
                         </Stack>
                         <div className="guarantee_img">
                             <img src="/logos/guarantee.png" alt="" />
