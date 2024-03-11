@@ -36,13 +36,10 @@ const BrandPage = () => {
                         </Box>
                         <Box className="order_items">
                             <select className="form-select" id="order_item">
-                                <option value="">Alphabetically, A-Z</option>
-                                <option value="">Alphabetically, Z-A</option>
+                                <option value="">All Brands</option>
+                                <option value="">Popular Brands</option>
+                                <option value="">Top Brands</option>
                                 <option value="">Best Selling</option>
-                                <option value="">Price, low to high</option>
-                                <option value="">Price, high to low</option>
-                                <option value="">Date, new to old</option>
-                                <option value="">Price, old to new</option>
                             </select>
                         </Box>
                         <Box className="search_input">

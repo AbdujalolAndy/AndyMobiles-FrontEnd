@@ -4,7 +4,11 @@ import { Box, Stack } from "@mui/material"
 import "./../../css/authModal.css"
 
 export const AuthenticationModal = (props: any) => {
+    //Initilizations
     const [signIn, toggle] = React.useState(true);
+
+    //Handlers
+
     return (
         <Box>
             <Modal

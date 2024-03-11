@@ -15,6 +15,40 @@
     transition: all 0.3s ease-in-out;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+    background-color: #c8bdbd;
+    opacity: 0.5;
+    color: white;
+    padding: 20px;
+    height: 50px;
+    width: 50px;
+    border-radius: 15px;
+    transform: scale(1);
+    transition: transform .3s
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    background-color: #464545;
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.homeSwiper .redmi_home {
+    background-color: #E5E8EE;
+    background-image: url("https://i02.appmifile.com/213_operator_global/23/02/2024/379d5448a3c0cfb17e4b40b7f1931f8d.jpg?thumb=1&w=2560&f=webp&q=85");
+    background-size: cover;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.redmi_home .redmi_info{
+    width: 400px;
+    text-align: center;
+}
+
 
 .navbar_wrapper {
     position: absolute;
@@ -57,7 +91,7 @@
 }
 
 .nav-features .nav-item button:focus {
-    background-color: transparent;
+    background-color: gray;
 }
 
 .nav-badge {
@@ -191,6 +225,7 @@
 
 /* Basket Modal Style */
 
-.nav-features .auth_user button:focus, .basket_btn button:focus {
+.nav-features .auth_user button:focus,
+.basket_btn button:focus {
     color: black
 }

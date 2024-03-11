@@ -2,13 +2,14 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Box, Stack, Container } from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules"
+import { Navigation, Autoplay, EffectFade, A11y } from "swiper/modules"
 import { NavLink } from "react-router-dom";
 import "swiper/css"
 import "../../css/general.css"
 import "../../css/navbar.css"
 
 export const HomeNavbar = (props: any) => {
+    //Initilizations
     const progressCircle = useRef(null);
     const progressContent = useRef(null);
     const onAutoplayTimeLeft = (s: any, time: any, progress: any) => {
@@ -18,6 +19,7 @@ export const HomeNavbar = (props: any) => {
         progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
     };;
     const [scrolled, setScrolled] = useState<Number>(0)
+    //
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY);
@@ -41,7 +43,7 @@ export const HomeNavbar = (props: any) => {
                     }}
                     effect="fade"
                     navigation={true}
-                    modules={[Autoplay, Navigation, EffectFade]}
+                    modules={[Autoplay, EffectFade, Navigation]}
                     onAutoplayTimeLeft={onAutoplayTimeLeft}
                     className="homeSwiper"
                 >
@@ -62,66 +64,59 @@ export const HomeNavbar = (props: any) => {
                         </video>
                         <Container>
                             <div className="slide_vid_info position-absolute">
-                                <div className="vid-subtitle text-secondary">
+                                <div className="vid-subtitle text-light btn btn-warning fw-bold">
                                     New
                                 </div>
                                 <div className="vid-title fs-1 text-secondary fw-bold">
                                     Galaxy S24 ULTRA
                                 </div>
-                                <button className="btn btn-warning text-light fw-bold">
+                                <div className="pb-3 text-secondary w-50">
+                                    Elevate your work with the most epic Galaxy yet, featuring the game-changing power
+                                    of Galaxy AI. From researching on the spot to capturing every detail of your projects day or night,
+                                    unleash new ways to stay productive, collaborate and more.</div>
+                                <button className="btn btn-dark text-light fw-bold">
                                     Purchase
                                 </button>
                             </div>
                         </Container>
                     </SwiperSlide>
-                    <SwiperSlide className="slide_item_2 ">
-                        <Container className=" slide_item_2 d-flex justify-content-center align-items-center">
+                    <SwiperSlide className="slide_item_2">
+                        <Container className="d-flex align-items-center justify-content-evenly">
                             <div className="slide_vid_info">
-                                <div className="vid-subtitle text-light">
+                                <div className="vid-subtitle text-light btn btn-warning fw-bold">
                                     New
                                 </div>
-                                <div className="vid-title fs-1 text-secondary fw-bold">
-                                    IPHONE 15 Pro
+                                <div className="fs-1 text-secondary fw-bold">
+                                    iPhone 15 Pro
                                 </div>
-                                <button className="btn btn-warning text-light fw-bold">
+                                <div className="text-white pb-4">
+                                    As part of Apple's ongoing efforts to achieve carbon neutrality by 2030, iPhone 15 Pro and iPhone 15 Pro Max product ranges do not include power adapters and EarPods. Instead, a USB-C charging cable that supports fast charging and is compatible with USB‑C
+                                    power adapters and computer ports is included.
+                                </div>
+                                <button className="btn btn-secondary text-light fw-bold">
                                     Purchase
                                 </button>
                             </div>
                             <img src="/icons/apples.jpg" alt="" />
                         </Container>
                     </SwiperSlide>
-                    <SwiperSlide className="slide_vid position-relative">
-                        <video
-                            loop
-                            muted
-                            autoPlay
-                            playsInline
-                            disableRemotePlayback
-                            className="w-100"
-                        >
-                            <source
-                                type="video/mp4"
-                                data-src="//images.samsung.com/is/content/samsung/assets/us/home/01172024/HOME_E3_Main-KV_1440x640_pc_LTR.mp4"
-                                src="//images.samsung.com/is/content/samsung/assets/us/home/01172024/HOME_E3_Main-KV_1440x640_pc_LTR.mp4"
-                            />
-                        </video>
-                        <Container>
-                            <div className="slide_vid_info position-absolute">
-                                <div className="vid-subtitle text-secondary">
-                                    New
+                    <SwiperSlide className="redmi_home">
+                        <Container className="d-flex align-items-center justify-content-end">
+                            <div className="redmi_info">
+                                <img src="/icons/redme_home_info.svg" width="400px" alt="" />
+                                <div className=" text-dark pt-3">
+                                    The all-new Sony's LYT-900 sensor features a 1-inch sensor size and 3.2µm 4-in-1 Super Pixel
                                 </div>
-                                <div className="vid-title fs-1 text-secondary fw-bold">
-                                    Galaxy S24 ULTRA
+                                <div className="d-flex align-items-center gap-5 justify-content-center">
+                                    <a href="" className="nav-link pt-4"> <span>LEARN MORE</span><i className="fa-solid ms-1 fa-arrow-up-right-from-square"></i></a>
+                                    <button className="mt-4 btn btn-secondary">PURCHASE</button>
                                 </div>
-                                <button className="btn btn-warning">
-                                    Purchase
-                                </button>
                             </div>
                         </Container>
                     </SwiperSlide>
-                    <div className="autoplay-progress" slot="container-end">
+                    <div className="autoplay-progress text-warning" slot="container-end">
                         <svg viewBox="0 0 48 48" ref={progressCircle}>
-                            <circle cx="24" cy="24" r="14"></circle>
+                            <circle style={{ stroke: "#F0B607" }} cx="24" cy="24" r="14"></circle>
                         </svg>
                         <span ref={progressContent}>=</span>
                     </div>
@@ -172,10 +167,7 @@ export const HomeNavbar = (props: any) => {
                         </Stack>
                         <Stack className="nav-features fs-5 gap-4" flexDirection={"row"} alignItems={"center"}>
                             <Box className="nav-item">
-                                <NavLink to="/" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"}><i className="fa-solid fa-search"></i></NavLink>
-                            </Box>
-                            <Box className="nav-item">
-                                <NavLink to="/" className={scrolled ? "nav-link text-dark position-relative" : "nav-link text-secondary position-relative"}>
+                                <NavLink to="/user-page/" className={scrolled ? "nav-link text-dark position-relative" : "nav-link text-secondary position-relative"}>
                                     <i className="fa-regular fa-heart"></i>
                                     <span className="position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle nav-badge text-center">
                                         0
@@ -183,9 +175,9 @@ export const HomeNavbar = (props: any) => {
                                 </NavLink>
                             </Box>
                             <Box className="nav-item basket_btn">
-                                <button  
-                                className={scrolled ? "btn btn-outline-secondary border-0 position-relative" : "btn btn-outline-secondary border-0 position-relative"}
-                                onClick={props.handleBasketOpen}
+                                <button
+                                    className={scrolled ? "btn btn-outline-secondary border-0 position-relative" : "btn btn-outline-secondary border-0 position-relative"}
+                                    onClick={props.handleBasketOpen}
                                 >
                                     <i className="fa-brands fa-shopify"></i>
                                     <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
@@ -199,7 +191,7 @@ export const HomeNavbar = (props: any) => {
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li><button className="dropdown-item" onClick={props.handleSignUpOpen}>Register</button></li>
-                                    <li><button className="dropdown-item" >Track My Order</button></li>
+                                    <li><a href="/track-order" className="dropdown-item">Track My Order</a></li>
                                 </ul>
                             </Box>
                         </Stack>
