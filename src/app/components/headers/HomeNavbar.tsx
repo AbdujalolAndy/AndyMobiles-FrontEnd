@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Box, Stack, Container } from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay, EffectFade, A11y } from "swiper/modules"
+import { Navigation, Autoplay,EffectFade } from "swiper/modules"
 import { NavLink } from "react-router-dom";
 import "swiper/css"
 import "../../css/general.css"
@@ -10,8 +10,12 @@ import "../../css/navbar.css"
 
 export const HomeNavbar = (props: any) => {
     //Initilizations
+    const modules = [Navigation,Autoplay]
     const progressCircle = useRef(null);
     const progressContent = useRef(null);
+    if(props.device==="Mobile"){
+        modules.push(EffectFade)
+    }
     const onAutoplayTimeLeft = (s: any, time: any, progress: any) => {
         //@ts-ignore
         progressCircle.current.style.setProperty('--progress', 1 - progress);
@@ -41,9 +45,9 @@ export const HomeNavbar = (props: any) => {
                     autoplay={{
                         delay: 6000,
                     }}
-                    effect="fade"
+                    effect={props.deviceDetect==="isMobile"?"":"fade"}
                     navigation={true}
-                    modules={[Autoplay, EffectFade, Navigation]}
+                    modules={modules}
                     onAutoplayTimeLeft={onAutoplayTimeLeft}
                     className="homeSwiper"
                 >

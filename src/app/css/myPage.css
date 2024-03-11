@@ -210,25 +210,20 @@
 }
 
 /* Bank Transition */
-.bank_cards {
-    width: 400px;
-    border-radius: 20px;
-}
-
 .bank_card {
     position: relative;
     background-image: url("https://bankmeister.com/assets/images/card/532.png");
     background-size: contain;
     background-position: center;
-    height: 300px;
-    width: 100px;
+    height: 250px;
+    width: 500px;
     background-repeat: no-repeat;
 }
 
 .bank_card .owner_name {
     position: absolute;
-    top: 30px;
-    left: 10px;
+    top: 5px;
+    left: 60px;
     background-color: #DBDDEF;
     padding: 5px;
     font-weight: bold;
@@ -239,8 +234,8 @@
     width: 150px;
     height: 50px;
     background-color: #DBDDEF;
-    top: 70px;
-    right: 30px;
+    top: 60px;
+    right: 64px;
 }
 
 .bank_card .hide_info {
@@ -248,14 +243,14 @@
     width: 70px;
     height: 20px;
     background-color: #DBDDEF;
-    bottom: 74px;
-    left: 10px
+    bottom: 45px;
+    left: 170px
 }
 
 .bank_card .card_number {
     position: absolute;
-    top: 120px;
-    left: 130px;
+    top: 90px;
+    left: 170px;
     font-size: 20px;
     font-weight: bold;
 
@@ -263,7 +258,7 @@
 
 .bank_card .bank_cvc {
     position: absolute;
-    bottom: 72px;
+    bottom: 48px;
     left: 125px;
     font-weight: bold;
 }
@@ -271,8 +266,8 @@
 
 .bank_card .card_expire {
     position: absolute;
-    bottom: 100px;
-    right: 163px;
+    bottom: 70px;
+    right: 210px;
     font-weight: bold;
 }
 

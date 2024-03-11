@@ -16,11 +16,13 @@ import { ProductNavbar } from './components/headers/productNavbar'
 import "./css/general.css"
 import "./css/navbar.css"
 import Chatting from './components/features/chattingModal'
+import { DeviceDetector } from './components/features/deviceDetector'
 
 
 
 
 const App: React.FC = () => {
+  const device = DeviceDetector()
   const { pathname } = useLocation();
   const [openAuth, setOpenAuth] = useState(false)
   const [openBasket, setOpenBasket] = useState(false)
@@ -33,6 +35,7 @@ const App: React.FC = () => {
       {pathname == "/" ? <HomeNavbar
         handleSignUpOpen={handleSignUpOpen}
         handleBasketOpen={handleBasketOpen}
+        device = {device}
       /> :
         (pathname.includes("/brands") ? <NavbarOthers addressTitle="Brands" /> :
           (pathname.includes("/products") ? <ProductNavbar addressTitle="Products" /> :
@@ -68,7 +71,7 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path='/'>
-          <HomePage />
+          <HomePage deviceDetect={device}/>
         </Route>
       </Switch>
       <AuthenticationModal

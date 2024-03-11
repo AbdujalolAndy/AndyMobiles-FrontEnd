@@ -229,3 +229,9 @@
 .basket_btn button:focus {
     color: black
 }
+
+@media only screen and (max-width:600px) {
+    .navbar-container{
+        display: none;
+    }
+}

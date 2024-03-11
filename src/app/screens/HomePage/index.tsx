@@ -6,12 +6,15 @@ import CommunityPosts from "./communityPost"
 import { OurBrands } from "./ourBrands"
 import ServiceInfo from "./serviceInfo"
 import HomeSortProducts from "./homeSortProducts"
-import "../../css/homePage.css"
-import "swiper/swiper-bundle.css"
 import Footer from "../../components/footer"
 import { DownToUpBtn } from "../../components/features/downToUpBtn"
+import "../../css/homePage.css"
+import "swiper/swiper-bundle.css"
 
-function HomePage() {
+interface homePage {
+    deviceDetect:any
+}
+function HomePage(props:homePage) {
     return (
         <Box className="HomePage">
             <NewProducts />
