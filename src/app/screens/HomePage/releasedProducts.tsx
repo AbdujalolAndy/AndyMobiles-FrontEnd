@@ -1,12 +1,38 @@
-import { Box, Button, Container, Stack } from "@mui/material"
+import React,{ useEffect, useState } from "react"
+import { Box, Container, Stack } from "@mui/material"
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Favorite } from "@mui/icons-material"
-import { useState } from "react"
+
+//redux
+import { Dispatch } from "@reduxjs/toolkit";
+import { Product } from "../../types/product";
+import {setRandomNewProducts} from "./slice";
+import {createSelector} from "reselect";
+import { retrieveRandomProducts } from "./selector"
+import { useDispatch } from "react-redux"
+
+//REDUX Slice
+const actionDispatch = (dispatch:Dispatch)=>({
+    setRandomNewProducts:(data:Product[])=> dispatch(setRandomNewProducts(data))
+})
+
+//REDUX SELECTOR
+const RandomNewProductsRetriever = createSelector(
+    retrieveRandomProducts,
+    (randomNewProducts)=>({randomNewProducts})
+)
 
 export const NewProducts = () => {
+    //Initializations
+    const {setRandomNewProducts} = actionDispatch(useDispatch())
     const [chosenColor, setChosenColor] = useState<string>("");
     function handleSortColor(color: string) { setChosenColor(color) }
+
+    //3 circle
+    useEffect((
+        
+    )=>{},[])
     return (
         <Container className="hot-products mt-5">
             <Box className="text-center  hot-products-title">
@@ -18,7 +44,10 @@ export const NewProducts = () => {
                 pagination={{
                     clickable: true,
                 }}
-                modules={[Pagination, Navigation]}
+                autoplay={
+                    {delay:1000}
+                }
+                modules={[Pagination, Navigation, Autoplay]}
                 className="product-swiper cards"
             >
                 {Array.from({ length: 10 }).map((ele, index) => (

@@ -1,0 +1,1 @@
+export const serverApi: string = `${"http://localhost:3001"}`

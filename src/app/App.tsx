@@ -17,33 +17,50 @@ import "./css/general.css"
 import "./css/navbar.css"
 import Chatting from './components/features/chattingModal'
 import { DeviceDetector } from './components/features/deviceDetector'
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../lib/sweetAlert'
+import { MemberServiceApi } from './apiServices/memberServiceApi'
 
 
 
 
 const App: React.FC = () => {
+
+  //Initilizations
   const device = DeviceDetector()
   const { pathname } = useLocation();
   const [openAuth, setOpenAuth] = useState(false)
   const [openBasket, setOpenBasket] = useState(false)
+
+  //Handlers
   function handleSignUpClose() { setOpenAuth(false) }
   function handleSignUpOpen() { setOpenAuth(true) }
   function handleBasketOpen() { setOpenBasket(true) }
   function handleBasketClose() { setOpenBasket(false) }
+  async function handleLogOut() {
+    try {
+      const memberServiceApi = new MemberServiceApi();
+      await memberServiceApi.logoutRequest();
+      await sweetTopSmallSuccessAlert("Successfully logged out!", 2000);
+      window.location.reload()
+    } catch (err: any) {
+      sweetErrorHandling(err).then()
+    }
+  }
   return (
     <div>
       {pathname == "/" ? <HomeNavbar
         handleSignUpOpen={handleSignUpOpen}
         handleBasketOpen={handleBasketOpen}
-        device = {device}
+        handleLogOut={handleLogOut}
+        device={device}
       /> :
         (pathname.includes("/brands") ? <NavbarOthers addressTitle="Brands" /> :
           (pathname.includes("/products") ? <ProductNavbar addressTitle="Products" /> :
             pathname.includes("/blogs") ? <NavbarOthers addressTitle="Blogs" /> :
               pathname.includes("/track-order") ? <NavbarOthers addressTitle="Track My Order" /> :
                 pathname.includes("/faq") ? <NavbarOthers addressTitle="Faq" /> :
-                      pathname.includes("/user-page") ? <NavbarOthers addressTitle="My Page" /> :
-                        ""
+                  pathname.includes("/user-page") ? <NavbarOthers addressTitle="My Page" /> :
+                    ""
           ))}
       <Switch>
         <Route path="/brands">
@@ -71,7 +88,7 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path='/'>
-          <HomePage deviceDetect={device}/>
+          <HomePage deviceDetect={device} />
         </Route>
       </Switch>
       <AuthenticationModal

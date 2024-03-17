@@ -2,27 +2,22 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Box, Stack, Container } from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay,EffectFade } from "swiper/modules"
-import { NavLink } from "react-router-dom";
+import { Navigation, Autoplay, EffectFade } from "swiper/modules"
+import { NavLink, useHistory } from "react-router-dom";
+import { verifiedMemberData } from "../../apiServices/verified"
 import "swiper/css"
 import "../../css/general.css"
 import "../../css/navbar.css"
 
 export const HomeNavbar = (props: any) => {
     //Initilizations
-    const modules = [Navigation,Autoplay]
+    const modules = [Navigation, Autoplay]
     const progressCircle = useRef(null);
     const progressContent = useRef(null);
-    if(props.device==="Mobile"){
+    const [scrolled, setScrolled] = useState<Number>(0)
+    if (props.device === "Mobile") {
         modules.push(EffectFade)
     }
-    const onAutoplayTimeLeft = (s: any, time: any, progress: any) => {
-        //@ts-ignore
-        progressCircle.current.style.setProperty('--progress', 1 - progress);
-        //@ts-ignore
-        progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
-    };;
-    const [scrolled, setScrolled] = useState<Number>(0)
     //
     useEffect(() => {
         const handleScroll = () => {
@@ -34,6 +29,13 @@ export const HomeNavbar = (props: any) => {
         }
 
     }, [])
+    //Handlers
+    const onAutoplayTimeLeft = (s: any, time: any, progress: any) => {
+        //@ts-ignore
+        progressCircle.current.style.setProperty('--progress', 1 - progress);
+        //@ts-ignore
+        progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
+    };;
     return (
         <Box className="HomePage">
             <Stack className={"position-relative"} justifyContent={"center"} flexDirection={"row"}>
@@ -45,7 +47,7 @@ export const HomeNavbar = (props: any) => {
                     autoplay={{
                         delay: 6000,
                     }}
-                    effect={props.deviceDetect==="isMobile"?"":"fade"}
+                    effect={props.deviceDetect === "isMobile" ? "" : "fade"}
                     navigation={true}
                     modules={modules}
                     onAutoplayTimeLeft={onAutoplayTimeLeft}
@@ -194,7 +196,12 @@ export const HomeNavbar = (props: any) => {
                                     <i className="fa-solid fa-user"></i>
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li><button className="dropdown-item" onClick={props.handleSignUpOpen}>Register</button></li>
+                                    {
+                                        verifiedMemberData ?
+                                            (<li><button className="dropdown-item" onClick={props.handleLogOut}>Log Out</button></li>) :
+                                            (<li><button className="dropdown-item" onClick={props.handleSignUpOpen}>Register</button></li>)
+                                    }
+
                                     <li><a href="/track-order" className="dropdown-item">Track My Order</a></li>
                                 </ul>
                             </Box>
