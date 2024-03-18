@@ -1,38 +1,51 @@
-import React,{ useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Container, Stack } from "@mui/material"
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Favorite } from "@mui/icons-material"
+import ProductServiceApi from "../../apiServices/productServiceApi"
 
 //redux
 import { Dispatch } from "@reduxjs/toolkit";
 import { Product } from "../../types/product";
-import {setRandomNewProducts} from "./slice";
-import {createSelector} from "reselect";
+import { setRandomNewProducts } from "./slice";
+import { createSelector } from "reselect";
 import { retrieveRandomProducts } from "./selector"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { serverApi } from "../../../lib/config"
 
 //REDUX Slice
-const actionDispatch = (dispatch:Dispatch)=>({
-    setRandomNewProducts:(data:Product[])=> dispatch(setRandomNewProducts(data))
+const actionDispatch = (dispatch: Dispatch) => ({
+    setRandomNewProducts: (data: Product[]) => dispatch(setRandomNewProducts(data))
 })
 
 //REDUX SELECTOR
-const RandomNewProductsRetriever = createSelector(
+const randomNewProductsRetriever = createSelector(
     retrieveRandomProducts,
-    (randomNewProducts)=>({randomNewProducts})
+    (randomNewProducts) => ({ randomNewProducts })
 )
 
 export const NewProducts = () => {
     //Initializations
-    const {setRandomNewProducts} = actionDispatch(useDispatch())
+    const { setRandomNewProducts } = actionDispatch(useDispatch())
+    const { randomNewProducts } = useSelector(randomNewProductsRetriever)
     const [chosenColor, setChosenColor] = useState<string>("");
-    function handleSortColor(color: string) { setChosenColor(color) }
+    const [productIndex, setProductIndex] = useState({ key: "ss", index: 0 })
+    function handleSortColor(color: string, key: string, index: number) {
+        const newObject = { key: key, index: index }
+        setProductIndex(newObject)
+        setChosenColor(color)
+    }
 
     //3 circle
-    useEffect((
-        
-    )=>{},[])
+    useEffect(() => {
+        const productServiceApi = new ProductServiceApi();
+        productServiceApi.getTargetProducts({ limit: 10, order: "new", random: true })
+            .then(data => setRandomNewProducts(data)).catch(err => {
+                console.log(err)
+            })
+    }, [])
+
     return (
         <Container className="hot-products mt-5">
             <Box className="text-center  hot-products-title">
@@ -44,85 +57,60 @@ export const NewProducts = () => {
                 pagination={{
                     clickable: true,
                 }}
+                speed={1000}
+
                 autoplay={
-                    {delay:1000}
+                    { delay: 1000, pauseOnMouseEnter: true }
                 }
                 modules={[Pagination, Navigation, Autoplay]}
                 className="product-swiper cards"
             >
-                {Array.from({ length: 10 }).map((ele, index) => (
-                    <SwiperSlide className="swiper-card">
-                        <Box className={"slider-card border-0"} id="card">
-                            <div className="card-img">
-                                <img src={`/icons/yellow_phone.webp`} alt="phone1" />
-                                <Stack className="card-features" gap="5px">
-                                    <Box><Favorite sx={{ fill: "" }} /></Box>
-                                    <Box><i className="fa-solid fa-square-up-right"></i></Box>
-                                    <Box><i className="fa-solid fa-sack-dollar text-dark fs-5"></i></Box>
-                                </Stack>
-                                <Stack flexDirection={"row"} justifyContent={"center"} alignItems={"center"} gap={"7px"} className="product_sort" flexWrap={"wrap"}>
-                                    <button
-                                        type="button"
-                                        style={chosenColor == `red${index}` ? { border: "2px solid red" } : {}}
-                                        data-bs-toggle="top"
-                                        data-bs-title="Popover title"
-                                        data-bs-content="Red"
-                                        onClick={() => handleSortColor(`red${index}`)}
-                                    >
-                                        <img src="/icons/phone_green.webp" alt="" />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        style={chosenColor == `blue${index}` ? { border: "2px solid blue" } : {}}
-                                        data-bs-toggle="top"
-                                        data-bs-title="Popover title"
-                                        data-bs-content="Red"
-                                        onClick={() => handleSortColor(`blue${index}`)}
-                                    >
-                                        <img src="/icons/blue_phone.webp" alt="" />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        style={chosenColor == `pink${index}` ? { border: "2px solid pink" } : {}}
-                                        data-bs-toggle="top"
-                                        data-bs-title="Popover title"
-                                        data-bs-content="Red"
-                                        onClick={() => handleSortColor(`pink${index}`)}
-                                    >
-                                        <img src="/icons/pink_phone.webp" alt="" />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        style={chosenColor == `yellow${index}` ? { border: "2px solid yellow" } : {}}
-                                        data-bs-toggle="top"
-                                        data-bs-title="Popover title"
-                                        data-bs-content="Red"
-                                        onClick={() => handleSortColor(`yellow${index}`)}
-                                    >
-                                        <img src="/icons/yellow_phone.webp" alt="" />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        style={chosenColor == `black${index}` ? { border: "2px solid black" } : {}}
-                                        data-bs-toggle="top"
-                                        data-bs-title="Popover title"
-                                        data-bs-content="Red"
-                                        onClick={() => handleSortColor(`black${index}`)}
-                                    >
-                                        <img src="/icons/black_phone.webp" alt="" />
-                                    </button>
-                                </Stack>
-                                <div className="bg-danger position-absolute rounded-pill">NEW</div>
-                            </div>
-                            <div className="card-text mt-3">
-                                1. This is so cool phone
-                            </div>
-                            <div className="card-text mt-3 fw-bold">
-                                $110.00 <span className="text-secondary"><s>$130.00</s></span>
-                            </div>
-                        </Box>
-                    </SwiperSlide>
-                ))}
+                {randomNewProducts.map((ele: Product, index) => {
+                    let image_url = `${serverApi}/${ele.product_images[0]}`,
+                        discount_price = ele.product_price - (ele.product_price * (ele.product_discount / 100))
+                    return (
+                        <SwiperSlide className="swiper-card">
+                            <Box className={"slider-card border-0"} id="card">
+                                <div className="card-img" style={{ transition: "2s ease-in-out" }}>
+                                    <img src={ele._id == productIndex.key ? `${serverApi}/${ele.product_related_colors[productIndex.index].product_images[0]}` : image_url} alt="phone1" />
+                                    <Stack className="card-features" gap="5px">
+                                        <Box><Favorite sx={{ fill: "" }} /></Box>
+                                        <Box><i className="fa-solid fa-square-up-right"></i></Box>
+                                        <Box><i className="fa-solid fa-sack-dollar text-dark fs-5"></i></Box>
+                                    </Stack>
+                                    <Stack flexDirection={"row"} justifyContent={"center"} alignItems={"center"} gap={"7px"} className="product_sort" flexWrap={"wrap"}>
+                                        {
+                                            ele?.product_related_colors?.map((product: any, index: number) => {
+                                                let product_color = product.product_color.toLowerCase()
+                                                console.log(product_color)
+                                                return (
+                                                    <button
+                                                        type="button"
+                                                        style={chosenColor == `${product_color}${product._id}` ? { border: `2px solid ${product_color === "white" ? "gray" : product_color}` } : {}}
+                                                        data-bs-toggle="top"
+                                                        data-bs-title="Popover title"
+                                                        data-bs-content="Red"
+                                                        onClick={() => handleSortColor(`${product_color}${product._id}`, ele._id, index)}
+                                                    >
+                                                        <img src={`/pictures/products/${product_color}_phone.webp`} alt="" />
+                                                    </button>
+                                                )
+                                            })
+
+                                        }
+                                    </Stack>
+                                    <div className="bg-danger position-absolute ">NEW</div>
+                                </div>
+                                <div className="card-text mt-3 fs-5">
+                                    {ele.product_name}
+                                </div>
+                                <div className="card-text mt-3 fw-bold">
+                                    {ele.product_discount ? (<div>{discount_price}₩<span className="text-secondary ms-2"><s>{ele.product_price}₩</s></span></div>) : ele.product_price + "₩"}
+                                </div>
+                            </Box>
+                        </SwiperSlide>
+                    )
+                })}
             </Swiper>
         </Container>
     )

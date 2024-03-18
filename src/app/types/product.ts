@@ -19,12 +19,14 @@ export interface Product {
     product_likes: number;
     product_views: number;
     product_description: string;
+    product_related_colors:any
     createdAt:Date;
     updateAt:Date;
 }
 
 export interface ProductSearchObject{
     limit:Number;
+    random?:boolean;
     company_id?:string;
     order:string;
     page?:number

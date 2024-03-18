@@ -2,19 +2,22 @@ import axios from "axios"
 import { Product, ProductSearchObject } from "../types/product"
 import assert from "assert";
 import Definer from "../../lib/Definer";
+import { serverApi } from "../../lib/config";
 class ProductServiceApi {
     private readonly path: string
     constructor() {
-        this.path = "asas"
+        this.path = serverApi
     }
-    async getRandomNewProducts(data: ProductSearchObject): Promise<Product[]> {
+    async getTargetProducts(data: ProductSearchObject): Promise<Product[]> {
         try {
-            const url = `${this.path}/products/allPoducts`
+            const url = `${this.path}/products/getTargetProducts`
             const result = await axios.post(url, data, { withCredentials: true })
             console.log(`getRandomProducts state::: ${result.data.state}`)
-            assert.ok(result?.data, Definer.general_err1);
-            assert.ok(result?.data?.state == "fail", result?.data?.message)
+            if (result?.data?.state == "fail") {
+                throw new Error(result.data.message)
+            }
             const products: Product[] = result.data.value;
+            console.log(products)
             return products
         } catch (err: any) {
             console.log(`ERROR::: getRandomNewProducts, ${err.message}`)
@@ -22,3 +25,4 @@ class ProductServiceApi {
         }
     }
 }
+export default ProductServiceApi

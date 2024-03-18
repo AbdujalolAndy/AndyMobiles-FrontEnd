@@ -4,7 +4,7 @@ import { Box, Stack, Container } from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, EffectFade } from "swiper/modules"
 import { NavLink, useHistory } from "react-router-dom";
-import { verifiedMemberData } from "../../apiServices/verified"
+import { verifiedMemberData } from "../../apiServices/verified";
 import "swiper/css"
 import "../../css/general.css"
 import "../../css/navbar.css"
@@ -155,16 +155,21 @@ export const HomeNavbar = (props: any) => {
                                     Blog
                                 </NavLink>
                             </Box>
-                            <Box className="nav-item">
-                                <NavLink to="/user-page" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
-                                    My Page
-                                </NavLink>
-                            </Box>
-                            <Box className="nav-item">
-                                <NavLink to="/track-order" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
-                                    Track Orders
-                                </NavLink>
-                            </Box>
+                            {verifiedMemberData ? (
+                                <Box className="nav-item">
+                                    <NavLink to="/user-page" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
+                                        My Page
+                                    </NavLink>
+                                </Box>
+                            ) : null}
+                            {verifiedMemberData ? (
+                                <Box className="nav-item">
+                                    <NavLink to="/track-order" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
+                                        Track Orders
+                                    </NavLink>
+                                </Box>
+                            ) : null}
+
                             <Box className="nav-item">
                                 <NavLink to="/faq" className={scrolled ? "nav-link text-dark" : "nav-link text-secondary"} activeClassName="underline">
                                     Faq
@@ -192,8 +197,24 @@ export const HomeNavbar = (props: any) => {
                                 </button>
                             </Box>
                             <Box className="nav-item auth_user dropdown">
-                                <button className="btn btn-outline-secondary border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ boxShadow: "none" }}>
-                                    <i className="fa-solid fa-user"></i>
+                                <button
+                                    className="btn btn-outline-secondary border-0 d-flex justify-content-center"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    style={{
+                                        boxShadow: "none",
+                                        height: "60px",
+                                        width: "60px"
+                                    }}>
+                                    <img
+                                        style={{
+                                            height: "50px",
+                                            width: "50px",
+                                            color:"white",
+                                            borderRadius: "20%",
+                                        }}
+                                        src={verifiedMemberData?.mb_image ?? "/pictures/auth/default_user.svg"} alt="" />
                                 </button>
                                 <ul className="dropdown-menu">
                                     {
