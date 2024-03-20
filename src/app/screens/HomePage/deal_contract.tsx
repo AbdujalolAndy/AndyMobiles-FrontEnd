@@ -38,7 +38,7 @@ export const DealContract = () => {
                         <p className="text-secondary fs-6">We offer to our trustfull clients to buy product for monthly payment.</p>
                         <Stack flexDirection={"row"} alignItems={"center"} gap={"20px"}>
                             <div className="deal_learn">
-                                <a href=""> <span>LEARN MORE</span><i className="fa-solid ms-1 fa-arrow-up-right-from-square"></i></a>
+                                <a href="/faq"> <span>LEARN MORE</span><i className="fa-solid ms-1 fa-arrow-up-right-from-square"></i></a>
                             </div>
                             <a href="/products" className="btn btn-outline-secondary rounded-pill ps-5 pe-5">Buy Now</a>
                         </Stack>
