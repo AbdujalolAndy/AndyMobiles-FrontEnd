@@ -12,7 +12,7 @@ class ProductServiceApi {
         try {
             const url = `${this.path}/products/getTargetProducts`
             const result = await axios.post(url, data, { withCredentials: true })
-            console.log(`getRandomProducts state::: ${result.data.state}`)
+            console.log(`getTargetProducts state::: ${result.data.state}`)
             if (result?.data?.state == "fail") {
                 throw new Error(result.data.message)
             }
@@ -24,5 +24,6 @@ class ProductServiceApi {
             throw err
         }
     }
+
 }
 export default ProductServiceApi

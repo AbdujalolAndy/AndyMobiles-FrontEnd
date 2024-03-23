@@ -173,11 +173,12 @@
     border-radius: 10px 10px 0 0;
     margin: 0 20px;
     max-height: 100px;
-    bottom: 100px;
+    bottom: 0px;
     background-color: #fff;
     transform: translateY(50%);
     opacity: 0;
     transition: all .6s ease-in-out;
+    box-shadow: 0 0 4px black;
 }
 
 .slider-card:hover .card-features,
@@ -227,6 +228,14 @@
     margin: 50px 20px;
     padding: 20px 35px;
     border-radius: 30px;
+    box-shadow: 0 0 5px black;
+    cursor: pointer;
+    transform: scale(1);
+    transition: transform .3s ease-in-out
+}
+
+.brand_card:hover {
+    transform: scale(1.1);
 }
 
 .brand_img {
@@ -337,6 +346,39 @@
     width: 100%;
     height: 90%;
     position: relative;
+}
+
+.swiper-card .card-img {
+    position: relative;
+    height: 220px;
+    border-radius: 20px;
+    box-shadow: 0 0 0 black;
+    transition: box-shadow .4s ease-in-out;
+}
+
+.swiper-card .card-img:hover {
+    box-shadow: 0 0 10px black;
+}
+
+.product_img_1,
+.product_img_2 {
+    position: absolute;
+    opacity: 0;
+    transition: opacity .6s ease-in-out;
+    top: 20px;
+    cursor: pointer;
+}
+
+.product_fade:not(:hover) .product_img_1 {
+    opacity: 1;
+}
+
+.product_fade:hover .product_img_2 {
+    opacity: 1;
+}
+
+.card-img .card-img_badge {
+    left: -200px
 }
 
 .product_card .product_badge {
@@ -504,6 +546,8 @@
 .serviceInfoPage {
     width: 100%;
     height: 330px;
+    position: relative;
+    z-index: 100;
 }
 
 .service-wrapper {
@@ -539,4 +583,3 @@
 /* Service Info Style */
 
 /*Screen Resolution*/
-

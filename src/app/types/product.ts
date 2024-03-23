@@ -15,11 +15,13 @@ export interface Product {
     product_status: string;
     product_new_released: string;
     product_discount: number;
-    product_monthly_fee: number;
+    product_contract: number;
     product_likes: number;
     product_views: number;
+    product_comments: number;
     product_description: string;
-    product_related_colors:any
+    product_related_colors:any;
+    owner_data:any;
     createdAt:Date;
     updateAt:Date;
 }
@@ -37,4 +39,5 @@ export interface ProductSearchObject{
     color?:string;
     storage?:number;
     search?:string;
+    homeProduct?:string
 }

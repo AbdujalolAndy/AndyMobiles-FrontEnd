@@ -211,10 +211,10 @@ export const HomeNavbar = (props: any) => {
                                         style={{
                                             height: "50px",
                                             width: "50px",
-                                            color:"white",
+                                            color: "white",
                                             borderRadius: "20%",
                                         }}
-                                        src={verifiedMemberData?.mb_image ?? "/pictures/auth/default_user.svg"} alt="" />
+                                        src={verifiedMemberData?.mb_image ? verifiedMemberData?.mb_image : "/pictures/auth/default_user.svg"} alt="" />
                                 </button>
                                 <ul className="dropdown-menu">
                                     {

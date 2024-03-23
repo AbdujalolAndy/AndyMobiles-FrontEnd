@@ -31,6 +31,9 @@ export const NewProducts = () => {
     const { randomNewProducts } = useSelector(randomNewProductsRetriever)
     const [chosenColor, setChosenColor] = useState<string>("");
     const [productIndex, setProductIndex] = useState({ key: "ss", index: 0 })
+    const [hoverProduct, setHoverProduct] = useState({
+        product_id: ""
+    })
     function handleSortColor(color: string, key: string, index: number) {
         const newObject = { key: key, index: index }
         setProductIndex(newObject)
@@ -66,23 +69,37 @@ export const NewProducts = () => {
                 className="product-swiper cards"
             >
                 {randomNewProducts.map((ele: Product, index) => {
-                    let image_url = `${serverApi}/${ele.product_images[0]}`,
+                    let image_url_1 = `${serverApi}/${ele.product_images[0]}`,
+                        image_url_2 = `${serverApi}/${ele.product_images[1]}`,
                         discount_price = ele.product_price - (ele.product_price * (ele.product_discount / 100))
                     return (
                         <SwiperSlide className="swiper-card">
                             <Box className={"slider-card border-0"} id="card">
-                                <div className="card-img" style={{ transition: "2s ease-in-out" }}>
-                                    <img src={ele._id == productIndex.key ? `${serverApi}/${ele.product_related_colors[productIndex.index].product_images[0]}` : image_url} alt="phone1" />
+                                <div className="card-img product_fade">
+                                    <img
+                                        src={ele._id == productIndex.key ? `${serverApi}/${ele.product_related_colors[productIndex.index].product_images[0]}` : image_url_1}
+                                        alt="phone1"
+                                        className="product_img_1"
+                                    />
+                                    <img
+                                        src={ele._id == productIndex.key ? `${serverApi}/${ele.product_related_colors[productIndex.index].product_images[0]}` : image_url_2}
+                                        alt="phone1"
+                                        className="product_img_2"
+                                    />
                                     <Stack className="card-features" gap="5px">
-                                        <Box><Favorite sx={{ fill: "" }} /></Box>
-                                        <Box><i className="fa-solid fa-square-up-right"></i></Box>
-                                        <Box><i className="fa-solid fa-sack-dollar text-dark fs-5"></i></Box>
+                                        <Box className={"d-flex justify-content-center align-items-center"}><Favorite sx={{ fill: "red" }} /></Box>
                                     </Stack>
-                                    <Stack flexDirection={"row"} justifyContent={"center"} alignItems={"center"} gap={"7px"} className="product_sort" flexWrap={"wrap"}>
+                                    <Stack
+                                        flexDirection={"row"}
+                                        justifyContent={"center"}
+                                        alignItems={"center"}
+                                        gap={"7px"}
+                                        className="product_sort"
+                                        flexWrap={"wrap"}
+                                    >
                                         {
                                             ele?.product_related_colors?.map((product: any, index: number) => {
                                                 let product_color = product.product_color.toLowerCase()
-                                                console.log(product_color)
                                                 return (
                                                     <button
                                                         type="button"
@@ -99,11 +116,34 @@ export const NewProducts = () => {
 
                                         }
                                     </Stack>
-                                    <div className="bg-danger position-absolute ">NEW</div>
+                                    <div className="bg-danger position-absolute card-img_badge">NEW</div>
                                 </div>
-                                <div className="card-text mt-3 fs-5">
-                                    {ele.product_name}
-                                </div>
+                                <Stack flexDirection={"row"} justifyContent={"space-between"} className="mt-3 ps-1 pe-1">
+                                    <div className="card-text fs-6 fw-bold text-warning">
+                                        {ele.product_name}
+                                    </div>
+                                    <Stack
+                                        flexDirection={"row"}
+                                        gap={'5px'}
+                                        sx={{ fontSize: "12px" }}
+                                        alignItems={"center"}
+                                    >
+                                        <Stack flexDirection={"row"} gap={'3px'} alignItems={"center"}>
+                                            <i className="fa-solid fa-comments"></i>
+                                            {ele.product_comments ?? "0"}
+                                        </Stack>
+                                        |
+                                        <Stack flexDirection={"row"} gap={'3px'} alignItems={"center"}>
+                                            <i className="fa-solid fa-heart"></i>
+                                            {ele.product_likes ?? "0"}
+                                        </Stack>
+                                        |
+                                        <Stack flexDirection={"row"} gap={'3px'} alignItems={"center"}>
+                                            <i className="fa-solid fa-eye"></i>
+                                            {ele.product_views ?? "0"}
+                                        </Stack>
+                                    </Stack>
+                                </Stack>
                                 <div className="card-text mt-3 fw-bold">
                                     {ele.product_discount ? (<div>{discount_price}₩<span className="text-secondary ms-2"><s>{ele.product_price}₩</s></span></div>) : ele.product_price + "₩"}
                                 </div>

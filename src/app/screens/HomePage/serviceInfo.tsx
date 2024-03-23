@@ -12,7 +12,7 @@ const ServiceInfo = () => {
                         </div>
                         <img src="/icons/deliver_car.gif" alt="" />
                         <p className="text-light fw-bold fs-6 ps-5 pe-5">Safe, contact-free delivery to your home, inside or outside.</p>
-                        <a href="">
+                        <a href="/faq">
                             <span className="text-info link_info">
                                 LEARN MORE
                             </span>
@@ -25,10 +25,10 @@ const ServiceInfo = () => {
                         </div>
                         <img src="/icons/return.png" alt="" />
                         <p className="text-light fw-bold fs-6 ps-5 pe-5">Free returns up to 15 days after delivery of an appliance.</p>
-                        <a href="#">
-                            <span className="text-info link_info">
+                        <a href="/faq">
+                            <a href="/faq" className="text-info link_info">
                                 LEARN MORE
-                            </span>
+                            </a>
                             <i className="fa-solid fa-arrow-up-right-from-square ms-2"></i>
                         </a>
                     </div>
@@ -38,7 +38,7 @@ const ServiceInfo = () => {
                         </div>
                         <img src="/icons/globe.gif" alt="" />
                         <p className="text-light fw-bold fs-6 ps-5 pe-5">Safe, contact-free delivery to your home, inside or outside.</p>
-                        <NavLink to="s">
+                        <NavLink to="/faq">
                             <span className="text-info link_info">
                                 LEARN MORE
                             </span>
