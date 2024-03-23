@@ -177,7 +177,11 @@
     background-color: #fff;
     transform: translateY(50%);
     opacity: 0;
+    box-shadow: 0 0 0px black;
     transition: all .6s ease-in-out;
+}
+
+.product_fade:hover .product_sort{
     box-shadow: 0 0 4px black;
 }
 
@@ -497,13 +501,20 @@
 }
 
 .post_card:hover {
-    box-shadow: 0 0 5px black;
     z-index: 10;
 }
 
 .post_card .post_img {
     position: relative;
+    border-radius: 20px;
+    overflow: hidden;
 }
+
+.post_card .post_img:hover {
+    box-shadow: 0 0 10px black;
+
+}
+
 
 .post_card .post_img .post_type {
     position: absolute;
@@ -529,6 +540,7 @@
     text-transform: capitalize;
     font-size: 18px;
     font-weight: bold;
+    color: #c6c2c4;
 }
 
 .post_card .post_title:hover {

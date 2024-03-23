@@ -8,7 +8,7 @@
 }
 
 .navbar-container {
-    z-index: 100;
+    z-index: 150;
     position: fixed;
     margin-top: 0px;
     width: 100%;

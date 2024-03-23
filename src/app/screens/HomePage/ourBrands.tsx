@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Container, Stack } from "@mui/material"
 import { Autoplay, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -26,14 +26,27 @@ const targetBrandRetriever = createSelector(
 export const OurBrands = () => {
     //Initializations
     const logo_Colors = ["#BCE7F0", "#F9CADA", "#1B448B", "#FBE285", "#F0F0F0", "#858DFA"];
-    const {setTargetBrands} = actionDispatch(useDispatch())
+    const { setTargetBrands } = actionDispatch(useDispatch())
     const { targetBrands } = useSelector(targetBrandRetriever)
+    const [scroll, setScroll] = useState<boolean>(false)
+
     //Three circle Hook
     useEffect(() => {
+        function handlerScroll() {
+            if (window.scrollY > 1300) {
+                setScroll(true)
+            } else {
+                setScroll(false)
+            }
+        }
+        window.addEventListener("scroll", handlerScroll)
         const brandsServiceApi = new BrandsServiceApi()
         brandsServiceApi.getTargetBrands({ random: true, limit: 10 })
             .then(data => setTargetBrands(data))
             .catch(err => console.log(err))
+        return () => {
+            window.removeEventListener("scroll", handlerScroll)
+        }
     }, [])
     return (
         <Box className="mt-5 ourBrand mb-5">
@@ -45,6 +58,10 @@ export const OurBrands = () => {
                     pagination={{ clickable: true }}
                     autoplay={{ delay: 2000, pauseOnMouseEnter: true }}
                     modules={[Autoplay, Pagination]}
+                    data-aos="fade-left"
+                    data-aos-delay={500}
+                    className={scroll ? "aos-animate" : ""}
+                    style={{ transition: "all .3s ease-in-out" }}
                 >
                     <Stack className="brand_cards" flexDirection={"row"} justifyContent={"space-evenly"}>
                         {targetBrands.map((brand: Brand, index: number) => {

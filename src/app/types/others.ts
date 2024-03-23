@@ -3,8 +3,8 @@ import { Product } from "./product";
 export interface HomePageProducts {
     scrolled: boolean;
     products: Product[];
-    setSearchObjHome:any;
-    searchObjHome:searchObjHome
+    setSearchObjHome: any;
+    searchObjHome: searchObjHome
 }
 
 export interface searchObjHome {
@@ -12,4 +12,12 @@ export interface searchObjHome {
     page: number;
     order: string;
     homeProduct: string;
+}
+
+export interface searchBlogs {
+    order?: string,
+    filter: string,
+    page: number;
+    limit: number;
+    mb_id?: string;
 }

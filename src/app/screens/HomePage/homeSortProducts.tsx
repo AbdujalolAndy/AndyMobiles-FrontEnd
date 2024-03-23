@@ -31,7 +31,7 @@ const HomeSortProducts = (props: any) => {
     const [value, setValue] = useState<string>("1");
     const { setTargetProducts } = actionDispatch(useDispatch());
     const { targetProducts } = useSelector(targetProductsRetrieve);
-    const [searchObjHome, setSearchObjHome] = useState<searchObjHome>({                
+    const [searchObjHome, setSearchObjHome] = useState<searchObjHome>({
         limit: 4,
         page: 1,
         order: "sale",
@@ -42,10 +42,9 @@ const HomeSortProducts = (props: any) => {
         //Fetching Data
         const productServiceApi = new ProductServiceApi();
         productServiceApi.getTargetProducts(searchObjHome).then(data => setTargetProducts(data)).catch(err => console.log(err))
-        console.log(targetProducts)
         //handlers
         function handleScroll() {
-            setScrolled(window.scrollY > 1900)
+            setScrolled(window.scrollY > 2400)
         }
         window.addEventListener("scroll", handleScroll)
         return () => {
@@ -54,9 +53,9 @@ const HomeSortProducts = (props: any) => {
     }, [value, searchObjHome])
 
     //handlers
-    const handleProducts = (order: string, status:string) => {
-        const newSearchObj = {...searchObjHome}
-        newSearchObj.order= status
+    const handleProducts = (order: string, status: string) => {
+        const newSearchObj = { ...searchObjHome }
+        newSearchObj.order = status
         newSearchObj.page = 1
         setSearchObjHome(newSearchObj)
         setValue(order)
@@ -75,7 +74,7 @@ const HomeSortProducts = (props: any) => {
                     <HomeProducts
                         scrolled={scrolled}
                         products={targetProducts}
-                        searchObjHome = {searchObjHome}
+                        searchObjHome={searchObjHome}
                         setSearchObjHome={setSearchObjHome}
                     />
                 </TabPanel>
