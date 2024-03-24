@@ -1,16 +1,59 @@
 import React, { useEffect, useState } from "react"
 import { Box, Button, Container, Pagination, PaginationItem, Stack } from "@mui/material"
-import { ArrowBack, ArrowForward, Favorite, RemoveRedEye } from "@mui/icons-material"
-import "../../css/brandsPage.css"
+import { ArrowBack, ArrowForward, Favorite, RemoveRedEye, Comment } from "@mui/icons-material"
+import "../../css/brandsPage.css";
+
+//REDUX
+import { createSelector } from "reselect"
+import { Dispatch } from "@reduxjs/toolkit";
+import { Brand } from "../../types/member";
+import { setTargetBrands } from "./slice";
+import { retrieveTargetBrands } from "./selector";
+import { useDispatch, useSelector } from "react-redux";
+import BrandsServiceApi from "../../apiServices/brandsServiceApi";
+import { serverApi } from "../../../lib/config";
+
+//SLICE
+const actionDispatch = (dispatch: Dispatch) => ({
+    setTargetBrands: (data: Brand[]) => dispatch(setTargetBrands(data))
+})
+
+//SELECTOR
+const targetBrandsRetriever = createSelector(
+    retrieveTargetBrands,
+    (targetBrands) => ({ targetBrands })
+)
 
 const BrandPage = () => {
+    //Initializations
     const [load, setLoad] = useState<boolean>(false);
     const [boxSize, setBoxSize] = useState<string>("23%")
+    const { setTargetBrands } = actionDispatch(useDispatch())
+    const { targetBrands } = useSelector(targetBrandsRetriever)
+    const [searchObj, setSearchObj] = useState({ limit: 6, order: "createdAt", search: "", page: 1 })
+    //Three circle Hook
     useEffect(() => {
+        const brandsServiceApi = new BrandsServiceApi
+        brandsServiceApi.getTargetBrands(searchObj).then(data => setTargetBrands(data)).catch(err => console.log(err))
+        window.scrollTo(0, 0)
         setLoad(true)
-    }, [])
+    }, [searchObj])
+
+    //Handlers
     function handleBoxSize(size: string) {
         setBoxSize(size)
+    }
+    function handlePagination(e: any, value: number) {
+        searchObj.page = value;
+        setSearchObj({ ...searchObj })
+    }
+    function handleFilter(e: any) {
+        searchObj.order = e.target.value
+        setSearchObj({ ...searchObj })
+    }
+    function handleSearch(e: any) {
+        searchObj.search = e.target.value
+        setSearchObj({ ...searchObj })
     }
     return (
         <Box>
@@ -26,83 +69,107 @@ const BrandPage = () => {
                         <button className="btn" onClick={() => handleBoxSize("48%")}>
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z" /></svg>
                         </button>
-                        <button className="btn" onClick={() => handleBoxSize("90%")}>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-520q-33 0-56.5-23.5T120-600v-160q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v160q0 33-23.5 56.5T760-520H200Zm0-80h560v-160H200v160Zm0 480q-33 0-56.5-23.5T120-200v-160q0-33 23.5-56.5T200-440h560q33 0 56.5 23.5T840-360v160q0 33-23.5 56.5T760-120H200Zm0-80h560v-160H200v160Zm0-400v-160 160Zm0 400v-160 160Z" /></svg>
-                        </button>
                     </Stack>
                     <Stack className="sort_items" flexDirection={"row"} gap={"20px"} alignItems={"center"}>
                         <Box className="show_items">
-                            Showing 1 - 12 of 54 results  Show <span className="border ps-3 pe-3 pt-2 pb-2">12</span> per page
+                            Showing <span className="border ps-3 pe-3 pt-2 pb-2">{targetBrands.length}</span> brands per page
                         </Box>
                         <Box className="order_items">
-                            <select className="form-select" id="order_item">
-                                <option value="">All Brands</option>
-                                <option value="">Popular Brands</option>
-                                <option value="">Top Brands</option>
-                                <option value="">Best Selling</option>
+                            <select className="form-select" id="order_item" onChange={handleFilter}>
+                                <option value="createdAt">New to Old</option>
+                                <option value="mb_likes">Popular Brands</option>
+                                <option value="mb_top">Top Brands</option>
+                                <option value="mb_views">Best Selling</option>
                             </select>
                         </Box>
                         <Box className="search_input">
-                            <input type="text" className="pe-3 ps-3 fs-6" placeholder="Search, Brand" />
+                            <input type="text" className="pe-3 ps-3 fs-6" placeholder="Search, Brand" onKeyUpCapture={handleSearch} />
                         </Box>
                     </Stack>
                 </Stack>
                 <hr />
-                <Stack className="brands_items container" flexDirection={"row"} flexWrap={"wrap"} gap={"10px"} justifyContent={"center"}>
-                    {Array.from({ length: 12 }).map((ele, index) => (
-                        <div className={load ? "card aos-animate" : "card"} data-aos="fade-right" data-aos-delay={150 * index} style={{ width: boxSize }}>
-                            <img src="https://images.unsplash.com/photo-1656618020911-1c7a937175fd?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NTc1MzQyNTE&ixlib=rb-1.2.1&q=80" alt="" />
-                            <div className="card-content">
-                                <Stack flexDirection={"row"} className="card_title" alignItems={"center"} justifyContent={"space-between"}>
-                                    <div className="fw-bold fs-4 brand_name">Apple</div>
-                                    <div className="review">
-                                        <Button className="text-warning fw-bold">
-                                            {25}
-                                            <Favorite style={{ fill: "white", marginLeft: "3px" }} />
-                                        </Button>
-                                        {"|"}
-                                        <Button className="text-success fw-bold">
-                                            {39}
-                                            <RemoveRedEye style={{ fill: "white", marginLeft: "3px" }} />
-                                        </Button>
-
+                <Stack className="brands_items container" flexDirection={"row"} flexWrap={"wrap"} gap={"10px"} justifyContent={"start"}>
+                    {targetBrands.map((ele: Brand, index) => {
+                        const image_url = `${serverApi}/${ele.mb_image}`
+                        return (
+                            <div className={load ? "card aos-animate" : "card"} data-aos="fade-right" data-aos-delay={150 * index} style={{ width: boxSize }}>
+                                <button
+                                    className="btn btn-outline-secondary rounded-circle"
+                                    style={{ width: "50px", height: '50px', position: "absolute", right: "20px", top: "20px", zIndex: 100 }}
+                                >
+                                    <Favorite style={{ fill: "white" }} />
+                                </button>
+                                <div className="brand_img">
+                                    <img src={image_url} alt="" />
+                                </div>
+                                <div className="card-content">
+                                    <Stack
+                                        flexDirection={"row"}
+                                        className="card_title"
+                                        alignItems={"center"}
+                                        justifyContent={"space-between"}
+                                    >
+                                        <div className="fw-bold fs-4 brand_name">{ele.mb_nick}</div>
+                                        <Stack
+                                            flexDirection={"row"}
+                                            alignItems={"center"}
+                                            gap={"5px"}
+                                            sx={{ fontSize: "12px" }}
+                                        >
+                                            <div className="text-dark fw-bold">
+                                                <Favorite style={{ fill: "white", marginRight: "2px" }} />
+                                                {ele.mb_likes.toString()}
+                                            </div>
+                                            {"|"}
+                                            <div className="text-dark fw-bold">
+                                                <RemoveRedEye style={{ fill: "white", marginRight: "2px" }} />
+                                                {ele.mb_views.toString()}
+                                            </div>
+                                            {"|"}
+                                            <div className="text-dark fw-bold">
+                                                <Comment style={{ fill: "white", marginRight: "2px" }} />
+                                                {ele.mb_comments ? ele.mb_comments.toString() : 0}
+                                            </div>
+                                        </Stack>
+                                    </Stack>
+                                    <div className="card_description">
+                                        <Stack className="adddress mb-3" flexDirection={"row"} gap="10px" alignItems={"center"}>
+                                            <i className="fa-solid fa-location-dot text-warning"></i>
+                                            <div className="address_name">
+                                                {ele.mb_address}
+                                            </div>
+                                        </Stack>
+                                        <Stack className="contact mb-3" flexDirection={"row"} gap="10px" alignItems={"center"}>
+                                            <i className="fa-solid fa-address-book text-warning"></i>
+                                            <div className="contact_number">
+                                                +{ele.mb_phone}
+                                            </div>
+                                        </Stack>
+                                        <Stack className="email mb-3" flexDirection={"row"} gap="10px" alignItems={"center"}>
+                                            <i className="fa-solid fa-envelope text-warning"></i>
+                                            <div className="email_address">
+                                                {ele.mb_email ? ele.mb_email : "no email address"}
+                                            </div>
+                                        </Stack>
                                     </div>
-                                </Stack>
-                                <div className="card_description">
-                                    <Stack className="adddress mb-3" flexDirection={"row"} gap="10px" alignItems={"center"}>
-                                        <i className="fa-solid fa-location-dot text-warning"></i>
-                                        <div className="address_name">
-                                            Gwangju buk-gu 102
-                                        </div>
-                                    </Stack>
-                                    <Stack className="contact mb-3" flexDirection={"row"} gap="10px" alignItems={"center"}>
-                                        <i className="fa-solid fa-address-book text-warning"></i>
-                                        <div className="contact_number">
-                                            +8210 3201 1222
-                                        </div>
-                                    </Stack>
-                                    <Stack className="email mb-3" flexDirection={"row"} gap="10px" alignItems={"center"}>
-                                        <i className="fa-solid fa-envelope text-warning"></i>
-                                        <div className="email_address">
-                                            example@gmail.com
-                                        </div>
-                                    </Stack>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        )
+                    })}
                 </Stack>
                 <Container className="d-flex">
                     <Pagination
                         className="brand_pagination d-flex justify-content-center mt-5"
-                        page={1}
-                        count={3}
+                        page={searchObj.page}
+                        count={searchObj.page > 3 ? searchObj.page + 1 : 3}
+                        onChange={handlePagination}
                         renderItem={(item) => (
                             <PaginationItem
                                 components={{
                                     previous: ArrowBack,
                                     next: ArrowForward
                                 }}
+
                                 {...item}
                                 color="secondary"
                             />

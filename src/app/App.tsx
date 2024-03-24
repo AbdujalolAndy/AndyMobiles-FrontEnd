@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Switch, useLocation } from 'react-router-dom'
 import HomePage from './screens/HomePage'
 import BrandsPage from './screens/BrandPage'
@@ -30,6 +30,7 @@ const App: React.FC = () => {
   const { pathname } = useLocation();
   const [openAuth, setOpenAuth] = useState(false)
   const [openBasket, setOpenBasket] = useState(false)
+
 
   //Handlers
   function handleSignUpClose() { setOpenAuth(false) }

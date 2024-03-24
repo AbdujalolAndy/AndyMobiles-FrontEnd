@@ -3,7 +3,7 @@ import { HomePageState } from "../../types/screen";
 
 
 const initialState: HomePageState = {
-    targetBrands: [],
+    topRandomBrands: [],
     randomNewProducts: [],
     targetProducts: [],
     communityPost: []
@@ -13,8 +13,8 @@ const HomePageSlice = createSlice({
     name: "Home",
     initialState,
     reducers: {
-        setTargetBrands: (state, action) => {
-            state.targetBrands = action.payload
+        setTopRandomBrands: (state, action) => {
+            state.topRandomBrands = action.payload
         },
         setRandomNewProducts: (state, action) => {
             state.randomNewProducts = action.payload
@@ -29,7 +29,7 @@ const HomePageSlice = createSlice({
 })
 
 export const {
-    setTargetBrands,
+    setTopRandomBrands,
     setCommunityPost,
     setRandomNewProducts,
     setTargetProducts

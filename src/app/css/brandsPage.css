@@ -1,13 +1,15 @@
-.brands{
+.brands {
     background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
-.brand_name{
-    background:-webkit-linear-gradient(rgb(229, 193, 193), white);
+
+.brand_name {
+    background: -webkit-linear-gradient(rgb(229, 193, 193), white);
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
 .card {
     box-sizing: border-box;
     height: 30rem;
@@ -16,18 +18,26 @@
     cursor: pointer;
     position: relative;
     color: #f0f0f0;
-    box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
 }
 
-.card img {
-    position: absolute;
-    object-fit: cover;
-    width: 100%;
+.card {
+    background-image: radial-gradient(rgb(240, 184, 43), rgb(229, 192, 24))
+}
+
+.card .brand_img {
     height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0.9;
-    transition: opacity 0.2s ease-out;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s ease-in-out;
+    filter: blur(0)
+}
+
+.card .brand_img img {
+    max-width: 200px;
+    max-height: 150px;
 }
 
 .card .card_title {
@@ -41,7 +51,7 @@
     text-transform: uppercase;
 }
 
-.card .card_description{
+.card .card_description {
     position: absolute;
     opacity: 0;
     max-width: 80%;
@@ -53,13 +63,16 @@
     inset: auto auto 20px 30px;
 }
 
+.card:hover .brand_img {
+    filter: blur(15px);
+}
 
 .card:hover .card_title {
     inset: auto auto 220px 30px;
     transition: inset 0.3s ease-out;
 }
 
-.card:hover .card_description{
+.card:hover .card_description {
     opacity: 1;
     transition: opacity 0.5s 0.1s ease-in;
 }
@@ -72,7 +85,8 @@
 .material-symbols-outlined {
     vertical-align: middle;
 }
-.brand_pagination{
+
+.brand_pagination {
     box-shadow: none;
     background-color: transparent
 }

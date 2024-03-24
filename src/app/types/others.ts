@@ -21,3 +21,11 @@ export interface searchBlogs {
     limit: number;
     mb_id?: string;
 }
+
+export interface searchTargetBrands {
+    limit: number;
+    order?: string;
+    page?: number;
+    search?: string;
+    random?: boolean;
+}

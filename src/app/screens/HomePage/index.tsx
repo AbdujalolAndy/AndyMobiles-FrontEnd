@@ -10,11 +10,16 @@ import Footer from "../../components/footer"
 import { DownToUpBtn } from "../../components/features/downToUpBtn"
 import "../../css/homePage.css"
 import "swiper/swiper-bundle.css"
+import { useEffect } from "react"
 
 interface homePage {
-    deviceDetect:any
+    deviceDetect: any
 }
-function HomePage(props:homePage) {
+function HomePage(props: homePage) {
+    //three circle Hook
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <Box className="HomePage">
             <NewProducts />
@@ -25,7 +30,7 @@ function HomePage(props:homePage) {
             <ServiceInfo />
             <CommunityPosts />
             <Footer />
-            <DownToUpBtn address={"#"}/>
+            <DownToUpBtn address={"#"} />
         </Box>
     )
 }

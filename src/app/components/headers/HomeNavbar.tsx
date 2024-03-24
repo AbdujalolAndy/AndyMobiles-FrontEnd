@@ -177,13 +177,16 @@ export const HomeNavbar = (props: any) => {
                             </Box>
                         </Stack>
                         <Stack className="nav-features fs-5 gap-4" flexDirection={"row"} alignItems={"center"}>
-                            <Box className="nav-item">
-                                <NavLink to="/user-page/" className={scrolled ? "nav-link text-dark position-relative" : "nav-link text-secondary position-relative"}>
+                            <Box className="nav-item basket_btn">
+                                <button
+                                    className={scrolled ? "btn btn-outline-secondary border-0 position-relative" : "btn btn-outline-secondary border-0 position-relative"}
+                                    onClick={() => window.location.replace("/user-page")}
+                                >
                                     <i className="fa-regular fa-heart"></i>
-                                    <span className="position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle nav-badge text-center">
+                                    <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
                                         0
                                     </span>
-                                </NavLink>
+                                </button>
                             </Box>
                             <Box className="nav-item basket_btn">
                                 <button

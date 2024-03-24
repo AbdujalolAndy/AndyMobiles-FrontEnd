@@ -1,6 +1,7 @@
 import axios from "axios"
 import { serverApi } from "../../lib/config"
 import { Brand } from "../types/member"
+import { searchTargetBrands } from "../types/others"
 
 class BrandsServiceApi {
     private readonly path: string
@@ -8,16 +9,19 @@ class BrandsServiceApi {
         this.path = serverApi
     }
 
-    async getTargetBrands(data: any): Promise<Brand[]> {
+    async getTargetBrands(data: searchTargetBrands): Promise<Brand[]> {
         try {
-            const url = `${this.path}/brands/getTargetBrands?random=${data.random}&limit=${data.limit}`,
-                result = await axios.get(url, { withCredentials: true });
+            let initialUrl = `${this.path}/brands/getTargetBrands?limit=${data.limit}`;
+            if (data.random) initialUrl += `&random=${data.random}`;
+            if (data.order) initialUrl += `&order=${data.order}`;
+            if (data.page) initialUrl += `&page=${data.page}`;
+            if (data.search) initialUrl += `&search=${data.search}`;
+            const result = await axios.get(initialUrl, { withCredentials: true });
             console.log(`getTargetBrands state::: ${result.data.state}`);
             if (result.data.message === "fail") {
-                throw new Error(result.data.message)
+                throw new Error(result.data.message);
             }
             const brands: Brand[] = result.data.value
-            console.log(`getTargetBrands::: ${brands}`)
             return brands
         } catch (err: any) {
             throw err

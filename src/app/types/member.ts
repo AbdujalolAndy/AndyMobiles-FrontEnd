@@ -11,6 +11,7 @@ export interface Brand {
     mb_email: String;
     mb_likes: Number;
     mb_views: Number;
+    mb_comments: Number;
     mb_followers: Number;
     mb_followings: Number;
     mb_description: String;
