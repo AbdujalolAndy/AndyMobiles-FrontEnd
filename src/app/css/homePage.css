@@ -133,7 +133,6 @@
     top: 30px;
     left: 25px;
     padding: 3px 7px;
-    box-shadow: 0 0 5px black;
 }
 
 .hot-products .hot-products-title {
@@ -190,8 +189,21 @@
     transform: translateY(0%);
     opacity: 1;
 }
+.product_sort .color-select{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
 
-.product_sort button {
+.product_sort .color-select>span{
+    font-size: 10px;
+    font-weight: bold;
+    color: black;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.color-select button {
     background-color: rgb(210, 228, 245);
     display: flex;
     align-items: center;

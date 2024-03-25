@@ -33,7 +33,7 @@ export const OurBrands = () => {
     //Three circle Hook
     useEffect(() => {
         function handlerScroll() {
-            if (window.scrollY > 1300) {
+            if (window.scrollY > 1200) {
                 setScroll(true)
             } else {
                 setScroll(false)

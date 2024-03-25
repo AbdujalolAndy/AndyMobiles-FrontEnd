@@ -17,7 +17,7 @@ export interface AppRootState {
 export interface HomePageState {
     topRandomBrands: Brand[];
     randomNewProducts: Product[];
-    targetProducts: Product[];
+    targetHomeProducts: Product[];
     communityPost: Blog[]
 }
 
@@ -29,9 +29,9 @@ export interface BrandPageState {
 //Product Page State
 export interface ProductPageState {
     targetProducts: Product[];
-    chosenProduct: Product;
-    productDescription: Product;
+    chosenProduct: Product | null;
     productReview: Review[];
+    allBrands:Brand[]
 }
 
 //Blog Page State

@@ -55,12 +55,48 @@ const App: React.FC = () => {
         handleLogOut={handleLogOut}
         device={device}
       /> :
-        (pathname.includes("/brands") ? <NavbarOthers addressTitle="Brands" /> :
-          (pathname.includes("/products") ? <ProductNavbar addressTitle="Products" /> :
-            pathname.includes("/blogs") ? <NavbarOthers addressTitle="Blogs" /> :
-              pathname.includes("/track-order") ? <NavbarOthers addressTitle="Track My Order" /> :
-                pathname.includes("/faq") ? <NavbarOthers addressTitle="Faq" /> :
-                  pathname.includes("/user-page") ? <NavbarOthers addressTitle="My Page" /> :
+        (pathname.includes("/brands") ?
+          <NavbarOthers
+            addressTitle="Brands"
+            handleSignUpOpen={handleSignUpOpen}
+            handleBasketOpen={handleBasketOpen}
+            handleLogOut={handleLogOut}
+          /> :
+          (pathname.includes("/products") ?
+            <ProductNavbar
+              addressTitle="Products"
+              handleSignUpOpen={handleSignUpOpen}
+              handleBasketOpen={handleBasketOpen}
+              handleLogOut={handleLogOut}
+            /> :
+            pathname.includes("/blogs") ?
+              <NavbarOthers
+                addressTitle="Blogs"
+                handleSignUpOpen={handleSignUpOpen}
+                handleBasketOpen={handleBasketOpen}
+                handleLogOut={handleLogOut}
+              /> :
+              pathname.includes("/track-order") ?
+                <NavbarOthers
+                  addressTitle="Track My Order"
+                  handleSignUpOpen={handleSignUpOpen}
+                  handleBasketOpen={handleBasketOpen}
+                  handleLogOut={handleLogOut}
+                /> :
+                pathname.includes("/faq") ?
+                  <NavbarOthers
+                    addressTitle="Faq"
+                    handleSignUpOpen={handleSignUpOpen}
+                    handleBasketOpen={handleBasketOpen}
+                    handleLogOut={handleLogOut}
+                  /> :
+                  pathname.includes("/user-page") ?
+                    <NavbarOthers
+                      addressTitle="My Page"
+                      handleSignUpOpen={handleSignUpOpen}
+                      handleBasketOpen={handleBasketOpen}
+                      handleLogOut={handleLogOut}
+                    /> :
                     ""
           ))}
       <Switch>

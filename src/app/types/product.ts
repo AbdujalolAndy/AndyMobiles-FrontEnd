@@ -20,24 +20,23 @@ export interface Product {
     product_views: number;
     product_comments: number;
     product_description: string;
-    product_related_colors:any;
-    owner_data:any;
-    createdAt:Date;
-    updateAt:Date;
+    product_related_colors: any;
+    owner_data: any;
+    createdAt: Date;
+    updateAt: Date;
 }
 
-export interface ProductSearchObject{
-    limit:Number;
-    random?:boolean;
-    company_id?:string;
-    order:string;
-    page?:number
-    maxPrice?:number,
-    minPrice?:number;
-    minMonthlyFee?:number;
-    maxMonthlyFee?:number;
-    color?:string;
-    storage?:number;
-    search?:string;
-    homeProduct?:string
+export interface ProductSearchObject {
+    limit: Number;
+    random?: boolean;
+    company_id?: string;
+    order: string;
+    page?: number
+    maxPrice?: number | null,
+    minPrice?: number | null;
+    contractMonth?: string[]
+    color?: string;
+    storage?: number | null;
+    search?: string;
+    homeProduct?: string
 }

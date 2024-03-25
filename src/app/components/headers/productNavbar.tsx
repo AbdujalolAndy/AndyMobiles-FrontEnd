@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { Autoplay, EffectFade } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
+import { verifiedMemberData } from "../../apiServices/verified"
 
 
 export const ProductNavbar = (props: any) => {
@@ -25,14 +26,13 @@ export const ProductNavbar = (props: any) => {
     }, [])
     return (
         <Box className="productNavbar position-relative">
-            
-            <Stack 
-            style={scrolled?{}:{zIndex:"9", position:"relative"}}
-            className={scrolled ? "bg-light navbar-container" : ' bg-light container'}>
+            <Stack
+                style={scrolled ? {} : { zIndex: "9", position: "relative" }}
+                className={scrolled ? "bg-light navbar-container" : ' bg-light container'}>
                 <Box className={scrolled ? "navbar container" : " text-light navbar container position-absolute "} flexDirection={"row"}>
                     <Box className="navbar-brand nav-item">
-                        <NavLink to="/" className={"nav-link text-light"}>
-                            <span className={scrolled ? "text-dark" : "text-light"}>Andy</span><span className="text-warning">Mobiles</span>
+                        <NavLink to="/" className={"nav-link"}>
+                            <span className="text-secondary fs-1">Andy</span><span className="text-warning">Mobiles</span>
                         </NavLink>
                     </Box>
                     <Stack className="nav navbar" flexDirection={"row"}>
@@ -56,44 +56,87 @@ export const ProductNavbar = (props: any) => {
                                 Blog
                             </NavLink>
                         </Box>
-                        <Box className="nav-item">
-                            <NavLink to="/user-page" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
-                                My Page
-                            </NavLink>
-                        </Box>
-                        <Box className="nav-item">
-                            <NavLink to="/track-order" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
-                                Track Order
-                            </NavLink>
-                        </Box>
+                        {
+                            verifiedMemberData ? (
+                                <Box className="nav-item">
+                                    <NavLink to="/user-page" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
+                                        My Page
+                                    </NavLink>
+                                </Box>
+                            ) : null
+                        }
+                        {
+                            verifiedMemberData ? (
+                                <Box className="nav-item">
+                                    <NavLink to="/track-order" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
+                                        Track Order
+                                    </NavLink>
+                                </Box>
+                            ) : null
+                        }
+
                         <Box className="nav-item">
                             <NavLink to="/faq" className={scrolled ? "nav-link" : "nav-link text-light"} activeClassName="underline">
                                 Faq
                             </NavLink>
                         </Box>
                     </Stack>
-                    <Stack className="nav-features fs-5 gap-4" flexDirection={"row"}>
-                        <Box className="nav-item">
-                            <NavLink to="/" className={scrolled ? "nav-link" : "nav-link text-light"}><i className="fa-solid fa-search"></i></NavLink>
-                        </Box>
-                        <Box className="nav-item">
-                            <NavLink to="/" className={scrolled ? "nav-link" : "nav-link text-light"}><i className="fa-solid fa-user"></i></NavLink>
-                        </Box>
-                        <Box className="nav-item">
-                            <NavLink to="/" className="position-relative nav-link">
+                    <Stack
+                        className="nav-features fs-5 gap-4"
+                        flexDirection={"row"}
+                        alignItems={"center"}
+                    >
+                        <Box className="nav-item basket_btn">
+                            <button
+                                className={scrolled ? "btn btn-outline-secondary border-0 position-relative" : "btn btn-outline-secondary border-0 position-relative"}
+                                onClick={() => window.location.replace("/user-page")}
+                            >
                                 <i className="fa-regular fa-heart"></i>
-                                <span className="position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle nav-badge text-center">
+                                <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
                                     0
                                 </span>
-                            </NavLink>
+                            </button>
                         </Box>
-                        <Box className="nav-item">
-                            <NavLink to="/" className="nav-link position-relative">
+                        <Box className="nav-item basket_btn">
+                            <button
+                                className={scrolled ? "btn btn-outline-secondary border-0 position-relative" : "btn btn-outline-secondary border-0 position-relative"}
+                                onClick={props.handleBasketOpen}
+                            >
                                 <i className="fa-brands fa-shopify"></i>
                                 <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
                                     0
                                 </span>
-                            </NavLink>
+                            </button>
+                        </Box>
+                        <Box className="nav-item auth_user dropdown">
+                            <button
+                                className="btn btn-outline-secondary border-0 d-flex justify-content-center"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                style={{
+                                    boxShadow: "none",
+                                    height: "60px",
+                                    width: "60px"
+                                }}>
+                                <img
+                                    style={{
+                                        height: "50px",
+                                        width: "50px",
+                                        color: "white",
+                                        borderRadius: "20%",
+                                    }}
+                                    src={verifiedMemberData?.mb_image ? verifiedMemberData?.mb_image : "/pictures/auth/default_user.svg"} alt="" />
+                            </button>
+                            <ul className="dropdown-menu">
+                                {
+                                    verifiedMemberData ?
+                                        (<li><button className="dropdown-item" onClick={props.handleLogOut}>Log Out</button></li>) :
+                                        (<li><button className="dropdown-item" onClick={props.handleSignUpOpen}>Register</button></li>)
+                                }
+
+                                <li><a href="/track-order" className="dropdown-item">Track My Order</a></li>
+                            </ul>
                         </Box>
                     </Stack>
                 </Box>
@@ -114,7 +157,7 @@ export const ProductNavbar = (props: any) => {
                 </Container>
             </Box>
             <Swiper
-            centeredSlides={true}
+                centeredSlides={true}
                 effect="fade"
                 autoplay={
                     { delay: 6000 }

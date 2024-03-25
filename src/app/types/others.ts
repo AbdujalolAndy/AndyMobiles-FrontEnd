@@ -12,6 +12,7 @@ export interface searchObjHome {
     page: number;
     order: string;
     homeProduct: string;
+    contractMonth: string[]
 }
 
 export interface searchBlogs {

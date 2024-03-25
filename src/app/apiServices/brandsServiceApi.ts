@@ -2,6 +2,7 @@ import axios from "axios"
 import { serverApi } from "../../lib/config"
 import { Brand } from "../types/member"
 import { searchTargetBrands } from "../types/others"
+import Definer from "../../lib/Definer"
 
 class BrandsServiceApi {
     private readonly path: string
@@ -22,6 +23,21 @@ class BrandsServiceApi {
                 throw new Error(result.data.message);
             }
             const brands: Brand[] = result.data.value
+            return brands
+        } catch (err: any) {
+            throw err
+        }
+    }
+
+    async getAllBrands(): Promise<Brand[]> {
+        try {
+            const url = `${serverApi}/brands/getAllBrands`
+            const result = await axios.get(url, { withCredentials: true })
+            console.log(`getAllBrands state::: ${result.data.state}`)
+            if (result.data.state == "fail") {
+                throw new Error(Definer.general_err1)
+            }
+            const brands: Brand[] = result.data.value;
             return brands
         } catch (err: any) {
             throw err

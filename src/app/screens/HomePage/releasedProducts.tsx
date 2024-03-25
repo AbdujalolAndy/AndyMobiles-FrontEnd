@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Container, Stack } from "@mui/material"
+import { Box, Container, Popover, Stack, Typography } from "@mui/material"
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Favorite } from "@mui/icons-material"
@@ -31,24 +31,21 @@ export const NewProducts = () => {
     const { randomNewProducts } = useSelector(randomNewProductsRetriever)
     const [chosenColor, setChosenColor] = useState<string>("");
     const [productIndex, setProductIndex] = useState({ key: "ss", index: 0 })
-    const [hoverProduct, setHoverProduct] = useState({
-        product_id: ""
-    })
-    function handleSortColor(color: string, key: string, index: number) {
-        const newObject = { key: key, index: index }
-        setProductIndex(newObject)
-        setChosenColor(color)
-    }
-
     //3 circle
     useEffect(() => {
         const productServiceApi = new ProductServiceApi();
-        productServiceApi.getTargetProducts({ limit: 10, order: "new", random: true })
+        productServiceApi.getTargetProducts({ limit: 10, order: "new", random: true, contractMonth: [] })
             .then(data => setRandomNewProducts(data)).catch(err => {
                 console.log(err)
             })
     }, [])
 
+    //Handlers
+    function handleSortColor(color: string, key: string, index: number) {
+        const newObject = { key: key, index: index }
+        setProductIndex(newObject)
+        setChosenColor(color)
+    }
     return (
         <Container className="hot-products mt-5">
             <Box className="text-center  hot-products-title">
@@ -101,19 +98,20 @@ export const NewProducts = () => {
                                             ele?.product_related_colors?.map((product: any, index: number) => {
                                                 let product_color = product.product_color.toLowerCase()
                                                 return (
-                                                    <button
-                                                        type="button"
-                                                        style={chosenColor == `${product_color}${product._id}` ? { border: `2px solid ${product_color === "white" ? "gray" : product_color}` } : {}}
-                                                        data-bs-toggle="top"
-                                                        data-bs-title="Popover title"
-                                                        data-bs-content="Red"
-                                                        onClick={() => handleSortColor(`${product_color}${product._id}`, ele._id, index)}
-                                                    >
-                                                        <img src={`/pictures/products/${product_color}_phone.webp`} alt="" />
-                                                    </button>
+                                                    <div className="color-select">
+                                                        <button
+                                                            type="button"
+                                                            style={chosenColor == `${product_color}${product._id}` ? { border: `2px solid ${product_color === "white" ? "gray" : product_color}` } : {}}
+                                                            onClick={() => handleSortColor(`${product_color}${product._id}`, ele._id, index)}
+                                                        >
+                                                            <img src={`/pictures/products/${product_color}_phone.webp`} alt="" />
+                                                        </button>
+                                                        <span>
+                                                            {product_color}
+                                                        </span>
+                                                    </div>
                                                 )
                                             })
-
                                         }
                                     </Stack>
                                     <div className="bg-danger position-absolute card-img_badge">NEW</div>

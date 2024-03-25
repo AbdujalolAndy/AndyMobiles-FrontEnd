@@ -7,8 +7,8 @@ import { HomeProducts } from "./homeProducts";
 import { createSelector } from "reselect";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Product } from "../../types/product";
-import { setTargetProducts } from "./slice";
-import { retrieveTargetProducts } from "./selector";
+import { setTargetHomeProducts } from "./slice";
+import { retrieveTargetHomeProducts } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import ProductServiceApi from "../../apiServices/productServiceApi";
 import { searchObjHome } from "../../types/others";
@@ -16,32 +16,34 @@ import { searchObjHome } from "../../types/others";
 //Slice
 const actionDispatch = (dispatch: Dispatch) => (
     {
-        setTargetProducts: (data: Product[]) => (dispatch(setTargetProducts(data)))
+        setTargetHomeProducts: (data: Product[]) => (dispatch(setTargetHomeProducts(data)))
     }
 )
 //Selector
 const targetProductsRetrieve = createSelector(
-    retrieveTargetProducts,
-    (targetProducts) => ({ targetProducts })
+    retrieveTargetHomeProducts,
+    (targetHomeProducts) => ({ targetHomeProducts })
 )
 
 const HomeSortProducts = (props: any) => {
     //Initializations
     const [scrolled, setScrolled] = useState<boolean>(false);
     const [value, setValue] = useState<string>("1");
-    const { setTargetProducts } = actionDispatch(useDispatch());
-    const { targetProducts } = useSelector(targetProductsRetrieve);
+    const { setTargetHomeProducts } = actionDispatch(useDispatch());
+    const { targetHomeProducts } = useSelector(targetProductsRetrieve);
     const [searchObjHome, setSearchObjHome] = useState<searchObjHome>({
         limit: 4,
         page: 1,
         order: "sale",
-        homeProduct: "Y"
+        homeProduct: "Y",
+        contractMonth: []
+
     })
     //three circle hook
     useEffect(() => {
         //Fetching Data
         const productServiceApi = new ProductServiceApi();
-        productServiceApi.getTargetProducts(searchObjHome).then(data => setTargetProducts(data)).catch(err => console.log(err))
+        productServiceApi.getTargetProducts(searchObjHome).then(data => setTargetHomeProducts(data)).catch(err => console.log(err))
         //handlers
         function handleScroll() {
             setScrolled(window.scrollY > 2400)
@@ -73,7 +75,7 @@ const HomeSortProducts = (props: any) => {
                 <TabPanel value={"1"}>
                     <HomeProducts
                         scrolled={scrolled}
-                        products={targetProducts}
+                        products={targetHomeProducts}
                         searchObjHome={searchObjHome}
                         setSearchObjHome={setSearchObjHome}
                     />
@@ -81,7 +83,7 @@ const HomeSortProducts = (props: any) => {
                 <TabPanel value={"2"}>
                     <HomeProducts
                         scrolled={scrolled}
-                        products={targetProducts}
+                        products={targetHomeProducts}
                         searchObjHome={searchObjHome}
                         setSearchObjHome={setSearchObjHome}
                     />
@@ -89,7 +91,7 @@ const HomeSortProducts = (props: any) => {
                 <TabPanel value={"3"}>
                     <HomeProducts
                         scrolled={scrolled}
-                        products={targetProducts}
+                        products={targetHomeProducts}
                         searchObjHome={searchObjHome}
                         setSearchObjHome={setSearchObjHome}
                     />

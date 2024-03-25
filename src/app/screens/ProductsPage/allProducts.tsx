@@ -1,76 +1,69 @@
-import { ArrowBack, ArrowForward, Favorite, RemoveRedEye } from "@mui/icons-material";
-import { Box, Container, Pagination, PaginationItem, Stack } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import Slider, { SliderThumb } from "@mui/material/Slider";
+import { Box, Container, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
+
+//REDUX
+import { createSelector } from "reselect"
+import { Dispatch } from "@reduxjs/toolkit";
+import { setAllBrands, setTargetProducts } from "./slice";
+import { Product } from "../../types/product";
+import { useDispatch, useSelector } from "react-redux";
+import ProductServiceApi from "../../apiServices/productServiceApi";
+import { allBrandsRetriever, targetProductsRetriever } from "./selector";
+import { Brand } from "../../types/member";
+import BrandsServiceApi from "../../apiServices/brandsServiceApi";
+import { Products } from "./products";
+import { ProductFilter } from "../../components/filters/productFilter";
+
+//SLICE
+const actionDispath = (dispatch: Dispatch) => ({
+    setTargetProducts: (data: Product[]) => dispatch(setTargetProducts(data)),
+    setAllBrands: (data: Brand[]) => dispatch(setAllBrands(data))
+})
+//SELECTOR
+const retrieveTargetProducts = createSelector(
+    targetProductsRetriever,
+    (targetProducts) => ({ targetProducts })
+)
+
+const retrieveAllBrands = createSelector(
+    allBrandsRetriever,
+    (allBrands) => ({ allBrands })
+)
+
+
 
 const AllProducts = () => {
     //Hook intilizations 
-    const [chosenColor, setChosenColor] = useState<string>("");
-    const [loaded, setLoaded] = useState<boolean>(false);
     const [boxSize, setBoxSize] = useState<string>("45%");
-    const [priceRange, setPriceRange] = useState<number[]>([599, 999]);
-    const [chosenBrand, setChosenBrand] = useState<string>("");
-    const [filterChosenColor, setFilterChosenColor] = useState<string>("")
-    const [chosenStorage, setChosenStorage] = useState<number>()
+    const { setTargetProducts } = actionDispath(useDispatch());
+    const { setAllBrands } = actionDispath(useDispatch());
+    const { targetProducts } = useSelector(retrieveTargetProducts)
+    const { allBrands } = useSelector(retrieveAllBrands)
+    const [searchObj, setSearchObj] = useState({
+        limit: 6,
+        company_id: "",
+        order: "createdAt",
+        page: 1,
+        maxPrice: 0,
+        minPrice: 0,
+        contractMonth: [],
+        color: "",
+        storage: null,
+        search: ""
+    })
     //React Hook 
     useEffect(() => {
-        setLoaded(true)
-        return () => {
-            setLoaded(false)
-        }
-    }, [])
+        //Target Products
+        const productServiceApi = new ProductServiceApi;
+        productServiceApi.getTargetProducts(searchObj).then(data => setTargetProducts(data)).catch(err => console.log(err))
+
+        //Target Brands
+        const brandsServiceApi = new BrandsServiceApi()
+        brandsServiceApi.getAllBrands().then(data => setAllBrands(data)).catch(err => console.log(err))
+    }, [searchObj])
 
     //Handle 
-    function handleColor(e: any) { setChosenColor(e.target.value) }
     function handleBoxSize(size: string) { setBoxSize(size) }
-    function handleFilterColor(color: string) { setFilterChosenColor(color) }
-    function handleBrand(brand: string) { setChosenBrand(brand) }
-    function handleStorage(storage: number) { setChosenStorage(storage) }
-    const AirbnbSlider = styled(Slider)(({ theme }) => ({
-        color: "#3a8589",
-        height: 3,
-        padding: "13px 0",
-        "& .MuiSlider-thumb": {
-            height: 27,
-            width: 27,
-            backgroundColor: "#fff",
-            border: "1px solid currentColor",
-            "&:hover": {
-                boxShadow: "0 0 0 8px rgba(58, 133, 137, 0.16)",
-            },
-            "& .airbnb-bar": {
-                height: 9,
-                width: 1,
-                backgroundColor: "currentColor",
-                marginLeft: 1,
-                marginRight: 1,
-            },
-        },
-        "& .MuiSlider-track": {
-            height: 3,
-        },
-        "& .MuiSlider-rail": {
-            color: theme.palette.mode === "dark" ? "#bfbfbf" : "#d8d8d8",
-            opacity: theme.palette.mode === "dark" ? undefined : 1,
-            height: 3,
-        },
-    }));
-
-    interface AirbnbThumbComponentProps extends React.HTMLAttributes<unknown> { }
-
-    function AirbnbThumbComponent(props: AirbnbThumbComponentProps) {
-        const { children, ...other } = props;
-        return (
-            <SliderThumb {...other}>
-                {children}
-                <span className="airbnb-bar" />
-                <span className="airbnb-bar" />
-                <span className="airbnb-bar" />
-            </SliderThumb>
-        );
-    }
-
     return (
         <Box className="allProducts">
             <Container className="products">
@@ -85,292 +78,54 @@ const AllProducts = () => {
                     </Stack>
                     <Stack className="" flexDirection={"row"} gap={"20px"} alignItems={"center"}>
                         <Box className="show_items">
-                            Showing 1 - 12 of 54 results  Show <span className="border ps-3 pe-3 pt-2 pb-2">12</span> per page
+                            Showing <span className="border ps-3 pe-3 pt-2 pb-2">{targetProducts.length}</span> products per page
                         </Box>
                         <Box className="order_items">
-                            <select className="form-select" id="order_item">
-                                <option value="">Alphabetically, A-Z</option>
-                                <option value="">Alphabetically, Z-A</option>
-                                <option value="">Best Selling</option>
-                                <option value="">Price, low to high</option>
-                                <option value="">Price, high to low</option>
-                                <option value="">Date, new to old</option>
-                                <option value="">Price, old to new</option>
+                            <select
+                                className="form-select"
+                                id="order_item"
+                                onChange={(e) => {
+                                    searchObj.order = e.target.value
+                                    setSearchObj({ ...searchObj })
+                                }}
+                            >
+                                <option value="like">Best Selling</option>
+                                <option value="view">Popular</option>
+                                <option value="new">New</option>
+                                <option value="sale">Sale</option>
+                                <option value="lowToHigh">Price, low to high</option>
+                                <option value="highToLow">Price, high to low</option>
+                                <option value="newToOld">Date, new to old</option>
+                                <option value="oldToNew">Date, old to new</option>
                             </select>
                         </Box>
                         <Box className="search_input">
-                            <input type="text" className="pe-3 ps-3 fs-6" placeholder="Search, Brand" />
+                            <input
+                                type="text"
+                                className="pe-3 ps-3 fs-6"
+                                placeholder="Search, Product"
+                                onKeyUpCapture={(e: any) => {
+                                    searchObj.search = e.target.value
+                                    setSearchObj({ ...searchObj })
+                                }}
+                            />
                         </Box>
                     </Stack>
                 </Stack>
                 <hr />
-                <Stack flexDirection={"row"} className="products_body">
-                    <Stack className="filter_product">
-                        <div className="filter-title fs-2 pb-3">
-                            <i className="fa fa-sort-amount-desc me-4"></i>
-                            <span>Filter Phones</span>
-                        </div>
-                        <Box className="actual_cost">
-                            <div className="accordion" id="actual_cost">
-                                <div className="accordion-item border-0">
-                                    <h2 className="accordion-header">
-                                        <button className="accordion-button fw-bold fs-5" data-bs-toggle="collapse" data-bs-target="#actual_cost_list" aria-expanded="true" aria-controls="collapseOne">
-                                            Price
-                                        </button>
-                                    </h2>
-                                    <div id="actual_cost_list" className="accordion-collapse collapse " data-bs-parent="#actual_cost">
-                                        <Stack className="accordion-body" flexDirection={"row"} gap={"10px"}>
-                                            <AirbnbSlider
-                                                valueLabelDisplay="auto"
-                                                max={2999}
-                                                min={599}
-                                                slots={{ thumb: AirbnbThumbComponent }}
-                                                getAriaLabel={(index) =>
-                                                    index === 0 ? "Minimum price" : "Maximum price"
-                                                }
-                                                defaultValue={priceRange}
-                                                // value={priceRange}
-                                                onChangeCommitted={(event, newValue) => {
-                                                    const newPriceRange = newValue as number[];
-                                                    setPriceRange(newPriceRange);
-                                                }}
-                                                sx={{
-                                                    mt: "10px",
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    alignItems: "center",
-                                                    width: "90%",
-                                                    color: "#969696", // Bu yordamida track va thumb rangini o'zgartirish mumkin
-                                                    "& .MuiSlider-thumb": {
-                                                        backgroundColor: "#555555", // Thumb ning ichki rangini o'zgartiradi
-                                                    },
-                                                    "& .MuiSlider-track": {
-                                                        backgroundColor: "#555555", // Trackning rangini o'zgartiradi
-                                                    },
-                                                }}
-                                            />
-                                        </Stack>
-                                        <Stack
-                                            flexDirection={"row"}
-                                            justifyContent={"space-between"}
-                                            className="ps-3 pe-3"
-                                        >
-                                            <div>Starting Price: <span><b>{priceRange[0]}</b></span></div>
-                                            <div>Max Price: <span><b>{priceRange[1]}</b></span></div>
-                                        </Stack>
-                                    </div>
-                                </div>
-                            </div>
-                        </Box>
-                        <Box className="monthly_cost">
-                            <div className="accordion" id="monthly_cost">
-                                <div className="accordion-item border-0">
-                                    <h2 className="accordion-header">
-                                        <button className="accordion-button fw-bold fs-5" data-bs-toggle="collapse" data-bs-target="#monthly_cost_list" aria-expanded="true" aria-controls="collapseOne">
-                                            Monthly Price
-                                        </button>
-                                    </h2>
-                                    <div id="monthly_cost_list" className="accordion-collapse collapse" data-bs-parent="#monthly_cost">
-                                        <Stack className="accordion-body" flexDirection={"row"} gap={"10px"}>
-                                            <select name="" id="" className="form-select">
-                                                <option value="">Min-Any</option>
-                                                <option value="">10$</option>
-                                                <option value="">20$</option>
-                                                <option value="">30$</option>
-                                            </select>
-                                            <select name="" id="" className="form-select">
-                                                <option value="">Min-Any</option>
-                                                <option value="">10$</option>
-                                                <option value="">20$</option>
-                                                <option value="">30$</option>
-                                            </select>
-                                        </Stack>
-                                    </div>
-                                </div>
-                            </div>
-                        </Box>
-                        <Box>
-                            <div className="accordion" id="brands">
-                                <div className="accordion-item border-0">
-                                    <h2 className="accordion-header">
-                                        <button className="accordion-button fw-bold fs-5" data-bs-toggle="collapse" data-bs-target="#brands_list" aria-expanded="true" aria-controls="collapseOne">
-                                            Brands
-                                        </button>
-                                    </h2>
-                                    <div id="brands_list" className="accordion-collapse collapse" data-bs-parent="#brands">
-                                        <Stack className="accordion-body pb-3 pt-3" flexDirection={"row"} gap={"7px"} flexWrap={"wrap"} justifyContent={"center"} alignItems={"satrt"}>
-                                            {Array.from({ length: 10 }).map((ele, index) => (
-                                                <div
-                                                    className="apple_brand rounded"
-                                                    style={chosenBrand == index.toString() ? { width: "40px", border: "2px solid blue" } : { width: "40px" }}
-                                                    onClick={() => handleBrand(index.toString())}
-                                                >
-                                                    <img src="/icons/apple_logo.jpg" alt="apple_logo" className="w-100 rounded" />
-                                                </div>
-                                            ))}
-                                        </Stack>
-                                    </div>
-                                </div>
-                            </div>
-                        </Box>
-                        <Stack className="colors">
-                            <div className="accordion" id="colors">
-                                <div className="accordion-item border-0">
-                                    <h2 className="accordion-header">
-                                        <button className="accordion-button fw-bold fs-5" data-bs-toggle="collapse" data-bs-target="#colors_list" aria-expanded="true" aria-controls="collapseOne">
-                                            Colors
-                                        </button>
-                                    </h2>
-                                    <div id="colors_list" className="accordion-collapse collapse colors_list" data-bs-parent="#colors" >
-                                        <Stack
-                                            className="accordion-body"
-                                            flexDirection={"row"}
-                                            flexWrap={"wrap"}
-                                            gap={"5px"}
-                                            justifyContent={"start"}
-                                        >
-                                            {Array.from({ length: 12 }).map((ele, index) => (
-                                                <div
-                                                    className="bg-dark"
-                                                    style={filterChosenColor === index.toString() ? { border: "2px solid red" } : {}}
-                                                    onClick={() => handleFilterColor(index.toString())}
-                                                >
-                                                </div>
-                                            ))}
-                                        </Stack>
-                                    </div>
-                                </div>
-                            </div>
-                        </Stack>
-                        <Stack className="storage">
-                            <div className="accordion" id="storage">
-                                <div className="accordion-item border-0">
-                                    <h2 className="accordion-header">
-                                        <button className="accordion-button fw-bold fs-5" data-bs-toggle="collapse" data-bs-target="#storage_list" aria-expanded="true" aria-controls="collapseOne">
-                                            Storage
-                                        </button>
-                                    </h2>
-                                    <div id="storage_list" className="accordion-collapse collapse" data-bs-parent="#storage">
-                                        <Stack
-                                            className="accordion-body"
-                                            flexDirection={"row"}
-                                            flexWrap={"wrap"}
-                                            gap={"5px"}
-                                            justifyContent={"start"}
-                                        >
-                                            <div
-                                                style={chosenStorage == 128 ? { backgroundColor: 'pink' } : {}}
-                                                onClick={() => handleStorage(128)}
-                                            >128Gb</div>
-                                            <div
-                                                style={chosenStorage == 256 ? { backgroundColor: 'pink' } : {}}
-                                                onClick={() => handleStorage(256)}
-                                            >256Gb</div>
-                                            <div
-                                                style={chosenStorage == 512 ? { backgroundColor: 'pink' } : {}}
-                                                onClick={() => handleStorage(512)}
-                                            >512Gb</div>
-                                            <div
-                                                style={chosenStorage == 1 ? { backgroundColor: 'pink' } : {}}
-                                                onClick={() => handleStorage(1)}
-                                            >1Tb</div>
-                                            <div
-                                                style={chosenStorage == 2 ? { backgroundColor: 'pink' } : {}}
-                                                onClick={() => handleStorage(2)}
-                                            >2Tb</div>
-                                        </Stack>
-                                    </div>
-                                </div>
-                            </div>
-                        </Stack>
-                    </Stack>
-                    <Stack
-                        flexDirection={"row"}
-                        flexWrap={"wrap"}
-                        justifyContent={"center"}
-                        gap={"10px"}
-                        className="products"
-                    >
-                        {Array.from({ length: 8 }).map((ele, index) => (
-                            <Stack className={loaded ? "product_item mb-3 aos-animate opacity-1" : ""} data-aos="fade-up" data-aos-delay={150 * index} flexDirection={"row"} style={{ width: boxSize }}>
-                                <div className="product_img position-relative" style={boxSize == "45%" ? { width: "190px" } : { width: '240px' }}>
-                                    <button className="position-absolute"><Favorite style={{ fill: "red" }} /></button>
-                                    <img src="/icons/phone.jpg" alt="phone" className="w-100" />
-                                </div>
-                                <div className="product_item-info p-2">
-                                    <div className="product_name pb-2  fs-5 text-center fw-bold">Apple Iphone 15 Pro Max</div>
-                                    <div className="select_color">
-                                        <select className="product_colors form-select" onChange={handleColor}>
-                                            <option value="Black">Black</option>
-                                            <option value="Blue">Blue</option>
-                                            <option value="Gold">Gold</option>
-                                            <option value="Green">Green</option>
-                                            <option value="Gray">Gray</option>
-                                        </select>
-                                        <Stack flexDirection={"row"} gap={"3px"}>
-                                            <div className="bg-dark" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Black" ? "2px solid red" : "" }}></div>
-                                            <div style={{ width: "15px", height: "15px", borderRadius: '50%', backgroundColor: "blue", border: chosenColor === "Blue" ? "2px solid red" : "" }}></div>
-                                            <div className="bg-warning" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Gold" ? "2px solid red" : "" }}></div>
-                                            <div className="bg-success" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Green" ? "2px solid red" : "" }}></div>
-                                            <div className="bg-secondary" style={{ width: "15px", height: "15px", borderRadius: '50%', border: chosenColor === "Gray" ? "2px solid red" : "" }}></div>
-                                        </Stack>
-                                    </div>
-                                    <div className="product_item-info mt-3">
-                                        <Stack flexDirection={"row"} alignItems={"center"}>
-                                            <div><i className="fa-solid fa-circle-plus p-1 me-2"></i></div>
-                                            <div>Actual Price: <b>$999.00</b></div>
-                                        </Stack>
-                                        <Stack flexDirection={"row"} alignItems={'center'}>
-                                            <div>
-                                                <i className="fa-solid fa-circle-plus p-1 me-2"></i>
-                                            </div>
-                                            <div>Monthly cost deal over <b>24</b> months: <b>$44.00</b></div>
-                                        </Stack>
-                                        <Stack flexDirection={"row"} alignItems={"center"}>
-                                            <div><i className="fa-solid fa-circle-plus p-1 me-2"></i></div>
-                                            <div>6.7" Super Retina XDR display</div>
-                                        </Stack>
-                                        <Stack flexDirection={"row"} alignItems={"center"}>
-                                            <div><i className="fa-solid fa-circle-plus p-1 me-2"></i></div>
-                                            <div>48MP Ultra-Wide camera</div>
-                                        </Stack>
-                                    </div>
-                                    <Stack className="product_statistics" flexDirection={"row"} gap={"15px"}>
-                                        <div className="product_review d-flex gap-2">
-                                            {"2"}
-                                            <i className="fs-5 fa-solid fa-comment"></i>
-                                        </div>
-                                        <div className="product_likes d-flex gap-2">
-                                            {"14"}
-                                            <Favorite style={{ fill: "gray" }} />
-                                        </div>
-                                        <div className="product_views d-flex gap-2">
-                                            {"25"}
-                                            <RemoveRedEye />
-                                        </div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                        ))}
-                    </Stack>
-                </Stack>
-                <Container className="d-flex">
-                    <Pagination
-                        className="brand_pagination d-flex justify-content-center"
-                        page={1}
-                        count={3}
-                        renderItem={(item) => (
-                            <PaginationItem
-                                components={{
-                                    previous: ArrowBack,
-                                    next: ArrowForward
-                                }}
-                                {...item}
-                                color="secondary"
-                            />
-                        )}
+                <Stack flexDirection={"row"} className="products_body" gap={"30px"}>
+                    <ProductFilter
+                        searchObj={searchObj}
+                        setSearchObj={setSearchObj}
+                        allBrands={allBrands}
                     />
-                </Container>
+                    <Products
+                        targetProducts={targetProducts}
+                        boxSize={boxSize}
+                        searchObj={searchObj}
+                        setSearchObj={setSearchObj}
+                    />
+                </Stack>
             </Container>
         </Box>
     )
