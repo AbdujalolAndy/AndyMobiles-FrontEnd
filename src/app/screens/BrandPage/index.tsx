@@ -12,6 +12,7 @@ import { retrieveTargetBrands } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import BrandsServiceApi from "../../apiServices/brandsServiceApi";
 import { serverApi } from "../../../lib/config";
+import { useHistory } from "react-router-dom";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -31,6 +32,7 @@ const BrandPage = () => {
     const { setTargetBrands } = actionDispatch(useDispatch())
     const { targetBrands } = useSelector(targetBrandsRetriever)
     const [searchObj, setSearchObj] = useState({ limit: 6, order: "createdAt", search: "", page: 1 })
+    const location = useHistory()
     //Three circle Hook
     useEffect(() => {
         const brandsServiceApi = new BrandsServiceApi
@@ -100,6 +102,9 @@ const BrandPage = () => {
                         return (
                             <div
                                 className={load ? "card aos-animate" : "card"}
+                                onClick={() => {
+                                    location.replace(`/products/${ele._id}`)
+                                }}
                                 data-aos="fade-right"
                                 data-aos-delay={150 * index}
                                 style={boxSize == "32%" ? { fontSize: "19px", width: boxSize } : boxSize == "49%" ? { fontSize: "24px", width: boxSize } : { width: boxSize }}

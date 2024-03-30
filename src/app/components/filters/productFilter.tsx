@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import { Brand } from "../../types/member";
 import { serverApi } from "../../../lib/config";
 import { useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 
 const colorsList = [
     { color: "Black", index: "#000000" },
@@ -25,6 +26,7 @@ export const ProductFilter = (props: any) => {
     const [priceRange, setPriceRange] = useState<number[]>([400000, 4000000]);
     const [filterChosenColor, setFilterChosenColor] = useState<string>("");
     const [chosenStorage, setChosenStorage] = useState<number>();
+    const location = useHistory()
     //Handlers
     function handleBrand(brand: string, id: string) {
         setChosenBrand(brand)
@@ -37,7 +39,11 @@ export const ProductFilter = (props: any) => {
         props.setSearchObj({ ...props.searchObj })
     }
 
-    function handleStorage(storage: number) { setChosenStorage(storage) }
+    function handleStorage(storage: number) {
+        setChosenStorage(storage)
+        props.searchObj.storage = storage;
+        props.setSearchObj({ ...props.searchObj })
+    }
     interface AirbnbThumbComponentProps extends React.HTMLAttributes<unknown> { }
 
     function AirbnbThumbComponent(props: AirbnbThumbComponentProps) {
@@ -160,7 +166,7 @@ export const ProductFilter = (props: any) => {
                                         props.setSearchObj({ ...props.searchObj })
                                     }}
                                 >
-                                    <option>Deal month contract</option>
+                                    <option value={["0","24"]}>Deal month contract</option>
                                     <option value={["0", "6"]}>0 ~ 6 months</option>
                                     <option value={['6', "12"]}>6 ~ 12 months</option>
                                     <option value={["12", "24"]}>12 ~ 24 months</option>
@@ -280,6 +286,31 @@ export const ProductFilter = (props: any) => {
                     </div>
                 </div>
             </Stack>
+            <button
+                className="filter_reset_btn"
+                onClick={() => {
+                    if (props.company_id) {
+                        location.replace("/products")
+                        window.location.reload()
+                    } else {
+                        const new_search = {
+                            limit: 6,
+                            company_id: "",
+                            order: "createdAt",
+                            page: 1,
+                            maxPrice: 0,
+                            minPrice: 0,
+                            contractMonth: [],
+                            color: "",
+                            storage: null,
+                            search: ""
+                        }
+                        props.setSearchObj({ ...new_search })
+                    }
+                }}
+            >
+                Clear Filter
+            </button>
         </Stack>
     )
 }

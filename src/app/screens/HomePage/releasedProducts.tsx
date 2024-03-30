@@ -13,6 +13,7 @@ import { createSelector } from "reselect";
 import { retrieveRandomProducts } from "./selector"
 import { useDispatch, useSelector } from "react-redux"
 import { serverApi } from "../../../lib/config"
+import { stringSplitterHandler } from "../../components/features/stringSplitter"
 
 //REDUX Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -143,7 +144,7 @@ export const NewProducts = () => {
                                     </Stack>
                                 </Stack>
                                 <div className="card-text mt-3 fw-bold">
-                                    {ele.product_discount ? (<div>{discount_price}₩<span className="text-secondary ms-2"><s>{ele.product_price}₩</s></span></div>) : ele.product_price + "₩"}
+                                    {ele.product_discount ? (<div>{stringSplitterHandler(discount_price, 3, ".")}₩<span className="text-secondary ms-2"><s>{stringSplitterHandler(ele.product_price, 3, ".")}₩</s></span></div>) : stringSplitterHandler(ele.product_price, 3, ".") + "₩"}
                                 </div>
                             </Box>
                         </SwiperSlide>

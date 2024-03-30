@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, Switch, useRouteMatch } from "react-router-dom"
+import { Route, Switch, useParams, useRouteMatch } from "react-router-dom"
 import { ChosenProduct } from "./chosenProduct"
 import AllProducts from "./allProducts"
 import { Box } from "@mui/material"
@@ -13,8 +13,11 @@ const ProductsPage = () => {
         <Box>
             <Box className="productPage">
                 <Switch>
-                    <Route path={`${location}/:product_id`}>
+                    <Route path={`${location}/product/:product_id`}>
                         <ChosenProduct />
+                    </Route>
+                    <Route path={`${location}/:company_id`}>
+                        <AllProducts />
                     </Route>
                     <Route path={`${location}`}>
                         <AllProducts />

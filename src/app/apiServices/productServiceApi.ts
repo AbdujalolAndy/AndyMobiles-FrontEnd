@@ -17,10 +17,21 @@ class ProductServiceApi {
                 throw new Error(result.data.message)
             }
             const products: Product[] = result.data.value;
-            console.log(products)
             return products
         } catch (err: any) {
             console.log(`ERROR::: getRandomNewProducts, ${err.message}`)
+            throw err
+        }
+    }
+
+    async getChosenProduct(product_id: string): Promise<Product> {
+        try {
+            const url = `${serverApi}/products/product/${product_id}`;
+            const result = await axios.get(url, { withCredentials: true })
+            console.log(`getChosenProduct State::: ${result.data.state}`)
+            const product: Product[] = result.data.value;
+            return product[0]
+        } catch (err: any) {
             throw err
         }
     }

@@ -1,10 +1,7 @@
 import { Box, Stack, Tab, Tabs } from "@mui/material"
-import { useParams } from "react-router-dom"
-import InnerImageZoom from "react-inner-image-zoom";
-import 'react-fancybox/lib/fancybox.css'
-import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
+import { useHistory, useParams } from "react-router-dom"
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import { useEffect, useState } from "react";
 import { TabContext, TabPanel } from "@mui/lab";
 import ProductDescription from "./ProductDescription";
@@ -13,8 +10,31 @@ import ReviewWriting from "./reviewWriting";
 import RelatedProducts from "./relatedProducts";
 import PickUpCenter from "./pickupCenter";
 import ChattingClient from "../../components/features/clientChattingModal";
+import ProductServiceApi from "../../apiServices/productServiceApi";
+import InnerImageZoom from "react-inner-image-zoom"
+import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
+import { stringSplitterHandler } from "../../components/features/stringSplitter"
 
-export const ChosenProduct = (props: any) => {
+//REDUX
+import { Dispatch } from "@reduxjs/toolkit"
+import { createSelector } from "reselect"
+import { useDispatch, useSelector } from "react-redux"
+import { Product } from "../../types/product";
+import { setChosenProduct } from "./slice";
+import { chosenProductRetriever } from "./selector";
+import { serverApi } from "../../../lib/config";
+
+//SLICE
+const actionDispatch = (dispatch: Dispatch) => ({
+    setChosenProduct: (data: Product) => dispatch(setChosenProduct(data))
+})
+//SELECTOR
+const chosenProductRetrieve = createSelector(
+    chosenProductRetriever,
+    (chosenProduct) => ({ chosenProduct })
+)
+
+export const ChosenProduct = () => {
     //Initilizations
     const { product_id } = useParams<{ product_id: string }>()
     const [chosenStorage, setChosenStorage] = useState<number>(0)
@@ -24,6 +44,10 @@ export const ChosenProduct = (props: any) => {
     const [scrolled, setScrolled] = useState<boolean>(false);
     const [termsAgree, setTermsAgree] = useState<boolean>(false);
     const [openChat, setOpenChat] = useState<boolean>(false);
+    const { chosenProduct } = useSelector(chosenProductRetrieve)
+    const { setChosenProduct } = actionDispatch(useDispatch())
+    const [magnifyImg, setMagnifyImg] = useState<string>("")
+    const [chosenProductImgIndex, setChosenProductImgIndex] = useState<number>(-1)
     const styleStorage = {
         borderColor: "black",
         color: "black",
@@ -34,11 +58,14 @@ export const ChosenProduct = (props: any) => {
         color: chosenColor,
         borderWidth: "2px"
     }
+    const location = useHistory()
 
     //3 circle React Hook
     useEffect(() => {
         function handleScroll() { setScrolled(window.scrollY > 500) }
-        window.addEventListener("scroll", handleScroll)
+        window.addEventListener("scroll", handleScroll);
+        const productServiceApi = new ProductServiceApi();
+        productServiceApi.getChosenProduct(product_id).then(data => setChosenProduct(data)).catch(err => console.log(err))
         return () => {
             window.removeEventListener("scroll", handleScroll)
         }
@@ -53,9 +80,13 @@ export const ChosenProduct = (props: any) => {
     function hadleTermsUse(e: any) { setTermsAgree(e.target.checked) }
     function addAmount() { setQuantity(quantity + 1) }
     function removeAmount() { setQuantity(quantity - 1) }
+    function handleSelectImage(e: any, img: string, index: number) {
+        setMagnifyImg(img)
+        setChosenProductImgIndex(index)
+    }
     return (
         <Box className="chosen_product">
-            <ChattingClient openChat={openChat} handleCloseChat={handleCloseChat}/>
+            <ChattingClient openChat={openChat} handleCloseChat={handleCloseChat} />
             <Stack
                 onClick={handleOpenChat}
                 className={scrolled ? "product_assistant aos-animate" : "product_assistant"}
@@ -75,38 +106,57 @@ export const ChosenProduct = (props: any) => {
                     Get our best New <span className="text-dark">Galaxy S24</span> deals. Chat with our experts!
                 </div>
             </Stack>
-            <Stack className="container" flexDirection={"row"} justifyContent={"center"} gap="50px">
-                <Box className={"product_imgs"}>
-                    <div className="single_product_img">
-                        <InnerImageZoom
-                            src="https://images.unsplash.com/photo-1573612664822-d7d347da7b80?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0NTQ4MTA4OA&ixlib=rb-1.2.1&q=85&w=1280"
-                            zoomSrc="https://images.unsplash.com/photo-1573612664822-d7d347da7b80?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0NTQ4MTA4OA&ixlib=rb-1.2.1&q=85&w=1600"
-                            zoomType="hover"
-                            zoomPreload={true}
-                            fadeDuration={700}
-                            hasSpacer={true}
-                            className="inner_img"
-                            fullscreenOnMobile={true}
-                            hideHint={true}
-                            zoomScale={0.5}
-                        />
-                        <Swiper
-                            slidesPerView={5}
-                            navigation={true}
-                            modules={[Navigation]}
-                            className="product_swiper mt-4"
-                        >
-                            {Array.from({ length: 10 }).map(ele => (
-                                <SwiperSlide className="product_swiper_item">
-                                    <img src="https://images.unsplash.com/photo-1573612664822-d7d347da7b80?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0NTQ4MTA4OA&ixlib=rb-1.2.1&q=85&w=1280" alt="" />
+            <Stack
+                className="container"
+                flexDirection={"row"}
+                gap="50px"
+            >
+                <Stack
+                    className={"product_imgs"}
+                    flexDirection={"row"}
+                >
+                    <Swiper
+                        slidesPerView={5}
+                        navigation={true}
+                        modules={[Navigation]}
+                        className="product_swiper"
+                        direction="vertical"
+                        key={chosenProduct?._id}
+                    >
+                        {chosenProduct?.product_images.map((ele: string, index: number) => {
+                            const image_url = `${serverApi}/${ele}`
+                            return (
+                                <SwiperSlide
+                                    style={{ marginTop: "30px" }}
+                                    className="p-4 "
+                                    onClick={(e) => handleSelectImage(e, image_url, index)}
+                                >
+                                    <Box
+
+                                        className={chosenProductImgIndex == index ? "product_swiper_item chosen_product_img" : "product_swiper_item"}
+                                    >
+                                        <img src={image_url} key={index} />
+                                    </Box>
                                 </SwiperSlide>
-                            ))}
-                        </Swiper>
-                    </div>
-                </Box>
+                            )
+                        })}
+                    </Swiper>
+                    <Box
+                        className="single_product_img"
+                    >
+                        <Box className="main_img">
+                            <Box>
+                                <InnerImageZoom
+                                    src={magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`}
+                                    zoomSrc={magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`}
+                                />
+                            </Box>
+                        </Box>
+                    </Box>
+                </Stack>
                 <Stack className="product_info">
                     <div className="product_name fs-3 mb-3 fw-bold">
-                        Galaxy AI
+                        {chosenProduct?.product_name}  <span className="text-secondary fs-4">{chosenProduct?.product_memory === 1 ? `${chosenProduct?.product_memory}TB` : `${chosenProduct?.product_memory}GB`}</span>
                     </div>
                     <Stack className="product_review mb-3" flexDirection={"row"} gap={"10px"}>
                         <Stack flexDirection={"row"} gap={"3px"} alignItems={"center"} className="text-warning">
@@ -115,25 +165,58 @@ export const ChosenProduct = (props: any) => {
                             ))}
                         </Stack>
                         <div className="review_count text-secondary">
-                            2 reviews
+                            {chosenProduct?.product_comments} reviews
                         </div>
                     </Stack>
                     <div className="availability mb-3 fs-5" >
                         Availability: <span className="text-danger fw-bold">2 In Stock</span>
                     </div>
-                    <Stack className="product_price fw-bold fs-6 mb-4" flexDirection={"row"} gap={"5px"} alignItems={"center"}>
-                        <div className="text-secondary"><s>$900.00</s></div>
-                        <div>$110.00 </div>
-                        <span className="btn btn-dark rounded-pill">Save -15%</span>
+                    <Stack
+                        className="product_price fs-6 mb-4"
+                        flexDirection={"row"}
+                        gap={"5px"}
+                        alignItems={"center"}
+                    >
+                        <div>Product Price:</div>
+                        {chosenProduct?.product_discount ? (
+                            <Stack
+                                className="fw-bold"
+                                flexDirection={"row"}
+                                alignItems={"center"}
+                                gap={"20px"}
+                            >
+                                <div>
+                                    {
+                                        stringSplitterHandler(Math.floor(chosenProduct?.product_price - (chosenProduct?.product_price * (chosenProduct.product_discount / 100))), 3, ".")
+                                    }₩
+                                </div>
+                                <div className="text-secondary"><s>
+                                    {
+                                        stringSplitterHandler(chosenProduct?.product_price, 3, ".")
+                                    }₩
+                                </s></div>
+                                <span className="btn btn-dark rounded-pill">Save -{chosenProduct.product_discount}%</span>
+                            </Stack>
+                        ) : (
+                            <Stack flexDirection={"row"}>
+
+                                <div>
+                                    {
+                                        stringSplitterHandler(chosenProduct?.product_price || 0, 3, ".")
+                                    }₩
+                                </div>
+                            </Stack>
+                        )}
+
                     </Stack>
                     <Stack className="product_shipping mb-4" flexDirection={"row"} gap={"50px"}>
                         <Stack className="sipping" flexDirection={"row"} gap={"10px"} alignItems={"center"}>
                             <i className="fa-solid fa-truck-fast text-success fs-5"></i>
-                            <div className="fw-bold">Shipping</div>
+                            <div className="fw-bold link_inquery" onClick={() => location.push("/track-order")}>Shipping</div>
                         </Stack>
                         <Stack className="ask_about" flexDirection={"row"} gap={"10px"} alignItems={"center"}>
                             <i className="fa-regular fa-envelope fs-5 text-info"></i>
-                            <div className="fw-bold">Ask About This Product</div>
+                            <div className="fw-bold link_inquery" onClick={() => location.push("/faq")}>Ask About This Product</div>
                         </Stack>
                     </Stack>
                     <Stack className="mb-4" flexDirection={"row"} gap={"20px"} alignItems={"center"}>

@@ -13,6 +13,7 @@ import { Brand } from "../../types/member";
 import BrandsServiceApi from "../../apiServices/brandsServiceApi";
 import { Products } from "./products";
 import { ProductFilter } from "../../components/filters/productFilter";
+import { useParams } from "react-router-dom";
 
 //SLICE
 const actionDispath = (dispatch: Dispatch) => ({
@@ -39,9 +40,10 @@ const AllProducts = () => {
     const { setAllBrands } = actionDispath(useDispatch());
     const { targetProducts } = useSelector(retrieveTargetProducts)
     const { allBrands } = useSelector(retrieveAllBrands)
+    const { company_id } = useParams<{ company_id: string }>()
     const [searchObj, setSearchObj] = useState({
         limit: 6,
-        company_id: "",
+        company_id: company_id,
         order: "createdAt",
         page: 1,
         maxPrice: 0,
@@ -113,11 +115,16 @@ const AllProducts = () => {
                     </Stack>
                 </Stack>
                 <hr />
-                <Stack flexDirection={"row"} className="products_body" gap={"30px"}>
+                <Stack
+                    flexDirection={"row"}
+                    className="products_body"
+                    gap={"30px"}
+                >
                     <ProductFilter
                         searchObj={searchObj}
                         setSearchObj={setSearchObj}
                         allBrands={allBrands}
+                        company_id={company_id}
                     />
                     <Products
                         targetProducts={targetProducts}

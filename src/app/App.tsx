@@ -31,7 +31,6 @@ const App: React.FC = () => {
   const [openAuth, setOpenAuth] = useState(false)
   const [openBasket, setOpenBasket] = useState(false)
 
-
   //Handlers
   function handleSignUpClose() { setOpenAuth(false) }
   function handleSignUpOpen() { setOpenAuth(true) }
@@ -105,7 +104,7 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path="/products">
-          <ProductsPage />
+          <ProductsPage  />
           <Footer />
         </Route>
         <Route path="/blogs">

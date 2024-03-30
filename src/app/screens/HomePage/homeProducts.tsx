@@ -4,6 +4,7 @@ import { HomePageProducts } from "../../types/others"
 import { serverApi } from "../../../lib/config"
 import { Product } from "../../types/product"
 import { ArrowBack, ArrowForward } from "@mui/icons-material"
+import { stringSplitterHandler } from "../../components/features/stringSplitter"
 
 
 
@@ -56,7 +57,7 @@ export const HomeProducts = (props: HomePageProducts) => {
                                     <div><i className="fa-solid fa-sack-dollar"></i></div>
                                     <div>Price:</div>
                                     <div className="text-dark">
-                                        {ele.product_discount ? (<div>{discount_price}₩<span className="text-secondary ms-2"><s>{ele.product_price}₩</s></span></div>) : ele.product_price + "₩"}
+                                        {ele.product_discount ? (<div>{stringSplitterHandler(discount_price, 3, ".")}₩<span className="text-secondary ms-2"><s>{stringSplitterHandler(ele.product_price, 3, ".")}₩</s></span></div>) : stringSplitterHandler(ele.product_price, 3, ".") + "₩"}
                                     </div>
                                 </Stack>
                                 <Stack direction={"row"} gap={"5px"} className="mb-2">
