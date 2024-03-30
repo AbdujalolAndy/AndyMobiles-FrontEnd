@@ -1,31 +1,110 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Rating, Stack } from "@mui/material";
+import { Review } from "../../types/review";
+import { serverApi } from "../../../lib/config";
+import Moment from "react-moment"
+import { useEffect, useState } from "react";
+import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import MoodBadIcon from "@mui/icons-material/MoodBad";
 
-const ProductReview = () => {
+interface ReviewsProp {
+    reviews: Review[];
+    setRebuild: any;
+    chosenProduct: any
+}
+const ProductReview = (props: ReviewsProp) => {
+    //Three circle Hook
+    useEffect(() => {
+        props.setRebuild(new Date)
+    }, [])
     return (
         <Box className={"poduct_review"}>
             {
-                Array.from({ length: 3 }).map(ele => (
-                    <Box className={"poduct_review_item"}>
-                        <div className="review_header mb-3">
-                            <Stack className="product_rating text-secandary mb-2" flexDirection={"row"} gap={"5px"}>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
+                props.reviews.map((review: Review, index: number) => {
+                    const image_url = review.member_data.mb_image ? `${serverApi}/${review.member_data.mb_image}` : ""
+                    return (
+                        <Box className={"poduct_review_item position-relative"}>
+                            <Stack
+                                flexDirection={"row"}
+                                justifyContent={"space-between"}
+                                alignItems={"center"}
+                            >
+                                <Stack
+                                    className="review_header mb-3"
+                                    flexDirection={"row"}
+                                    alignItems={"center"}
+                                    gap={"10px"}
+                                >
+                                    <div
+                                        style={{
+                                            height: "50px",
+                                            width: "50px",
+                                            borderRadius: "50%"
+                                        }}
+                                    >
+                                        <img src={image_url ? image_url : "/pictures/auth/default_user.svg"} alt="auth" />
+                                    </div>
+                                    <Box>
+                                        <div className="review_title fs-4">
+                                            {review.member_data.mb_nick}
+                                        </div>
+                                        <div className="review_date">
+                                            Reviewed by <b><i>{review.member_data.mb_email ?? review.member_data.mb_nick}</i></b> on <b><i>
+                                                <Moment format="YYYY-MM-DD">
+                                                    {review.createdAt}
+                                                </Moment>
+                                            </i></b>
+                                        </div>
+                                    </Box>
+                                </Stack>
+                                <Box>
+                                    <Rating
+                                        sx={{ fontSize: "20px" }}
+                                        name="review-rating"
+                                        value={props.chosenProduct.product_comments ? props.chosenProduct.product_comments : 0}
+                                        readOnly />
+                                </Box>
                             </Stack>
-                            <div className="review_title fs-4">
-                                Good Phone!
+                            <div className="review_body ps-4">
+                                {review.review_context}
                             </div>
-                            <div className="review_date">
-                                <b><i>Muhammad</i></b> on <b><i>Sep 30, 2023</i></b>
-                            </div>
-                        </div>
-                        <div className="review_body">
-                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters
-                        </div>
-                    </Box>
-                ))
+                            <Stack
+                                className={"position-absolute"}
+                                style={{ bottom: "10px", right: "10px" }}
+                                flexDirection={"row"}
+                                gap={"10px"}
+                            >
+                                <Stack
+                                    flexDirection={"row"}
+                                    alignItems={"center"}
+                                    gap={"10px"}
+                                >
+                                    <div
+                                        className="p-2 rounded-circle d-inline"
+                                        style={{ backgroundColor: "#EAEAEA" }}
+                                    >
+
+                                        <EmojiEmotionsIcon style={{ fill: "grey" }} />
+                                    </div>
+                                    <div><b>{review?.review_likes.toString() ?? "0"}</b></div>
+                                </Stack>
+                                <Stack
+                                    flexDirection={"row"}
+                                    alignItems={"center"}
+                                    gap={"10px"}
+                                >
+                                    <div
+                                        className="p-2 rounded-circle d-inline"
+                                        style={{ backgroundColor: "#EAEAEA" }}
+                                    >
+
+                                        <MoodBadIcon style={{ fill: "grey" }} />
+                                    </div>
+                                    <div><b>{review?.review_dislikes ? review?.review_dislikes.toString() : "0"}</b></div>
+                                </Stack>
+                            </Stack>
+                        </Box>
+                    )
+                })
             }
         </Box>
     )

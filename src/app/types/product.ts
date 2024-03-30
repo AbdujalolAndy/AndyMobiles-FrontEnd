@@ -21,6 +21,7 @@ export interface Product {
     product_comments: number;
     product_description: string;
     product_related_colors: any;
+    product_related: any;
     owner_data: any;
     createdAt: Date;
     updateAt: Date;

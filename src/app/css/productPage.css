@@ -266,7 +266,8 @@
     width: 300px;
     margin: 0 auto;
 }
-.single_product_img .main_img .single_pic img{
+
+.single_product_img .main_img .single_pic img {
     width: auto !important;
     height: 400px !important;
     margin: 0 auto;
@@ -285,8 +286,20 @@
 }
 
 .chosen_product .product_imgs {
-    margin-top: 100px;
+    width: 50%;
 }
+
+.chosen_product .main_pic_box {
+    width: 80%;
+    height: 500px;
+    display: flex;
+    justify-Content: center;
+    align-Items: center;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+
 
 .chosen_product .link_inquery {
     cursor: pointer;
@@ -397,8 +410,11 @@
 
 /* Product rating Style */
 .poduct_review {
-    border: 1px solid rgb(109, 106, 106);
-    padding: 25px
+    box-shadow: 0 0 5px black;
+    padding: 25px;
+    overflow-y: auto;
+    max-height: 400px;
+    border-radius: 10px;
 }
 
 .poduct_review .poduct_review_item {

@@ -11,7 +11,7 @@ import RelatedProducts from "./relatedProducts";
 import PickUpCenter from "./pickupCenter";
 import ChattingClient from "../../components/features/clientChattingModal";
 import ProductServiceApi from "../../apiServices/productServiceApi";
-import InnerImageZoom from "react-inner-image-zoom"
+import ReactImageMagnify from "react-image-magnify"
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
 import { stringSplitterHandler } from "../../components/features/stringSplitter"
 
@@ -20,13 +20,16 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { createSelector } from "reselect"
 import { useDispatch, useSelector } from "react-redux"
 import { Product } from "../../types/product";
-import { setChosenProduct } from "./slice";
-import { chosenProductRetriever } from "./selector";
+import { setChosenProduct, setProductReview } from "./slice";
+import { chosenProductRetriever, productReviewRetriever } from "./selector";
 import { serverApi } from "../../../lib/config";
+import { Review } from "../../types/review";
+import CommunityServiceApi from "../../apiServices/communityServiceApi";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
-    setChosenProduct: (data: Product) => dispatch(setChosenProduct(data))
+    setChosenProduct: (data: Product) => dispatch(setChosenProduct(data)),
+    setProductReview: (data: Review[]) => dispatch(setProductReview(data))
 })
 //SELECTOR
 const chosenProductRetrieve = createSelector(
@@ -34,10 +37,14 @@ const chosenProductRetrieve = createSelector(
     (chosenProduct) => ({ chosenProduct })
 )
 
+const productReviewRetrieve = createSelector(
+    productReviewRetriever,
+    (productReview) => ({ productReview })
+)
+
 export const ChosenProduct = () => {
     //Initilizations
     const { product_id } = useParams<{ product_id: string }>()
-    const [chosenStorage, setChosenStorage] = useState<number>(0)
     const [chosenColor, setChosenColor] = useState<string>("")
     const [quantity, setQuantity] = useState<number>(1);
     const [value, setValue] = useState<string>("1");
@@ -45,16 +52,18 @@ export const ChosenProduct = () => {
     const [termsAgree, setTermsAgree] = useState<boolean>(false);
     const [openChat, setOpenChat] = useState<boolean>(false);
     const { chosenProduct } = useSelector(chosenProductRetrieve)
-    const { setChosenProduct } = actionDispatch(useDispatch())
+    const { productReview } = useSelector(productReviewRetrieve)
+    const { setChosenProduct, setProductReview } = actionDispatch(useDispatch())
     const [magnifyImg, setMagnifyImg] = useState<string>("")
     const [chosenProductImgIndex, setChosenProductImgIndex] = useState<number>(-1)
+    const [reBuild, setRebuild] = useState<Date>(new Date)
     const styleStorage = {
         borderColor: "black",
         color: "black",
         fontWeight: "bold"
     }
     const styleColor = {
-        borderColor: chosenColor,
+        borderColor: "#0066AE",
         color: chosenColor,
         borderWidth: "2px"
     }
@@ -64,18 +73,28 @@ export const ChosenProduct = () => {
     useEffect(() => {
         function handleScroll() { setScrolled(window.scrollY > 500) }
         window.addEventListener("scroll", handleScroll);
+
+        //Chosen Product
         const productServiceApi = new ProductServiceApi();
-        productServiceApi.getChosenProduct(product_id).then(data => setChosenProduct(data)).catch(err => console.log(err))
+        productServiceApi.getChosenProduct(product_id)
+            .then(data => setChosenProduct(data))
+            .catch(err => console.log(err))
+
+        //Product related Reviews
+        const communityServiceApi = new CommunityServiceApi();
+        communityServiceApi.getProductReviews(product_id)
+            .then(data => setProductReview(data))
+            .catch(err => console.log(err))
+
         return () => {
             window.removeEventListener("scroll", handleScroll)
         }
-    }, [])
+    }, [reBuild])
 
     //Handlers
     function handleOpenChat() { setOpenChat(true) };
     function handleCloseChat() { setOpenChat(false) };
     function handleValue(order: string) { setValue(order) }
-    function handleChosenStorage(storage: number) { setChosenStorage(storage) }
     function handleChosenColor(color: string) { setChosenColor(color) }
     function hadleTermsUse(e: any) { setTermsAgree(e.target.checked) }
     function addAmount() { setQuantity(quantity + 1) }
@@ -119,7 +138,7 @@ export const ChosenProduct = () => {
                         slidesPerView={5}
                         navigation={true}
                         modules={[Navigation]}
-                        className="product_swiper"
+                        className="product_swiper pe-3"
                         direction="vertical"
                         key={chosenProduct?._id}
                     >
@@ -128,7 +147,7 @@ export const ChosenProduct = () => {
                             return (
                                 <SwiperSlide
                                     style={{ marginTop: "30px" }}
-                                    className="p-4 "
+                                    className="p-4 mb-4"
                                     onClick={(e) => handleSelectImage(e, image_url, index)}
                                 >
                                     <Box
@@ -141,18 +160,31 @@ export const ChosenProduct = () => {
                             )
                         })}
                     </Swiper>
-                    <Box
-                        className="single_product_img"
-                    >
-                        <Box className="main_img">
-                            <Box>
-                                <InnerImageZoom
-                                    src={magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`}
-                                    zoomSrc={magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`}
-                                />
-                            </Box>
-                        </Box>
+                    <Box className="main_pic_box">
+                        <ReactImageMagnify
+                            style={{ maxWidth: '100%', maxHeight: '100%' }}
+                            {...{
+                                smallImage: {
+                                    alt: "Wristwatch by Ted Baker London",
+                                    isFluidWidth: true,
+                                    src: `${magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`}`
+                                },
+                                largeImage: {
+                                    src: `${magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`}`,
+                                    width: 1000,
+                                    height: 1480,
+                                },
+                                enlargedImageContainerStyle: {
+                                    zIndex: "1500",
+                                },
+                                enlargedImageContainerDimensions: {
+                                    width: "400%",
+                                    height: "150%",
+                                },
+                            }}
+                        />
                     </Box>
+
                 </Stack>
                 <Stack className="product_info">
                     <div className="product_name fs-3 mb-3 fw-bold">
@@ -168,16 +200,19 @@ export const ChosenProduct = () => {
                             {chosenProduct?.product_comments} reviews
                         </div>
                     </Stack>
-                    <div className="availability mb-3 fs-5" >
-                        Availability: <span className="text-danger fw-bold">2 In Stock</span>
-                    </div>
                     <Stack
                         className="product_price fs-6 mb-4"
                         flexDirection={"row"}
                         gap={"5px"}
                         alignItems={"center"}
                     >
-                        <div>Product Price:</div>
+                        <Stack
+                            flexDirection={"row"}
+                            gap={"10px"}
+                        >
+                            <div><i className="fa-solid fa-sack-dollar"></i></div>
+                            <div className="text-secondary fw-bold">Product Price:</div>
+                        </Stack>
                         {chosenProduct?.product_discount ? (
                             <Stack
                                 className="fw-bold"
@@ -198,7 +233,10 @@ export const ChosenProduct = () => {
                                 <span className="btn btn-dark rounded-pill">Save -{chosenProduct.product_discount}%</span>
                             </Stack>
                         ) : (
-                            <Stack flexDirection={"row"}>
+                            <Stack
+                                flexDirection={"row"}
+                                className="fw-bold"
+                            >
 
                                 <div>
                                     {
@@ -219,62 +257,73 @@ export const ChosenProduct = () => {
                             <div className="fw-bold link_inquery" onClick={() => location.push("/faq")}>Ask About This Product</div>
                         </Stack>
                     </Stack>
-                    <Stack className="mb-4" flexDirection={"row"} gap={"20px"} alignItems={"center"}>
-                        <div className="fs-5">Storage:</div>
-                        <Stack flexDirection={"row"} gap={"10px"}>
-                            <Box
-                                className={"product_storage"}
-                                style={chosenStorage == 128 ? styleStorage : {}}
-                                onClick={() => handleChosenStorage(128)}
-                            >128 GB</Box>
-                            <Box
-                                className={"product_storage"}
-                                style={chosenStorage == 256 ? styleStorage : {}}
-                                onClick={() => handleChosenStorage(256)}
-                            >256 GB</Box>
-                            <Box
-                                className={"product_storage"}
-                                style={chosenStorage == 512 ? styleStorage : {}}
-                                onClick={() => handleChosenStorage(512)}
-                            >512 GB</Box>
-                            <Box
-                                className={"product_storage"}
-                                style={chosenStorage == 1 ? styleStorage : {}}
-                                onClick={() => handleChosenStorage(1)}
-                            >1 TB</Box>
+                    <Stack
+                        className="mb-4"
+                        flexDirection={"row"}
+                        gap={"15px"}
+                        alignItems={"center"}
+                    >
+                        <Stack
+                            flexDirection={"row"}
+                            gap={"10px"}
+                        >
+                            <div><i className="fa-solid fa-database"></i></div>
+                            <div className="text-secondary fw-bold">Memory Size:</div>
+                        </Stack>
+                        <div className="fw-bold">{chosenProduct?.product_memory === 1 ? `${chosenProduct?.product_memory}TB` : `${chosenProduct?.product_memory}GB`}</div>
+                    </Stack>
+                    <Stack
+                        className="mb-4"
+                        flexDirection={"row"}
+                        gap={"15px"}
+                    >
+                        <Stack
+                            flexDirection={"row"}
+                            gap={"10px"}
+                        >
+                            <div><i className="fa-solid fa-palette"></i></div>
+                            <div className="text-secondary fw-bold">Color:</div>
+                        </Stack>
+                        <Stack
+                            flexDirection={"row"}
+                            gap={"10px"}
+                        >{
+                                chosenProduct?.product_related.map((product: Product) => {
+                                    const product_color = product.product_color.toLowerCase()
+                                    return (
+                                        <Box>
+                                            <Box
+                                                className="product_color"
+                                                style={chosenColor == product_color ? styleColor : {}}
+                                                onClick={() => handleChosenColor(product_color)}
+                                            >
+                                                <img src={`/pictures/products/${product_color}_phone.webp`} alt="" className="w-50" />
+                                            </Box>
+                                            <div style={{
+                                                fontSize: "12px",
+                                                fontWeight: "bold",
+                                                textAlign: "center"
+                                            }}>
+                                                {product.product_color}
+                                            </div>
+                                        </Box>
+                                    )
+                                })
+                            }
                         </Stack>
                     </Stack>
-                    <Stack className="mb-4" flexDirection={"row"} gap={"40px"}>
-                        <div className="fs-5">Color:</div>
-                        <Stack flexDirection={"row"} gap={"10px"}>
-                            <Box
-                                className="product_color"
-                                style={chosenColor == "pink" ? styleColor : {}}
-                                onClick={() => handleChosenColor("pink")}>
-                                <img src="/icons/pink_phone.webp" alt="" className="w-50" />
-                            </Box>
-                            <Box
-                                className="product_color"
-                                style={chosenColor == "blue" ? styleColor : {}}
-                                onClick={() => handleChosenColor("blue")}>
-                                <img src="/icons/blue_phone.webp" alt="" className="w-50" />
-                            </Box>
-                            <Box
-                                className="product_color"
-                                style={chosenColor == "yellow" ? styleColor : {}}
-                                onClick={() => handleChosenColor("yellow")}>
-                                <img src="/icons/yellow_phone.webp" alt="" className="w-50" />
-                            </Box>
-                            <Box
-                                className="product_color"
-                                style={chosenColor == "black" ? styleColor : {}}
-                                onClick={() => handleChosenColor("black")}>
-                                <img src="/icons/black_phone.webp" alt="" className="w-50" />
-                            </Box>
+                    <Stack
+                        className="product_quantity mb-4"
+                        flexDirection={"row"}
+                        gap={"30px"}
+                    >
+                        <Stack
+                            flexDirection={"row"}
+                            gap={"10px"}
+                        >
+                            <div><i className="fa-solid fa-calculator"></i></div>
+                            <div className="text-secondary fw-bold">Quantity:</div>
                         </Stack>
-                    </Stack>
-                    <Stack className="product_quantity mb-4" flexDirection={"row"} gap={"30px"}>
-                        <div>Quantity:</div>
                         <Stack className="product_quantity_count" flexDirection={"row"} gap={"25px"}>
                             <div onClick={removeAmount}>-</div>
                             <div>{quantity}</div>
@@ -323,10 +372,25 @@ export const ChosenProduct = () => {
                         </Tabs>
                     </Stack>
                     <TabPanel value={"1"}>
-                        <ProductDescription />
+                        <ProductDescription description={chosenProduct?.product_description} />
                     </TabPanel>
                     <TabPanel value={"2"}>
-                        <ProductReview />
+                        {
+                            productReview[0] ? (
+                                <ProductReview
+                                    chosenProduct={chosenProduct}
+                                    reviews={productReview}
+                                    setRebuild={setRebuild}
+                                />
+                            ) : (
+                                <div
+                                    className="p-2 rounded text-center fw-bold text-secondary"
+                                    style={{ backgroundColor: "#EAEAEA" }}
+                                >
+                                    This Product has not been reviewed yet. Be First and leave a comment
+                                </div>
+                            )
+                        }
                     </TabPanel>
                     <TabPanel value={"3"}>
                         <ReviewWriting />
