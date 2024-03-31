@@ -2,7 +2,7 @@ import axios from "axios";
 import { serverApi } from "../../lib/config";
 import { searchBlogs } from "../types/others";
 import { Blog } from "../types/blog";
-import { Review } from "../types/review";
+import { Review, reviewCreateData } from "../types/review";
 
 class CommunityServiceApi {
     private readonly path: string
@@ -30,6 +30,17 @@ class CommunityServiceApi {
             console.log(`getProductReviews state, ${result.data.state}`)
             const reviews: Review[] = result.data.value;
             return reviews
+        } catch (err) {
+            throw err
+        }
+    }
+    async createReview(data: reviewCreateData): Promise<Review> {
+        try {
+            const url = `${serverApi}/review/createReview`;
+            const result = await axios.post(url, data, { withCredentials: true })
+            console.log("createReview state", result.data.state);
+            const review: Review = result.data.value
+            return review
         } catch (err) {
             throw err
         }

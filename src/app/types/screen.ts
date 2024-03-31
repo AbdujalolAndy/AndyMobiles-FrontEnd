@@ -31,7 +31,8 @@ export interface ProductPageState {
     targetProducts: Product[];
     chosenProduct: Product | null;
     productReview: Review[];
-    allBrands:Brand[]
+    allBrands: Brand[];
+    relatedProducts: Product[]
 }
 
 //Blog Page State

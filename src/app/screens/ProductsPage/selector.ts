@@ -21,3 +21,8 @@ export const allBrandsRetriever = createSelector(
     selectProductPage,
     (ProductPage) => ProductPage.allBrands
 )
+
+export const relatedProductsRetriever = createSelector(
+    selectProductPage,
+    (ProductPage) => ProductPage.relatedProducts
+)

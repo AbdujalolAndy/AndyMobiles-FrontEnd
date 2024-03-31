@@ -22,7 +22,7 @@ function HomePage(props: homePage) {
     }, [])
     return (
         <Box className="HomePage">
-            <NewProducts />
+            <NewProducts searchProducts={{ limit: 10, order: "new", random: true, contractMonth: [] }}/>
             <DealContract />
             <OurBrands />
             <AdPhone />

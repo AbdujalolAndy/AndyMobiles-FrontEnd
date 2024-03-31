@@ -431,6 +431,9 @@
     padding: 5px;
     border-radius: 10px;
 }
+.reviewPage .select_rating>:last-child{
+    display: none;
+}
 
 .reviewPage i {
     cursor: pointer;

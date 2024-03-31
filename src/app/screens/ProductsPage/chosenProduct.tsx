@@ -1,4 +1,4 @@
-import { Box, Stack, Tab, Tabs } from "@mui/material"
+import { Box, Rating, Stack, Tab, Tabs } from "@mui/material"
 import { useHistory, useParams } from "react-router-dom"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -25,6 +25,8 @@ import { chosenProductRetriever, productReviewRetriever } from "./selector";
 import { serverApi } from "../../../lib/config";
 import { Review } from "../../types/review";
 import CommunityServiceApi from "../../apiServices/communityServiceApi";
+import { locations } from "../../../lib/locations";
+import { NewProducts } from "../HomePage/releasedProducts";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -55,25 +57,18 @@ export const ChosenProduct = () => {
     const { productReview } = useSelector(productReviewRetrieve)
     const { setChosenProduct, setProductReview } = actionDispatch(useDispatch())
     const [magnifyImg, setMagnifyImg] = useState<string>("")
-    const [chosenProductImgIndex, setChosenProductImgIndex] = useState<number>(-1)
+    const [chosenProductImgIndex, setChosenProductImgIndex] = useState<number>(0)
     const [reBuild, setRebuild] = useState<Date>(new Date)
-    const styleStorage = {
-        borderColor: "black",
-        color: "black",
-        fontWeight: "bold"
-    }
     const styleColor = {
         borderColor: "#0066AE",
         color: chosenColor,
         borderWidth: "2px"
     }
     const location = useHistory()
-
     //3 circle React Hook
     useEffect(() => {
         function handleScroll() { setScrolled(window.scrollY > 500) }
         window.addEventListener("scroll", handleScroll);
-
         //Chosen Product
         const productServiceApi = new ProductServiceApi();
         productServiceApi.getChosenProduct(product_id)
@@ -85,7 +80,6 @@ export const ChosenProduct = () => {
         communityServiceApi.getProductReviews(product_id)
             .then(data => setProductReview(data))
             .catch(err => console.log(err))
-
         return () => {
             window.removeEventListener("scroll", handleScroll)
         }
@@ -95,13 +89,21 @@ export const ChosenProduct = () => {
     function handleOpenChat() { setOpenChat(true) };
     function handleCloseChat() { setOpenChat(false) };
     function handleValue(order: string) { setValue(order) }
-    function handleChosenColor(color: string) { setChosenColor(color) }
+    function handleChosenColor(color: string, id:string) { 
+        setChosenColor(color) 
+        window.location.replace(`/products/product/${id}`)
+    }
     function hadleTermsUse(e: any) { setTermsAgree(e.target.checked) }
     function addAmount() { setQuantity(quantity + 1) }
     function removeAmount() { setQuantity(quantity - 1) }
     function handleSelectImage(e: any, img: string, index: number) {
         setMagnifyImg(img)
         setChosenProductImgIndex(index)
+    }
+    function handleOverallRating(productReview: Review[]) {
+        let rating_product: number = 0;
+        productReview.map((ele) => (rating_product +=ele.review_stars))
+        return Math.floor(rating_product/productReview.length)
     }
     return (
         <Box className="chosen_product">
@@ -192,9 +194,11 @@ export const ChosenProduct = () => {
                     </div>
                     <Stack className="product_review mb-3" flexDirection={"row"} gap={"10px"}>
                         <Stack flexDirection={"row"} gap={"3px"} alignItems={"center"} className="text-warning">
-                            {Array.from({ length: 5 }).map(ele => (
-                                <i className="fa-solid fa-star"></i>
-                            ))}
+                            <Rating
+                                name="single-controlled"
+                                value={handleOverallRating(productReview)}
+                                readOnly
+                            />
                         </Stack>
                         <div className="review_count text-secondary">
                             {chosenProduct?.product_comments} reviews
@@ -203,7 +207,7 @@ export const ChosenProduct = () => {
                     <Stack
                         className="product_price fs-6 mb-4"
                         flexDirection={"row"}
-                        gap={"5px"}
+                        gap={"8px"}
                         alignItems={"center"}
                     >
                         <Stack
@@ -218,7 +222,7 @@ export const ChosenProduct = () => {
                                 className="fw-bold"
                                 flexDirection={"row"}
                                 alignItems={"center"}
-                                gap={"20px"}
+                                gap={"10px"}
                             >
                                 <div>
                                     {
@@ -295,7 +299,7 @@ export const ChosenProduct = () => {
                                             <Box
                                                 className="product_color"
                                                 style={chosenColor == product_color ? styleColor : {}}
-                                                onClick={() => handleChosenColor(product_color)}
+                                                onClick={() => handleChosenColor(product_color, product._id)}
                                             >
                                                 <img src={`/pictures/products/${product_color}_phone.webp`} alt="" className="w-50" />
                                             </Box>
@@ -393,11 +397,11 @@ export const ChosenProduct = () => {
                         }
                     </TabPanel>
                     <TabPanel value={"3"}>
-                        <ReviewWriting />
+                        <ReviewWriting product_id={chosenProduct?._id} />
                     </TabPanel>
                 </TabContext>
-                <PickUpCenter />
-                <RelatedProducts />
+                <PickUpCenter brand_location={chosenProduct?.company_data.mb_nick} />
+                <NewProducts searchProducts={{ limit: 5, order: "createdAt", random: true, contractMonth: [] }} />
             </Box>
         </Box>
     )

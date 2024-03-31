@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Route, Switch, useParams, useRouteMatch } from "react-router-dom"
 import { ChosenProduct } from "./chosenProduct"
 import AllProducts from "./allProducts"
@@ -9,6 +9,9 @@ import "../../css/productPage.css"
 
 const ProductsPage = () => {
     const location = useRouteMatch().path
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <Box>
             <Box className="productPage">

@@ -20,7 +20,9 @@ const ProductReview = (props: ReviewsProp) => {
         <Box className={"poduct_review"}>
             {
                 props.reviews.map((review: Review, index: number) => {
-                    const image_url = review.member_data.mb_image ? `${serverApi}/${review.member_data.mb_image}` : ""
+                    let image_url = review.member_data.mb_image ?
+                        `${serverApi}/${review.member_data.mb_image}` :
+                        "/pictures/auth/default_user.svg"
                     return (
                         <Box className={"poduct_review_item position-relative"}>
                             <Stack
@@ -38,10 +40,10 @@ const ProductReview = (props: ReviewsProp) => {
                                         style={{
                                             height: "50px",
                                             width: "50px",
-                                            borderRadius: "50%"
+                                            borderRadius: "50%",
                                         }}
                                     >
-                                        <img src={image_url ? image_url : "/pictures/auth/default_user.svg"} alt="auth" />
+                                        <img src={image_url} className="w-100" alt="auth" />
                                     </div>
                                     <Box>
                                         <div className="review_title fs-4">
@@ -60,7 +62,7 @@ const ProductReview = (props: ReviewsProp) => {
                                     <Rating
                                         sx={{ fontSize: "20px" }}
                                         name="review-rating"
-                                        value={props.chosenProduct.product_comments ? props.chosenProduct.product_comments : 0}
+                                        value={review.review_stars ? review.review_stars : 0}
                                         readOnly />
                                 </Box>
                             </Stack>

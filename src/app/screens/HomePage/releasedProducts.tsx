@@ -26,7 +26,7 @@ const randomNewProductsRetriever = createSelector(
     (randomNewProducts) => ({ randomNewProducts })
 )
 
-export const NewProducts = () => {
+export const NewProducts = (props: any) => {
     //Initializations
     const { setRandomNewProducts } = actionDispatch(useDispatch())
     const { randomNewProducts } = useSelector(randomNewProductsRetriever)
@@ -35,7 +35,7 @@ export const NewProducts = () => {
     //3 circle
     useEffect(() => {
         const productServiceApi = new ProductServiceApi();
-        productServiceApi.getTargetProducts({ limit: 10, order: "new", random: true, contractMonth: [] })
+        productServiceApi.getTargetProducts(props.searchProducts)
             .then(data => setRandomNewProducts(data)).catch(err => {
                 console.log(err)
             })
@@ -115,7 +115,9 @@ export const NewProducts = () => {
                                             })
                                         }
                                     </Stack>
-                                    <div className="bg-danger position-absolute card-img_badge">NEW</div>
+                                    {
+                                        ele.product_new_released==="Y" ? (<div className="bg-danger position-absolute card-img_badge">NEW</div>) : (<div className="bg-danger position-absolute card-img_badge opacity-0">NEW</div>)
+                                    }
                                 </div>
                                 <Stack flexDirection={"row"} justifyContent={"space-between"} className="mt-3 ps-1 pe-1">
                                     <div className="card-text fs-6 fw-bold text-warning">
