@@ -1,7 +1,7 @@
 import axios from "axios";
 import { serverApi } from "../../lib/config";
 import { searchBlogs } from "../types/others";
-import { Blog } from "../types/blog";
+import { Blog, SearchObjBlog } from "../types/blog";
 import { Review, reviewCreateData } from "../types/review";
 
 class CommunityServiceApi {
@@ -38,10 +38,21 @@ class CommunityServiceApi {
         try {
             const url = `${serverApi}/review/createReview`;
             const result = await axios.post(url, data, { withCredentials: true })
-            console.log("createReview state", result.data.state);
+            console.log("createReview state::", result.data.state);
             const review: Review = result.data.value
             return review
         } catch (err) {
+            throw err
+        }
+    }
+    async getTargetBlogs(query: SearchObjBlog): Promise<Blog[]> {
+        try {
+            const url = `${serverApi}/blogs/getTargetBlogs/?filter=${query.filter}&order=${query.order}&page=${query.page}&limit=${query.limit}${query.mb_id ? `&mb_id=${query.mb_id}` : ""}`
+            const result = await axios.get(url, { withCredentials: true });
+            console.log("getTargetBlogs State::", result.data.state);
+            const blogs: Blog[] = result.data.value;
+            return blogs
+        } catch (err: any) {
             throw err
         }
     }

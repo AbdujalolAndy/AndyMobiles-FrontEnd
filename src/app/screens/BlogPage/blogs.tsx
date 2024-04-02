@@ -1,7 +1,10 @@
-import { Favorite, RemoveRedEye } from "@mui/icons-material"
+import { Comment, Favorite, RemoveRedEye } from "@mui/icons-material"
 import { Box, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
+import { Blog } from "../../types/blog"
+import Moment from "react-moment"
+import { serverApi } from "../../../lib/config"
 
 export const BlogsPage = (props: any) => {
     const [loaded, setLoaded] = useState<boolean>(false)
@@ -18,55 +21,62 @@ export const BlogsPage = (props: any) => {
             flexWrap={"wrap"}
             justifyContent={"start"}
         >
-            {Array.from({ length: props.blogs }).map((ele, index) => (
-                <Box className={loaded ? "blog_card aos-animate" : ""} data-aos="fade-left" data-aos-delay={150 * index}>
-                    <div className="blog_img w-100 position-relative">
-                        <div className="blog_type position-absolute">Celebrity</div>
-                        <img src="/icons/blog_1.jpg" alt="blog_img" />
-                    </div>
-                    <div className="blog_body">
-                        <div className="me-2 ms-2">
-                            <Stack className="blog_subtitle p-2" flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                                <div className="blog_author">
-                                    <i className="fa-solid fa-calendar-days me-2"></i>
-                                    <span>30 Jan 2024</span>
-                                </div>
-                                <Stack className="statistic" flexDirection={"row"} gap={"15px"}>
-                                    <div className="d-flex gap-2 align-items-center">
-                                        {"2"}
-                                        <i className="fa-solid fa-comment"></i>
+            {props.blogs.map((blog: Blog, index: number) => {
+                const image_url = blog.mb_data.mb_image ? `${serverApi}/${blog.mb_data.mb_image}` : "/pictures/auth/default_user.svg"
+                return (
+                    <Box className={loaded ? "blog_card aos-animate" : ""} data-aos="fade-left" data-aos-delay={150 * index}>
+                        <div className="blog_img w-100 position-relative">
+                            <div className="blog_type position-absolute">{blog.blog_category}</div>
+                            <img src={blog.blog_image ?? "/icons/blog_1.jpg"} alt="blog_img" />
+                        </div>
+                        <div className="blog_body">
+                            <div className="me-2 ms-2">
+                                <Stack className="blog_subtitle p-2" flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                                    <div className="blog_author">
+                                        <i className="fa-solid fa-calendar-days me-2"></i>
+                                        <span>
+                                            <Moment format="YYYY-MM-DD">
+                                                {blog.createdAt}
+                                            </Moment>
+                                        </span>
                                     </div>
-                                    <div className="d-flex gap-2 align-items-center">
-                                        {"14"}
-                                        <i className="fa-solid fa-heart"></i>
-                                    </div>
-                                    <div className="d-flex gap-2 align-items-center">
-                                        {"25"}
-                                        <i className="fa-solid fa-eye"></i>
-                                    </div>
+                                    <Stack className="statistic" flexDirection={"row"} gap={"15px"}>
+                                        <div className="d-flex gap-2 align-items-center">
+                                            {blog.blog_comments.toString()}
+                                            <Comment />
+                                        </div>
+                                        <div className="d-flex gap-2 align-items-center">
+                                            {blog.blog_likes.toString()}
+                                            <Favorite />
+                                        </div>
+                                        <div className="d-flex gap-2 align-items-center">
+                                            {blog.blog_views.toString()}
+                                            <RemoveRedEye />
+                                        </div>
+                                    </Stack>
                                 </Stack>
-                            </Stack>
-                            <div className="blog_title fs-2 fw-bold">
-                                <NavLink to="#">
-                                    Iphone stock market
-                                </NavLink>
-                            </div>
-                            <div className="blog_text">
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
-                            </div>
-                            <div className="blog_author d-flex align-items-center gap-3 mt-3 mb-1">
-                                <img src="/icons/blog_1.jpg" alt="" />
-                                <a
-                                    className="author_name fw-bold"
-                                    href="/"
-                                >
-                                    Roza Salazar
-                                </a>
+                                <div className="blog_title fs-2 fw-bold">
+                                    <NavLink to="#">
+                                        {blog.blog_title}
+                                    </NavLink>
+                                </div>
+                                <div className="blog_text">
+                                    {blog.blog_context}
+                                </div>
+                                <div className="blog_author d-flex align-items-center gap-3 mt-3 mb-1">
+                                    <img src={image_url} alt="" />
+                                    <a
+                                        className="author_name fw-bold"
+                                        href="/"
+                                    >
+                                        {blog.mb_data.mb_nick}
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Box>
-            ))}
+                    </Box>
+                )
+            })}
 
         </Stack>
     )

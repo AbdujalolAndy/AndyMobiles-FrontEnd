@@ -3,6 +3,7 @@ import reduxLogger from "redux-logger"
 import homePageReducer from './screens/HomePage/slice';
 import brandPageReducer from './screens/BrandPage/slice';
 import productPageReducer from './screens/ProductsPage/slice';
+import blogPageReducer from './screens/BlogPage/slice';
 
 export const store = configureStore({
   //@ts-ignore
@@ -10,7 +11,8 @@ export const store = configureStore({
   reducer: {
     homePage: homePageReducer,
     brandPage: brandPageReducer,
-    productPage: productPageReducer
+    productPage: productPageReducer,
+    blogPage: blogPageReducer
   },
 });
 

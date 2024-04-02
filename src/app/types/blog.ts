@@ -15,3 +15,10 @@ export interface Blog {
     createdAt: Date;
     updateAt: Date;
 }
+export interface SearchObjBlog {
+    order: string;
+    filter: string;
+    limit: number;
+    page: number;
+    mb_id?: string
+}

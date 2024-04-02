@@ -37,7 +37,7 @@ export interface ProductPageState {
 
 //Blog Page State
 export interface BlogPageState {
-    getTargetBlogs: Blog[]
+    targetBlogs: Blog[]
 }
 
 //Track Page State
