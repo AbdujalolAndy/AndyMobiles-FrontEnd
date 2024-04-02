@@ -7,7 +7,6 @@ import { TabContext, TabPanel } from "@mui/lab";
 import ProductDescription from "./ProductDescription";
 import ProductReview from "./productReview";
 import ReviewWriting from "./reviewWriting";
-import RelatedProducts from "./relatedProducts";
 import PickUpCenter from "./pickupCenter";
 import ChattingClient from "../../components/features/clientChattingModal";
 import ProductServiceApi from "../../apiServices/productServiceApi";
@@ -58,7 +57,8 @@ export const ChosenProduct = () => {
     const { setChosenProduct, setProductReview } = actionDispatch(useDispatch())
     const [magnifyImg, setMagnifyImg] = useState<string>("")
     const [chosenProductImgIndex, setChosenProductImgIndex] = useState<number>(0)
-    const [reBuild, setRebuild] = useState<Date>(new Date)
+    const [reBuild, setRebuild] = useState<Date>(new Date);
+    const main_img = magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`;
     const styleColor = {
         borderColor: "#0066AE",
         color: chosenColor,
@@ -89,8 +89,8 @@ export const ChosenProduct = () => {
     function handleOpenChat() { setOpenChat(true) };
     function handleCloseChat() { setOpenChat(false) };
     function handleValue(order: string) { setValue(order) }
-    function handleChosenColor(color: string, id:string) { 
-        setChosenColor(color) 
+    function handleChosenColor(color: string, id: string) {
+        setChosenColor(color)
         window.location.replace(`/products/product/${id}`)
     }
     function hadleTermsUse(e: any) { setTermsAgree(e.target.checked) }
@@ -102,8 +102,8 @@ export const ChosenProduct = () => {
     }
     function handleOverallRating(productReview: Review[]) {
         let rating_product: number = 0;
-        productReview.map((ele) => (rating_product +=ele.review_stars))
-        return Math.floor(rating_product/productReview.length)
+        productReview.map((ele) => (rating_product += ele.review_stars))
+        return Math.floor(rating_product / productReview.length)
     }
     return (
         <Box className="chosen_product">
@@ -119,12 +119,11 @@ export const ChosenProduct = () => {
                 style={openChat ? { display: "none" } : {}}
             >
 
-                <div className="assistant_img position-relative"                 >
-                    <img src="/icons/default_user.svg" alt="assitant" width={"60px"} />
-                    <span className="position-absolute  translate-middle bg-success rounded-circle"></span>
+                <div className="assistant_img">
+                    <img src="/icons/bot_img.jpg" alt="assitant" width={"60px"} />
                 </div>
                 <div className="assitant_text">
-                    Get our best New <span className="text-dark">Galaxy S24</span> deals. Chat with our experts!
+                    Talk with <b>A smart bot</b>
                 </div>
             </Stack>
             <Stack
@@ -169,10 +168,10 @@ export const ChosenProduct = () => {
                                 smallImage: {
                                     alt: "Wristwatch by Ted Baker London",
                                     isFluidWidth: true,
-                                    src: `${magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`}`
+                                    src: main_img
                                 },
                                 largeImage: {
-                                    src: `${magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`}`,
+                                    src: main_img,
                                     width: 1000,
                                     height: 1480,
                                 },
@@ -180,8 +179,8 @@ export const ChosenProduct = () => {
                                     zIndex: "1500",
                                 },
                                 enlargedImageContainerDimensions: {
-                                    width: "400%",
-                                    height: "150%",
+                                    width: !main_img.includes("webp")?"100%":"400%",
+                                    height: !main_img.includes("webp")?"100%":"160%",
                                 },
                             }}
                         />
@@ -334,8 +333,23 @@ export const ChosenProduct = () => {
                             <div onClick={addAmount}>+</div>
                         </Stack>
                     </Stack>
-                    <Stack className="mb-5" flexDirection={"row"} gap={"15px"}>
-                        <button className="btn btn-dark">Monthly Fee</button>
+                    <Stack
+                        className="mb-5"
+                        flexDirection={"row"}
+                        gap={"5px"}
+                        alignItems={"center"}
+                    >
+                        <select className="form-select w-50" id="">
+                            <option>Not Monthly contract</option>
+                            {
+                                //@ts-ignore
+                                Array.from({ length: chosenProduct?.product_contract + 1 }).map((ele, index: number) => {
+                                    if (index % 3 == 0 && index != 0) {
+                                        return (<option value={index}>{index} months contract</option>)
+                                    }
+                                })
+                            }
+                        </select>
                         <button className="btn btn-dark">ADD TO CART</button>
                         <button className="btn btn-light"><i className="fa-regular fa-heart"></i></button>
                     </Stack>

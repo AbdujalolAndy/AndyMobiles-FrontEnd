@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { serverApi } from "../../../lib/config"
 import { setTopRandomBrands } from "./slice"
 import { retrieveTopRandomBrands } from "./selector"
+import { useHistory } from "react-router-dom"
 
 //Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -29,11 +30,12 @@ export const OurBrands = () => {
     const { setTopRandomBrands } = actionDispatch(useDispatch())
     const { targetTopBrands } = useSelector(targetBrandRetriever)
     const [scroll, setScroll] = useState<boolean>(false)
+    const history = useHistory()
 
     //Three circle Hook
     useEffect(() => {
         function handlerScroll() {
-            if (window.scrollY > 1200) {
+            if (window.scrollY > 1100) {
                 setScroll(true)
             } else {
                 setScroll(false)
@@ -48,6 +50,11 @@ export const OurBrands = () => {
             window.removeEventListener("scroll", handlerScroll)
         }
     }, [])
+
+    //Handlers
+    function handleOpenBrandsProduct(e: any, key: string) {
+        history.push(`/products/${key}`)
+    }
     return (
         <Box className="mt-5 ourBrand mb-5">
             <div className="bg"></div>
@@ -68,7 +75,12 @@ export const OurBrands = () => {
                             const image_url = `${serverApi}/${brand.mb_image}`
                             return (
                                 <SwiperSlide>
-                                    <Stack className="brand_card" style={{ backgroundColor: logo_Colors[index] }} alignItems={"center"}>
+                                    <Stack
+                                        className="brand_card"
+                                        style={{ backgroundColor: logo_Colors[index] }}
+                                        alignItems={"center"}
+                                        onClick={(e) => handleOpenBrandsProduct(e, brand._id)}
+                                    >
                                         <div className="brand_img">
                                             <img src={image_url} alt="apple" className="brand_logo" />
                                         </div>

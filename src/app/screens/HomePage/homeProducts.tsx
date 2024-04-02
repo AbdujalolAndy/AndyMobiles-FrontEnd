@@ -5,12 +5,14 @@ import { serverApi } from "../../../lib/config"
 import { Product } from "../../types/product"
 import { ArrowBack, ArrowForward } from "@mui/icons-material"
 import { stringSplitterHandler } from "../../components/features/stringSplitter"
+import { useHistory } from "react-router-dom"
 
 
 
 export const HomeProducts = (props: HomePageProducts) => {
     //Initializations
     const [loaded, setLoaded] = useState<boolean>(false)
+    const history = useHistory()
     //Three circle Hook
     useEffect(() => {
         setLoaded(true)
@@ -65,7 +67,12 @@ export const HomeProducts = (props: HomePageProducts) => {
                                     <div>Contract Month:</div>
                                     <div className="text-dark">{ele.product_contract > 0 ? ele.product_contract + " months" : "no Monthly Fee"}</div>
                                 </Stack>
-                                <button className="btn btn-warning text-light">Purchase</button>
+                                <button
+                                    className="btn btn-warning text-light"
+                                    onClick={() => {
+                                        history.push(`/products/product/${ele._id}`)
+                                    }}
+                                >Purchase</button>
                             </Stack>
                         </Box>
                     </Box>

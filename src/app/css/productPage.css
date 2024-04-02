@@ -235,6 +235,7 @@
 .product_assistant .assistant_img {
     box-shadow: 0 0 5px #567fd6;
     border-radius: 50%;
+    overflow: hidden;
     background-color: white;
 }
 

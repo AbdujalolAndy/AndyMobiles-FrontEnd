@@ -180,7 +180,7 @@
     transition: all .6s ease-in-out;
 }
 
-.product_fade:hover .product_sort{
+.product_fade:hover .product_sort {
     box-shadow: 0 0 4px black;
 }
 
@@ -189,13 +189,14 @@
     transform: translateY(0%);
     opacity: 1;
 }
-.product_sort .color-select{
+
+.product_sort .color-select {
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
-.product_sort .color-select>span{
+.product_sort .color-select>span {
     font-size: 10px;
     font-weight: bold;
     color: black;
@@ -211,7 +212,14 @@
     height: 30px;
     width: 30px;
     border-radius: 50%;
-    border: none
+    border: none;
+    transform: scale(1);
+    transition: all .3s ease-in-out;
+}
+
+.color-select button:hover {
+    box-shadow: 0 0 7px black;
+    transform: scale(1.1);
 }
 
 .product_sort img {

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { Box, Container, Popover, Stack, Typography } from "@mui/material"
+import React, { useEffect, } from "react"
+import { Box, Container, Stack } from "@mui/material"
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Favorite } from "@mui/icons-material"
@@ -14,6 +14,7 @@ import { retrieveRandomProducts } from "./selector"
 import { useDispatch, useSelector } from "react-redux"
 import { serverApi } from "../../../lib/config"
 import { stringSplitterHandler } from "../../components/features/stringSplitter"
+import { useHistory, useLocation } from "react-router-dom"
 
 //REDUX Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -30,8 +31,8 @@ export const NewProducts = (props: any) => {
     //Initializations
     const { setRandomNewProducts } = actionDispatch(useDispatch())
     const { randomNewProducts } = useSelector(randomNewProductsRetriever)
-    const [chosenColor, setChosenColor] = useState<string>("");
-    const [productIndex, setProductIndex] = useState({ key: "ss", index: 0 })
+    const history = useHistory();
+    const location = useLocation()
     //3 circle
     useEffect(() => {
         const productServiceApi = new ProductServiceApi();
@@ -42,10 +43,13 @@ export const NewProducts = (props: any) => {
     }, [])
 
     //Handlers
-    function handleSortColor(color: string, key: string, index: number) {
-        const newObject = { key: key, index: index }
-        setProductIndex(newObject)
-        setChosenColor(color)
+    function handleOpenChosenOne(e: any, key: string) {
+        if (location.pathname.includes("/products/product/")) {
+            history.push(`/products/product/${key}`)
+            window.location.reload()
+        } else {
+            history.push(`/products/product/${key}`)
+        }
     }
     return (
         <Container className="hot-products mt-5">
@@ -71,16 +75,18 @@ export const NewProducts = (props: any) => {
                         image_url_2 = `${serverApi}/${ele.product_images[1]}`,
                         discount_price = ele.product_price - (ele.product_price * (ele.product_discount / 100))
                     return (
-                        <SwiperSlide className="swiper-card">
+                        <SwiperSlide
+                            className="swiper-card"
+                        >
                             <Box className={"slider-card border-0"} id="card">
                                 <div className="card-img product_fade">
                                     <img
-                                        src={ele._id == productIndex.key ? `${serverApi}/${ele.product_related_colors[productIndex.index].product_images[0]}` : image_url_1}
+                                        src={image_url_1}
                                         alt="phone1"
                                         className="product_img_1"
                                     />
                                     <img
-                                        src={ele._id == productIndex.key ? `${serverApi}/${ele.product_related_colors[productIndex.index].product_images[0]}` : image_url_2}
+                                        src={image_url_2}
                                         alt="phone1"
                                         className="product_img_2"
                                     />
@@ -102,8 +108,7 @@ export const NewProducts = (props: any) => {
                                                     <div className="color-select">
                                                         <button
                                                             type="button"
-                                                            style={chosenColor == `${product_color}${product._id}` ? { border: `2px solid ${product_color === "white" ? "gray" : product_color}` } : {}}
-                                                            onClick={() => handleSortColor(`${product_color}${product._id}`, ele._id, index)}
+                                                            onClick={(e) => handleOpenChosenOne(e, product._id)}
                                                         >
                                                             <img src={`/pictures/products/${product_color}_phone.webp`} alt="" />
                                                         </button>
@@ -116,7 +121,7 @@ export const NewProducts = (props: any) => {
                                         }
                                     </Stack>
                                     {
-                                        ele.product_new_released==="Y" ? (<div className="bg-danger position-absolute card-img_badge">NEW</div>) : (<div className="bg-danger position-absolute card-img_badge opacity-0">NEW</div>)
+                                        ele.product_new_released === "Y" ? (<div className="bg-danger position-absolute card-img_badge">NEW</div>) : (<div className="bg-danger position-absolute card-img_badge opacity-0">NEW</div>)
                                     }
                                 </div>
                                 <Stack flexDirection={"row"} justifyContent={"space-between"} className="mt-3 ps-1 pe-1">

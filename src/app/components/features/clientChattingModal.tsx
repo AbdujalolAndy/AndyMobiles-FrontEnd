@@ -29,7 +29,6 @@ const receiver_htmlElement = (question: string) => {
 
 const ChattingClient = (props: any) => {
     //Initilizations
-    const questionRef = useRef<any>();
     const [msgs, setMsgs] = useState<any[]>([])
     //Handlers
     function handleQuestions(e: any, q_order: number) {
@@ -55,8 +54,6 @@ const ChattingClient = (props: any) => {
                     </div>
                     <div>
                         Smart Bot Chatting
-                        <Badge>
-                        </Badge>
                     </div>
                 </Stack>
                 <div>

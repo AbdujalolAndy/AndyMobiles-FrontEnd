@@ -164,6 +164,7 @@ export const Products = (props: any) => {
                     page={props.searchObj.page}
                     count={props.searchObj.page >= 3 ? props.searchObj.page + 1 : 3}
                     onChange={(e: any, value: number) => {
+                        window.scrollTo(0, 0)
                         props.searchObj.page = value;
                         props.setSearchObj({ ...props.searchObj })
                     }}
