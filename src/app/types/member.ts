@@ -45,3 +45,13 @@ export interface SignUpMember {
     mb_password: string;
     mb_phone: string;
 }
+
+export interface UpdateMemberData {
+    mb_nick?: string;
+    mb_phone?: string;
+    mb_image?: string;
+    mb_description?: string;
+    mb_password?: string;
+    mb_email?: string;
+    mb_address?: string
+}

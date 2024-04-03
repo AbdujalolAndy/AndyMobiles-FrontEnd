@@ -8,17 +8,17 @@ import { HomeNavbar } from './components/headers/HomeNavbar'
 import BlogPage from './screens/BlogPage'
 import TrackOrderPage from './screens/TrackOrderPage'
 import FaqPage from './screens/FaqPage'
-import MyPage from './screens/MyPage'
 import Footer from './components/footer'
 import { AuthenticationModal } from './components/authModal'
 import { Basket } from './components/basket'
 import { ProductNavbar } from './components/headers/productNavbar'
-import "./css/general.css"
-import "./css/navbar.css"
 import Chatting from './components/features/chattingModal'
 import { DeviceDetector } from './components/features/deviceDetector'
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../lib/sweetAlert'
 import { MemberServiceApi } from './apiServices/memberServiceApi'
+import MemberPage from './screens/MyPage'
+import "./css/general.css"
+import "./css/navbar.css"
 
 
 
@@ -104,7 +104,7 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path="/products">
-          <ProductsPage  />
+          <ProductsPage />
           <Footer />
         </Route>
         <Route path="/blogs">
@@ -116,7 +116,7 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path="/user-page">
-          < MyPage />
+          < MemberPage />
           <Footer />
         </Route>
         <Route path="/faq">

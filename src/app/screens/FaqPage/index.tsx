@@ -1,13 +1,19 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import { Box, Container, Stack, Tab } from "@mui/material"
+import { useEffect, useState } from "react"
 import Questions from "./questions"
 import "../../css/faqPage.css"
-import Footer from "../../components/footer"
-import { useState } from "react"
 
 const FaqPage = () => {
+    //initializations
     const [value, setValue] = useState<string>("1")
 
+    //React Hook
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
+    //handler
     function handleValue(order: string) {
         setValue(order)
     }
@@ -32,7 +38,7 @@ const FaqPage = () => {
                     </Stack>
                     <div className="faq_body mt-4">
                         <TabPanel value="1">
-                            <Questions  />
+                            <Questions />
                         </TabPanel>
                         <TabPanel value="2">
                             <Questions />

@@ -11,4 +11,5 @@
 
 .faq_body .question_item {
     width: 45%;
+    transition: all .3s ease-in-out;
 }

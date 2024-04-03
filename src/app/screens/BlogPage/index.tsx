@@ -35,6 +35,7 @@ const BlogPage = () => {
     const [searchObj, setSearchObj] = useState({ order: "ALL", filter: "newToOld", limit: 6, page: 1 })
     //3 circle React Hook 
     useEffect(() => {
+        window.scrollTo(0, 0)
         //GET::: communityBlogs
         const communityServiceApi = new CommunityServiceApi();
         communityServiceApi.getTargetBlogs(searchObj)

@@ -22,6 +22,21 @@
     cursor: pointer;
 }
 
+.settings_items .controller_tab {
+    transform: translateX(0);
+    transition: transform .3s ease-in-out;
+}
+
+.settings_items .controller_tab:hover {
+    transform: translateX(20px);
+    color: #04558e
+}
+
+.settings_items .chosenSet {
+    transform: translateX(20px);
+    color: #04558e
+}
+
 .user_info {
     position: relative;
     display: flex;
@@ -65,13 +80,14 @@
     height: 150px;
     width: 150px;
     display: flex;
-    border: 2px dashed gray;
     border-radius: 50%;
     justify-content: center;
+    align-items: center;
 }
 
 .user_img img {
-    width: 140px;
+    max-width: 140px;
+    max-height: 140px;
     transform: rotateY(0);
     transition: transform 0.7s ease-in-out;
 }
@@ -185,12 +201,19 @@
 }
 
 .account_img {
+    height: 150px;
+    width: 150px;
     background-color: white;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .account_img img {
-    width: 140px;
+    max-width: 130px;
+    max-height: 130px;
     border-radius: 50%;
 }
 

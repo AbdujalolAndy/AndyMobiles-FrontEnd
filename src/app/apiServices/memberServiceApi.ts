@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Member, SignUpMember } from "../types/member";
+import { Member, SignUpMember, UpdateMemberData } from "../types/member";
 import assert from "assert";
 import Definer from "../../lib/Definer";
 import { serverApi } from "../../lib/config"
@@ -51,6 +51,54 @@ export class MemberServiceApi {
             return member
         } catch (err) {
             console.log(`ERROR: loginRequest, ${err}`)
+            throw err
+        }
+    }
+
+    async updateMember(data: UpdateMemberData): Promise<Member> {
+        try {
+            const formData = new FormData();
+            formData.append("mb_nick", data.mb_nick ?? "");
+            formData.append("mb_image", data.mb_image ?? "");
+            formData.append("mb_phone", data.mb_phone ?? "");
+            formData.append("mb_email", data.mb_email ?? "");
+            formData.append("mb_password", data.mb_password ?? "")
+            formData.append("mb_address", data.mb_address ?? "")
+
+            const url = `${serverApi}/member/member-edit`
+            const result = await axios(url, {
+                method: "POST",
+                data: formData,
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+            console.log("POST: updateMemberData state ", result.data.state);
+            const updatedMember: Member = result.data.value;
+            const jsonMemberData = JSON.stringify(updatedMember);
+            localStorage.removeItem("member_data");
+            localStorage.setItem("member_data", jsonMemberData)
+            return updatedMember
+        } catch (err: any) {
+            throw err
+        }
+    }
+
+    async resetPasswordData(data: { old_password: string, new_password: string }): Promise<Member> {
+        try {
+            const url = `${serverApi}/member/resetPassword`
+            const result = await axios.post(url, data, { withCredentials: true })
+            console.log("POST: resetPasswordData state ", result.data.state);
+            if (result.data.state === "fail") {
+                throw new Error(result.data.message)
+            }
+            const updatedMember: Member = result.data.value;
+            const jsonMemberData = JSON.stringify(updatedMember);
+            localStorage.removeItem("member_data");
+            localStorage.setItem("member_data", jsonMemberData)
+            return updatedMember
+        } catch (err: any) {
             throw err
         }
     }
