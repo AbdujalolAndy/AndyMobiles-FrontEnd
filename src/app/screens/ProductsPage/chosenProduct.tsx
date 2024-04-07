@@ -26,6 +26,7 @@ import { Review } from "../../types/review";
 import CommunityServiceApi from "../../apiServices/communityServiceApi";
 import { locations } from "../../../lib/locations";
 import { NewProducts } from "../HomePage/releasedProducts";
+import { AddCircle, RemoveCircle } from "@mui/icons-material";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -47,12 +48,12 @@ export const ChosenProduct = () => {
     //Initilizations
     const { product_id } = useParams<{ product_id: string }>()
     const [chosenColor, setChosenColor] = useState<string>("")
-    const [quantity, setQuantity] = useState<number>(1);
     const [value, setValue] = useState<string>("1");
     const [scrolled, setScrolled] = useState<boolean>(false);
     const [termsAgree, setTermsAgree] = useState<boolean>(false);
     const [openChat, setOpenChat] = useState<boolean>(false);
-    const { chosenProduct } = useSelector(chosenProductRetrieve)
+    const { chosenProduct } = useSelector(chosenProductRetrieve);
+    const [quantity, setQuantity] = useState<number>(1);
     const { productReview } = useSelector(productReviewRetrieve)
     const { setChosenProduct, setProductReview } = actionDispatch(useDispatch())
     const [magnifyImg, setMagnifyImg] = useState<string>("")
@@ -94,8 +95,6 @@ export const ChosenProduct = () => {
         window.location.replace(`/products/product/${id}`)
     }
     function hadleTermsUse(e: any) { setTermsAgree(e.target.checked) }
-    function addAmount() { setQuantity(quantity + 1) }
-    function removeAmount() { setQuantity(quantity - 1) }
     function handleSelectImage(e: any, img: string, index: number) {
         setMagnifyImg(img)
         setChosenProductImgIndex(index)
@@ -179,8 +178,8 @@ export const ChosenProduct = () => {
                                     zIndex: "1500",
                                 },
                                 enlargedImageContainerDimensions: {
-                                    width: !main_img.includes("webp")?"100%":"400%",
-                                    height: !main_img.includes("webp")?"100%":"160%",
+                                    width: !main_img.includes("webp") ? "100%" : "400%",
+                                    height: !main_img.includes("webp") ? "100%" : "160%",
                                 },
                             }}
                         />
@@ -319,6 +318,7 @@ export const ChosenProduct = () => {
                         className="product_quantity mb-4"
                         flexDirection={"row"}
                         gap={"30px"}
+                        alignItems={"center"}
                     >
                         <Stack
                             flexDirection={"row"}
@@ -327,10 +327,30 @@ export const ChosenProduct = () => {
                             <div><i className="fa-solid fa-calculator"></i></div>
                             <div className="text-secondary fw-bold">Quantity:</div>
                         </Stack>
-                        <Stack className="product_quantity_count" flexDirection={"row"} gap={"25px"}>
-                            <div onClick={removeAmount}>-</div>
-                            <div>{quantity}</div>
-                            <div onClick={addAmount}>+</div>
+                        <Stack
+                            flexDirection={"row"}
+                            gap={"25px"}
+                        >
+                            <div
+                                onClick={(e) => {
+                                }}
+                                className="btn btn-outline-secondary fw-bold d-flex justify-content-center align-items-center"
+                                style={{
+                                    width: "30px",
+                                    height: "30px",
+                                }}
+                            ><RemoveCircle /></div>
+                            <div className="fs-5 fw-bold"><u>{quantity}</u></div>
+                            <div
+                                onClick={(e) => {
+                                    setQuantity(quantity +1)
+                                }}
+                                className="btn btn-outline-secondary fw-bold d-flex justify-content-center align-items-center"
+                                style={{
+                                    width: "30px",
+                                    height: "30px",
+                                }}
+                            ><AddCircle /></div>
                         </Stack>
                     </Stack>
                     <Stack

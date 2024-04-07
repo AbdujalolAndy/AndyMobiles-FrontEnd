@@ -243,11 +243,21 @@
     background-repeat: no-repeat;
 }
 
+.bank_card .owner_name_hide{
+    position: absolute;
+    height: 20px;
+    width: 100px;
+    top: 10px;
+    left: 60px;
+    background-color: #DBDDEF;
+    padding: 5px;
+}
+
 .bank_card .owner_name {
     position: absolute;
     top: 5px;
     left: 60px;
-    background-color: #DBDDEF;
+    background-color: transparent;
     padding: 5px;
     font-weight: bold;
 }

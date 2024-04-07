@@ -147,23 +147,14 @@
     top: 20px;
     right: 25px;
     opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transform: translateY(20%);
     transition: all .6s ease-in-out;
+    background-color: #c4c4c4;
 }
 
-.card-features div {
-    width: 35px;
-    height: 35px;
-    line-height: 40px;
-    background-color: #eee8e8;
-    text-align: center;
-    margin-bottom: 5px;
-    color: black;
-    border-radius: 10px;
-    z-index: 2;
-    cursor: pointer;
-
-}
 
 .slider-card .product_sort {
     position: absolute;
@@ -225,6 +216,22 @@
 .product_sort img {
     height: 20px;
     width: 15px;
+}
+
+.animate-heart{
+    animation: heart-animate .4s ease-in-out;
+}
+
+@keyframes heart-animate {
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.2);
+    }
+    100%{
+        transform: scale(1);
+    }
 }
 
 /* Hot Products */

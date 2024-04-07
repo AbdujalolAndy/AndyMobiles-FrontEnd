@@ -20,16 +20,41 @@ import MemberPage from './screens/MyPage'
 import "./css/general.css"
 import "./css/navbar.css"
 
+//REDUX
+import { Dispatch } from '@reduxjs/toolkit'
+import { WishListItem } from './types/others'
+import { setWishListItems } from './screens/MyPage/slice'
+import { useDispatch } from 'react-redux'
+import { verifiedMemberData } from './apiServices/verified'
 
 
+const actionDispatch = (dispatch: Dispatch) => ({
+  setWishListItems: (data: WishListItem[]) => dispatch(setWishListItems(data))
+})
 
 const App: React.FC = () => {
 
   //Initilizations
-  const device = DeviceDetector()
+  const device = DeviceDetector();
   const { pathname } = useLocation();
-  const [openAuth, setOpenAuth] = useState(false)
-  const [openBasket, setOpenBasket] = useState(false)
+  const [openAuth, setOpenAuth] = useState(false);
+  const [openBasket, setOpenBasket] = useState(false);
+  const [likedItemAmount, setLikedItemAmount] = useState<number>(0)
+  const { setWishListItems } = actionDispatch(useDispatch());
+  const [reBuild, setRebuild] = useState<Date>(new Date())
+
+  //React Hook
+  useEffect(() => {
+    //calling wishListItems
+    const memberServiceApi = new MemberServiceApi()
+    memberServiceApi.getWishListItems().then(data => {
+      setWishListItems(data)
+      if (verifiedMemberData && data[0]) {
+        setLikedItemAmount(data.length)
+      }
+    }
+    ).then(err => console.log(err))
+  }, [reBuild])
 
   //Handlers
   function handleSignUpClose() { setOpenAuth(false) }
@@ -53,6 +78,7 @@ const App: React.FC = () => {
         handleBasketOpen={handleBasketOpen}
         handleLogOut={handleLogOut}
         device={device}
+        likedItemAmount={likedItemAmount}
       /> :
         (pathname.includes("/brands") ?
           <NavbarOthers
@@ -60,6 +86,7 @@ const App: React.FC = () => {
             handleSignUpOpen={handleSignUpOpen}
             handleBasketOpen={handleBasketOpen}
             handleLogOut={handleLogOut}
+            likedItemAmount={likedItemAmount}
           /> :
           (pathname.includes("/products") ?
             <ProductNavbar
@@ -67,6 +94,7 @@ const App: React.FC = () => {
               handleSignUpOpen={handleSignUpOpen}
               handleBasketOpen={handleBasketOpen}
               handleLogOut={handleLogOut}
+              likedItemAmount={likedItemAmount}
             /> :
             pathname.includes("/blogs") ?
               <NavbarOthers
@@ -74,6 +102,7 @@ const App: React.FC = () => {
                 handleSignUpOpen={handleSignUpOpen}
                 handleBasketOpen={handleBasketOpen}
                 handleLogOut={handleLogOut}
+                likedItemAmount={likedItemAmount}
               /> :
               pathname.includes("/track-order") ?
                 <NavbarOthers
@@ -81,6 +110,7 @@ const App: React.FC = () => {
                   handleSignUpOpen={handleSignUpOpen}
                   handleBasketOpen={handleBasketOpen}
                   handleLogOut={handleLogOut}
+                  likedItemAmount={likedItemAmount}
                 /> :
                 pathname.includes("/faq") ?
                   <NavbarOthers
@@ -88,6 +118,7 @@ const App: React.FC = () => {
                     handleSignUpOpen={handleSignUpOpen}
                     handleBasketOpen={handleBasketOpen}
                     handleLogOut={handleLogOut}
+                    likedItemAmount={likedItemAmount}
                   /> :
                   pathname.includes("/user-page") ?
                     <NavbarOthers
@@ -95,6 +126,7 @@ const App: React.FC = () => {
                       handleSignUpOpen={handleSignUpOpen}
                       handleBasketOpen={handleBasketOpen}
                       handleLogOut={handleLogOut}
+                      likedItemAmount={likedItemAmount}
                     /> :
                     ""
           ))}
@@ -116,7 +148,7 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path="/user-page">
-          < MemberPage />
+          < MemberPage reBuild={reBuild} setRebuild={setRebuild} />
           <Footer />
         </Route>
         <Route path="/faq">
@@ -124,7 +156,10 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path='/'>
-          <HomePage deviceDetect={device} />
+          <HomePage
+            deviceDetect={device}
+            setRebuild={setRebuild}
+          />
         </Route>
       </Switch>
       <AuthenticationModal

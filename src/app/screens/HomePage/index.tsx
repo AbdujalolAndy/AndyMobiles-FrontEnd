@@ -12,17 +12,18 @@ import "../../css/homePage.css"
 import "swiper/swiper-bundle.css"
 import { useEffect } from "react"
 
-interface homePage {
-    deviceDetect: any
-}
-function HomePage(props: homePage) {
+
+function HomePage(props: any) {
     //three circle Hook
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
     return (
         <Box className="HomePage">
-            <NewProducts searchProducts={{ limit: 10, order: "new", random: true, contractMonth: [] }}/>
+            <NewProducts
+                searchProducts={{ limit: 10, order: "new", random: true, contractMonth: [] }}
+                setRebuild={props.setRebuild}
+            />
             <DealContract />
             <OurBrands />
             <AdPhone />

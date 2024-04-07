@@ -3,6 +3,8 @@ import { Member, SignUpMember, UpdateMemberData } from "../types/member";
 import assert from "assert";
 import Definer from "../../lib/Definer";
 import { serverApi } from "../../lib/config"
+import { Product } from "../types/product";
+import { LikenItem, WishListItem } from "../types/others";
 
 export class MemberServiceApi {
     private readonly path: string
@@ -28,7 +30,7 @@ export class MemberServiceApi {
 
     async logoutRequest(): Promise<Member> {
         try {
-            const url = `${serverApi}/logout`,
+            const url = `${this.path}/logout`,
                 result = await axios.get(url, { withCredentials: true });
             const member: Member = result.data.value;
             return member
@@ -40,7 +42,7 @@ export class MemberServiceApi {
 
     async loginRequest(loginData: any): Promise<Member> {
         try {
-            const url = `${serverApi}/login`
+            const url = `${this.path}/login`
             const result = await axios.post(url, loginData, { withCredentials: true });
             console.log("signUpRequest state::", result.data.state);
             if (result.data.state == "fail") {
@@ -65,7 +67,7 @@ export class MemberServiceApi {
             formData.append("mb_password", data.mb_password ?? "")
             formData.append("mb_address", data.mb_address ?? "")
 
-            const url = `${serverApi}/member/member-edit`
+            const url = `${this.path}/member/member-edit`
             const result = await axios(url, {
                 method: "POST",
                 data: formData,
@@ -87,7 +89,7 @@ export class MemberServiceApi {
 
     async resetPasswordData(data: { old_password: string, new_password: string }): Promise<Member> {
         try {
-            const url = `${serverApi}/member/resetPassword`
+            const url = `${this.path}/member/resetPassword`
             const result = await axios.post(url, data, { withCredentials: true })
             console.log("POST: resetPasswordData state ", result.data.state);
             if (result.data.state === "fail") {
@@ -99,6 +101,79 @@ export class MemberServiceApi {
             localStorage.setItem("member_data", jsonMemberData)
             return updatedMember
         } catch (err: any) {
+            throw err
+        }
+    }
+
+    async likenItem(like_item_id: string, item_group: string, product?: Product): Promise<LikenItem> {
+        try {
+            const url = `${this.path}/liked-item`;
+            const data = {
+                like_item_id: like_item_id,
+                like_group: item_group,
+            }
+            const result = await axios.post(url, data, { withCredentials: true });
+            const likenItem: LikenItem = result.data.value[0]
+            if (result.data.value[0] && product) {
+                await this.createWishListItem(product)
+            } else if (product) {
+                await this.removeWishListItem(product?._id)
+            }
+            return likenItem
+        } catch (err: any) {
+            throw err
+        }
+    }
+
+    async createWishListItem(product: Product): Promise<WishListItem | null> {
+        try {
+            const url = `${this.path}/wishlist/createWishlistItem`;
+            const data = {
+                product_id: product._id,
+                product_name: product.product_name,
+                product_image: product.product_images[0],
+                product_price: product.product_price,
+                product_discount: product.product_discount,
+                product_qnt: 1,
+            }
+            const result = await axios.post(url, data, { withCredentials: true });
+            const item: WishListItem = result.data.value
+            return item
+        } catch (err) {
+            throw err
+        }
+    }
+    async getWishListItems(): Promise<WishListItem[]> {
+        try {
+            const url = `${this.path}/wishlist/getAllWishedItems`
+            const result = await axios.get(url, { withCredentials: true })
+            console.log(`GET:getWishListItems, ${result.data.state}`)
+            const listedPoducts: WishListItem[] = result.data.value
+            return listedPoducts
+        } catch (err: any) {
+            throw err
+        }
+    }
+
+    async editWishListItem(data: any): Promise<WishListItem> {
+        try {
+            const url = `${this.path}/wishlist/editWishlistItem`;
+            const result = await axios.put(url, data, { withCredentials: true });
+            console.log("PUT:editWishlistItem, ", result.data.state);
+            const updatedItem: WishListItem = result.data.value;
+            return updatedItem
+        } catch (err: any) {
+            throw err
+        }
+    }
+
+    async removeWishListItem(product_id: string): Promise<WishListItem> {
+        try {
+            const url = `${this.path}/wishlist/removeWishlistItem/${product_id}`;
+            const result = await axios.get(url, { withCredentials: true });
+            const item: WishListItem = result.data.value
+            return item
+        } catch (err) {
             throw err
         }
     }

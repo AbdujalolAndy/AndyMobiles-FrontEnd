@@ -26,6 +26,7 @@ export interface Product {
     product_related: any;
     company_data: Member;
     owner_data: any;
+    me_liked:any;
     createdAt: Date;
     updateAt: Date;
 }

@@ -1,6 +1,8 @@
+import { Bank } from "./bank";
 import { Blog } from "./blog";
-import { Brand } from "./member";
+import { Brand, Member } from "./member";
 import { Order } from "./order";
+import { WishListItem } from "./others";
 import { Product } from "./product";
 import { Review } from "./review";
 
@@ -10,6 +12,7 @@ export interface AppRootState {
     brandPage: BrandPageState,
     productPage: ProductPageState,
     blogPage: BlogPageState,
+    memberPage: MemberPageState;
     trackOrderPage: TrackOrderPageState
 }
 
@@ -38,6 +41,17 @@ export interface ProductPageState {
 //Blog Page State
 export interface BlogPageState {
     targetBlogs: Blog[]
+}
+
+//Member Page State
+
+export interface MemberPageState {
+    chosenMember: Member | null;
+    chosenBankCard: Bank | null;
+    wishListItems: WishListItem[];
+    followers: Member[],
+    followings: Member[];
+    targetBlogs: Blog[];
 }
 
 //Track Page State

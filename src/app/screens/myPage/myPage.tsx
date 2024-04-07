@@ -11,14 +11,23 @@ import { verifiedMemberData } from "../../apiServices/verified"
 import { sweetFailureProvider } from "../../../lib/sweetAlert"
 import Definer from "../../../lib/Definer"
 
-export const MyPage = () => {
-    //iNITIALIZATIONS
-    const [value, setValue] = useState<string>("1")
-
+export const MyPage = (props: any) => {
+    //Initilizations
+    const [value, setValue] = useState<string>("1");
+    let localValue: any;
     //React Hook
     useEffect(() => {
+        const localValueJson: any = localStorage.getItem("value") ?? ""
+        localValue = JSON.parse(localValueJson)
+        if (localValue?.value) {
+            setValue(localValue.value.toString())
+            props.setRebuild(new Date())
+        }
         if (!verifiedMemberData) {
-            sweetFailureProvider(Definer.auth_err1, false,true)
+            sweetFailureProvider(Definer.auth_err1, false, true)
+        }
+        return () => {
+            localStorage.setItem("value", JSON.stringify(null))
         }
     }, [])
 
@@ -33,16 +42,18 @@ export const MyPage = () => {
                     <Stack className="container" flexDirection={"row"}>
                         <Stack className="setting_controller" flexDirection={"column"} alignItems={"center"}>
                             <div className="user_info">
-                                <div className="user_type">{verifiedMemberData?.mb_type}</div>
+                                <div className="user_type text-danger fw-bold">{verifiedMemberData?.mb_type}</div>
                                 <button className="user_logout btn"><img src="/icons/exit.png" alt="" /></button>
                                 <div className="user_img">
                                     <img
                                         src={verifiedMemberData?.mb_image}
                                         alt="..."
+                                        style={{ borderRadius: "50%" }}
                                     />
                                 </div>
                             </div>
                             <div className="user_name fs-1 fw-bold">{verifiedMemberData?.mb_nick}</div>
+                            <div className=" text-secondary fs-6 fw-bold">{verifiedMemberData?.mb_email}</div>
                             <Tabs
                                 orientation="vertical"
                                 className="settings_items"
@@ -132,7 +143,7 @@ export const MyPage = () => {
                             <BankTransition />
                         </TabPanel>
                         <TabPanel value={"3"} className={"account_info"}>
-                            <WishList />
+                            <WishList reBuild={props.reBuild} setRebuild={props.setRebuild} />
                         </TabPanel>
                         <TabPanel value={"5"} className={"account_info"}>
                             <Follow action_enable={true} />

@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { Box, Stack, Container } from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, EffectFade } from "swiper/modules"
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { verifiedMemberData } from "../../apiServices/verified";
 import "swiper/css"
 import "../../css/general.css"
@@ -14,7 +14,8 @@ export const HomeNavbar = (props: any) => {
     const modules = [Navigation, Autoplay]
     const progressCircle = useRef(null);
     const progressContent = useRef(null);
-    const [scrolled, setScrolled] = useState<Number>(0)
+    const [scrolled, setScrolled] = useState<Number>(0);
+    const history = useHistory()
     if (props.device === "Mobile") {
         modules.push(EffectFade)
     }
@@ -180,11 +181,14 @@ export const HomeNavbar = (props: any) => {
                             <Box className="nav-item basket_btn">
                                 <button
                                     className={scrolled ? "btn btn-outline-secondary border-0 position-relative" : "btn btn-outline-secondary border-0 position-relative"}
-                                    onClick={() => window.location.replace("/user-page")}
+                                    onClick={() => {
+                                        localStorage.setItem("value", JSON.stringify({ value: 3 }))
+                                        history.push("/user-page")
+                                    }}
                                 >
                                     <i className="fa-regular fa-heart"></i>
                                     <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
-                                        0
+                                        {props.likedItemAmount}
                                     </span>
                                 </button>
                             </Box>

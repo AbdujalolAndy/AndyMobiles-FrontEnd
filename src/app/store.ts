@@ -4,6 +4,8 @@ import homePageReducer from './screens/HomePage/slice';
 import brandPageReducer from './screens/BrandPage/slice';
 import productPageReducer from './screens/ProductsPage/slice';
 import blogPageReducer from './screens/BlogPage/slice';
+import memberPageReducer from './screens/MyPage/slice';
+
 
 export const store = configureStore({
   //@ts-ignore
@@ -12,7 +14,8 @@ export const store = configureStore({
     homePage: homePageReducer,
     brandPage: brandPageReducer,
     productPage: productPageReducer,
-    blogPage: blogPageReducer
+    blogPage: blogPageReducer,
+    memberPage: memberPageReducer
   },
 });
 
