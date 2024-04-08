@@ -21,13 +21,13 @@ export const BlogsPage = (props: any) => {
             flexWrap={"wrap"}
             justifyContent={"start"}
         >
-            {props.blogs.map((blog: Blog, index: number) => {
+            {props.blogs?.map((blog: Blog, index: number) => {
                 const image_url = blog.mb_data.mb_image ? `${serverApi}/${blog.mb_data.mb_image}` : "/pictures/auth/default_user.svg"
                 return (
                     <Box className={loaded ? "blog_card aos-animate" : ""} data-aos="fade-left" data-aos-delay={150 * index}>
                         <div className="blog_img w-100 position-relative">
                             <div className="blog_type position-absolute">{blog.blog_category}</div>
-                            <img src={blog.blog_image ?? "/icons/blog_1.jpg"} alt="blog_img" />
+                            <img src={blog?.blog_images[0] ?? "/icons/blog_1.jpg"} alt="blog_img" />
                         </div>
                         <div className="blog_body">
                             <div className="me-2 ms-2">

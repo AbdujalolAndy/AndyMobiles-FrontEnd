@@ -6,7 +6,7 @@ export interface Blog {
     blog_title: String;
     blog_category: String;
     blog_context: String;
-    blog_image?: string;
+    blog_images: string[];
     blog_likes: Number;
     blog_views: Number;
     blog_comments: Number;
@@ -14,6 +14,13 @@ export interface Blog {
     mb_data: Member;
     createdAt: Date;
     updateAt: Date;
+}
+
+export interface BlogCreate{
+    blog_title: String;
+    blog_category: String;
+    blog_context: String;
+    blog_images: string[];
 }
 export interface SearchObjBlog {
     order: string;

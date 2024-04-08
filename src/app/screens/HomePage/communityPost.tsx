@@ -59,9 +59,8 @@ function CommunityPosts() {
                 style={{ padding: "20px 0" }}
             >
                 {communityPost.map((blog: Blog, index: number) => {
-                    const image_url = blog.blog_image ? `${serverApi}/${blog.blog_image}` : "/pictures/community/cute_girl.jpg";
+                    const image_url = blog.blog_images[0] ? `${serverApi}/${blog.blog_images[0]}` : "/pictures/community/cute_girl.jpg";
                     const user_image = blog.mb_data.mb_image ? `${serverApi}/${blog.mb_data.mb_image}` : "/pictures/auth/default_user.svg"
-                    const blog_text = blog.blog_context.length > 100 ? blog.blog_context.slice(0, 100) + "..." : blog.blog_context
                     return (
                         <Box className={"post_card"}>
                             <div className="post_img" >
@@ -69,8 +68,21 @@ function CommunityPosts() {
                                 <div className='post_type'>{blog.blog_category}</div>
                             </div>
                             <div className="post_body">
-                                <Stack direction={"row"} className="post_info_header" gap={"20px"}>
-                                    <img src={user_image} alt="" style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
+                                <Stack
+                                    direction={"row"}
+                                    className="post_info_header"
+                                    gap={"20px"}
+                                >
+                                    <div
+                                        style={{
+                                            height: "50px",
+                                            width: "50px"
+                                        }}>
+                                        <img 
+                                        src={user_image} 
+                                        alt="" 
+                                        style={{ width: "80%", borderRadius: "50%" }} />
+                                    </div>
                                     <Box>
                                         <div className="author text-warning fw-bold">
                                             {blog.mb_data.mb_nick}
@@ -84,7 +96,7 @@ function CommunityPosts() {
                                     </Box>
                                 </Stack>
                                 <div className="post_title pt-3 fs-6">
-                                    {blog_text}
+                                    {blog.blog_title}
                                 </div>
                             </div>
                         </Box>

@@ -205,7 +205,7 @@ export const MyPage = (props: any) => {
                             <Posts />
                         </TabPanel>
                         <TabPanel value={"8"} className={"account_info"}>
-                            <TuiEditor />
+                            <TuiEditor setValue={setValue}/>
                         </TabPanel>
                     </Stack>
                 </TabContext>

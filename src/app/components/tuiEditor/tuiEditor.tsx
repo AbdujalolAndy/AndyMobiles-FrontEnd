@@ -13,10 +13,68 @@ import {
     TextField,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import CommunityServiceApi from "../../apiServices/communityServiceApi";
+import { Blog, BlogCreate } from "../../types/blog";
+import { serverApi } from "../../../lib/config";
+import assert from "assert";
+import Definer from "../../../lib/Definer";
 export const TuiEditor = (props: any) => {
     /** INITIALIZATIONS */
-    const history = useHistory();
     const editorRef = useRef();
+    const [blogData, setBlogData] = useState<BlogCreate>({
+        blog_category: '',
+        blog_context: "",
+        blog_title: '',
+        blog_images: []
+    })
+    //Handlers
+
+    function handleGetTitle(e: any) {
+        blogData.blog_title = e.target.value
+        setBlogData({ ...blogData })
+    }
+
+    function hadleGetCategory(e: any) {
+        blogData.blog_category = e.target.value
+        setBlogData({ ...blogData })
+    }
+
+    async function uploadImage(image: any) {
+        try {
+            const communityServiceApi = new CommunityServiceApi();
+            const path = await communityServiceApi.uploadImageData(image);
+            blogData.blog_images.push(path)
+            setBlogData({ ...blogData });
+            const source: string = `${serverApi}/${path}`
+            return source
+        } catch (err: any) {
+            await sweetErrorHandling(err)
+        }
+    }
+
+    async function handleSubmitBlog() {
+        try {
+            const editor: any = editorRef.current
+            blogData.blog_context = editor?.getInstance().getHTML()
+            setBlogData({ ...blogData })
+            console.log(blogData)
+            assert.ok(
+                blogData.blog_category != "" &&
+                blogData.blog_context != "" &&
+                blogData.blog_title != "",
+                Definer.input_err1
+            )
+
+            const communityServiceApi = new CommunityServiceApi();
+            const result = await communityServiceApi.createBlogData(blogData)
+            assert.ok(result, Definer.general_err1);
+            await sweetTopSmallSuccessAlert("succeessfully submitted!", 500, false)
+            props.setValue("7")
+        } catch (err: any) {
+            await sweetErrorHandling(err)
+        }
+    }
     return (
         <Stack>
             <Stack
@@ -31,13 +89,14 @@ export const TuiEditor = (props: any) => {
                         <Select
                             displayEmpty
                             inputProps={{ "aria-label": "Without label" }}
+                            onChange={hadleGetCategory}
                         >
-                            <MenuItem value="">
-                                <span>Categoriyani tanlang</span>
+                            <MenuItem>
+                                <span>Choose a category</span>
                             </MenuItem>
-                            <MenuItem value={"celebrity"}>Mashhurlar</MenuItem>
-                            <MenuItem value={"evaluation"}>Restaurant baho</MenuItem>
-                            <MenuItem value={"story"}>Mening Hikoyam</MenuItem>
+                            <MenuItem value={"CELEBRITY"}>Celebrity</MenuItem>
+                            <MenuItem value={"EVALUATION"}>Evaluation</MenuItem>
+                            <MenuItem value={"STORY"}>Story</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
@@ -46,6 +105,8 @@ export const TuiEditor = (props: any) => {
                     <input
                         type="text"
                         style={{ width: "300px", border: "1px solid gray", padding: "3px 10px" }}
+                        placeholder="Enter a title"
+                        onKeyUp={handleGetTitle}
                     />
                 </div>
 
@@ -65,7 +126,11 @@ export const TuiEditor = (props: any) => {
                     ["ul", "ol", "task"],
                 ]}
                 hooks={{
-                    addImageBlobHook: {},
+                    addImageBlobHook: async (image: any, callBack: any) => {
+                        const imageUploader = await uploadImage(image)
+                        callBack(imageUploader)
+                        return false
+                    },
                 }}
                 events={{
                     load: function (param: any) { },
@@ -76,6 +141,7 @@ export const TuiEditor = (props: any) => {
                     variant="contained"
                     color="primary"
                     style={{ margin: "30px", width: "250px", height: "45px" }}
+                    onClick={handleSubmitBlog}
                 >
                     SUBMIT
                 </Button>
