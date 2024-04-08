@@ -1,6 +1,6 @@
 import { Bank } from "./bank";
 import { Blog } from "./blog";
-import { Brand, Member } from "./member";
+import { Brand, FollowInterface, Member } from "./member";
 import { Order } from "./order";
 import { WishListItem } from "./others";
 import { Product } from "./product";
@@ -49,8 +49,8 @@ export interface MemberPageState {
     chosenMember: Member | null;
     chosenBankCard: Bank | null;
     wishListItems: WishListItem[];
-    followers: Member[],
-    followings: Member[];
+    followers: FollowInterface[],
+    followings: FollowInterface[];
     targetBlogs: Blog[];
 }
 

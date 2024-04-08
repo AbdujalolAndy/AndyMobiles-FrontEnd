@@ -57,6 +57,18 @@ export class MemberServiceApi {
         }
     }
 
+    async getChosenMember(mb_id: string): Promise<Member> {
+        try {
+            const url = `${this.path}/member/${mb_id}`;
+            const result = await axios.get(url, { withCredentials: true });
+            console.log("GET:getChosenMember State ,", result.data.state);
+            const chosenMember: Member = result.data.value;
+            return chosenMember
+        } catch (err: any) {
+            throw err
+        }
+    }
+
     async updateMember(data: UpdateMemberData): Promise<Member> {
         try {
             const formData = new FormData();

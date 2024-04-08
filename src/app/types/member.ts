@@ -55,3 +55,22 @@ export interface UpdateMemberData {
     mb_email?: string;
     mb_address?: string
 }
+
+export interface FollowInterface {
+    following_id: string,
+    follower_id: string,
+    createdAt: Date,
+    updatedAt: Date,
+    member_data: Member;
+    me_following: [{
+        following_id: string,
+        follower_id: string,
+        me_following: boolean
+    }]
+}
+export interface SubscribeInterface {
+    following_id: string,
+    follower_id: string,
+    createdAt: Date,
+    updatedAt: Date,
+}

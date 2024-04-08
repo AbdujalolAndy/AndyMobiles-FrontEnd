@@ -5,7 +5,7 @@ import Footer from "../../components/footer";
 import { MyAccount } from "./myAccount";
 import BankTransition from "./bankTransition";
 import WishList from "./wishList";
-import Follow from "./follow";
+import Follow from "./followings";
 import Posts from "./posts";
 import {TuiEditor} from "../../components/tuiEditor/tuiEditor"
 import "../../css/myPage.css";

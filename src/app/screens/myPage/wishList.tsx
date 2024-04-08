@@ -25,7 +25,7 @@ const WishList = (props: any) => {
     //Initialization
     const { wishListItems } = useSelector(retrieveWishListItems);
     let allPrice: number = 0;
-    wishListItems.forEach((ele: WishListItem) => {
+    wishListItems?.forEach((ele: WishListItem) => {
         if (ele.product_discount > 1) {
             allPrice += (ele.product_price - (ele.product_price * (ele.product_discount / 100))) * ele.product_qnt
         } else {

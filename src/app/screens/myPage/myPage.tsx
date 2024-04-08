@@ -3,21 +3,45 @@ import { Box, Stack, Tab, Tabs } from "@mui/material"
 import { MyAccount } from "./myAccount"
 import BankTransition from "./bankTransition"
 import WishList from "./wishList"
-import Follow from "./follow"
+import Follow from "./followings"
 import Posts from "./posts"
 import { TuiEditor } from "../../components/tuiEditor/tuiEditor"
 import { useEffect, useState } from "react"
 import { verifiedMemberData } from "../../apiServices/verified"
 import { sweetFailureProvider } from "../../../lib/sweetAlert"
 import Definer from "../../../lib/Definer"
+import Followers from "./followers"
+import Followings from "./followings"
+
+//Redux
+import { createSelector } from "reselect";
+import { MemberServiceApi } from "../../apiServices/memberServiceApi"
+import { Dispatch, createSlice } from "@reduxjs/toolkit"
+import { Member } from "../../types/member"
+import { setChosenMember } from "./slice"
+import { chosenMemberRetrieve } from "./selector"
+import { useDispatch, useSelector } from "react-redux"
+
+//Slice
+const actionDispatch = (dispatch: Dispatch) => ({
+    setChosenMember: (data: Member) => dispatch(setChosenMember(data))
+})
+//selector
+const retrieveChosenMember = createSelector(
+    chosenMemberRetrieve,
+    (chosenMember) => ({ chosenMember })
+)
 
 export const MyPage = (props: any) => {
     //Initilizations
     const [value, setValue] = useState<string>("1");
+    const { setChosenMember } = actionDispatch(useDispatch());
+    const { chosenMember } = useSelector(retrieveChosenMember);
+    const [reBuild, setRebuild] = useState<Date>(new Date())
     let localValue: any;
     //React Hook
     useEffect(() => {
-        const localValueJson: any = localStorage.getItem("value") ?? ""
+        const localValueJson: any = localStorage.getItem("value")
         localValue = JSON.parse(localValueJson)
         if (localValue?.value) {
             setValue(localValue.value.toString())
@@ -26,10 +50,15 @@ export const MyPage = (props: any) => {
         if (!verifiedMemberData) {
             sweetFailureProvider(Definer.auth_err1, false, true)
         }
+
+        //Calling chosenMember
+        const memberServiceApi = new MemberServiceApi();
+        memberServiceApi.getChosenMember(verifiedMemberData?._id).then(data => setChosenMember(data)).catch(err => console.log(err))
+
         return () => {
             localStorage.setItem("value", JSON.stringify(null))
         }
-    }, [])
+    }, [reBuild])
 
     //HANDLERS
     function handleValue(order: string) {
@@ -52,8 +81,23 @@ export const MyPage = (props: any) => {
                                     />
                                 </div>
                             </div>
-                            <div className="user_name fs-1 fw-bold">{verifiedMemberData?.mb_nick}</div>
-                            <div className=" text-secondary fs-6 fw-bold">{verifiedMemberData?.mb_email}</div>
+                            <div className="user_name fs-1 fw-bold">{chosenMember?.mb_nick}</div>
+                            <div className=" text-secondary fs-6 fw-bold">{chosenMember?.mb_email}</div>
+                            <Stack
+                                flexDirection={"row"}
+                                justifyContent={"space-between"}
+                                gap={"20px"}
+                                className="mt-2"
+                            >
+                                <div className="fw-bold text-dark">
+                                    <span className="text-secondary me-1">Followers:</span>
+                                    {chosenMember?.mb_followers}
+                                </div>
+                                <div className="fw-bold text-dark">
+                                    <span className="text-secondary me-1">Followings:</span>
+                                    {chosenMember?.mb_followings}
+                                </div>
+                            </Stack>
                             <Tabs
                                 orientation="vertical"
                                 className="settings_items"
@@ -146,10 +190,16 @@ export const MyPage = (props: any) => {
                             <WishList reBuild={props.reBuild} setRebuild={props.setRebuild} />
                         </TabPanel>
                         <TabPanel value={"5"} className={"account_info"}>
-                            <Follow action_enable={true} />
+                            <Followers
+                                action_enable={true}
+                                setRebuild={setRebuild}
+                            />
                         </TabPanel>
                         <TabPanel value={"6"} className={"account_info"}>
-                            <Follow action_enable={false} />
+                            <Followings
+                                action_enable={false}
+                                setRebuild={setRebuild}
+                            />
                         </TabPanel>
                         <TabPanel value={"7"} className={"account_info"}>
                             <Posts />

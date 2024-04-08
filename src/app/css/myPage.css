@@ -10,7 +10,7 @@
     margin-top: 30px;
     background-color: aliceblue;
     border-radius: 10px;
-    max-height: 700px;
+    height: auto;
 }
 
 .settings_items {
@@ -355,7 +355,8 @@ th {
 }
 
 .follow_item {
-    width: 600px;
+    width: 700px;
+    height: 120px;
     padding: 10px;
     border-radius: 10px;
     transition: box-shadow 0.3s ease-in-out;
@@ -369,7 +370,7 @@ th {
 }
 
 .follow_item img {
-    width: 70px
+    width: 100px
 }
 
 /* Followers Style */
