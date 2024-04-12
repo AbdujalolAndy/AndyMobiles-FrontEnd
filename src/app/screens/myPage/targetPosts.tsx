@@ -1,9 +1,10 @@
 import { ArrowBack, ArrowForward, Comment, Favorite, RemoveRedEye } from "@mui/icons-material"
-import { Box, Pagination, PaginationItem, Stack } from "@mui/material"
+import { Alert, Box, Pagination, PaginationItem, Stack } from "@mui/material"
 import { Blog } from "../../types/blog"
 import { useEffect, useState } from "react"
 import { serverApi } from "../../../lib/config"
 import Moment from "react-moment"
+import { useHistory } from "react-router-dom"
 
 const TargetPosts = (props: any) => {
     return (
@@ -13,7 +14,7 @@ const TargetPosts = (props: any) => {
             alignContent={"start"}
         >
             {
-                props.targetBlogs ? (
+                props.targetBlogs[0] ? (
                     <Stack gap={"20px"}>
                         {props.targetBlogs.map((blog: Blog, index: number) => {
                             //@ts-ignore
@@ -24,6 +25,10 @@ const TargetPosts = (props: any) => {
                                     className={"targetPost position-relative aos-animate"}
                                     flexDirection={"row"}
                                     gap={"20px"}
+                                    onClick={() => {
+                                        props.handleChosenBlogData(blog._id)
+                                        props.handleTargetReviews(blog._id)
+                                    }}
                                 >
                                     <div
                                         className="position-absolute bg-warning text-light fw-bold p-1"
@@ -104,9 +109,14 @@ const TargetPosts = (props: any) => {
                         })}
                     </Stack>
                 )
-                    : (<div>
-                        There is not Post Yet
-                    </div>)
+                    : (
+                        <div
+                            className=" text-secondary rounded mb-5 fs-3 p-2"
+                            style={{ backgroundColor: "#DBDDEF" }}
+                        >
+                            You don't have any Following Members yet
+                        </div>
+                    )
             }
             <Pagination
                 className="brand_pagination d-flex justify-content-center"

@@ -67,8 +67,8 @@ export const Products = (props: any) => {
                                 onClick={() => { return false }}
                             >
                                 <button className="position-absolute"><Favorite style={{ fill: "red" }} /></button>
-                                <img src={`${serverApi}/${pictures[0]}`} alt="phone" className="w-100 product_img_1" />
-                                <img src={`${serverApi}/${pictures[1]}`} alt="phone" className="w-100 product_img_2" />
+                                <img src={`${serverApi}/${pictures[0]}`} alt="phone" className="product_img_1" style={{width:"auto"}} />
+                                <img src={`${serverApi}/${pictures[1]}`} alt="phone" className="product_img_2" style={{width:"auto"}}/>
                             </Box>
                             <div
                                 className="product_item-info p-2"

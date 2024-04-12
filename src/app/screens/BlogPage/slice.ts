@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    targetBlogs: []
+    targetBlogs: [],
+    chosenBlog: null,
 }
 
 const blogPageSlice = createSlice({
@@ -15,7 +16,7 @@ const blogPageSlice = createSlice({
 })
 
 
-export const { setTargetBlogs } = blogPageSlice.actions
+export const { setTargetBlogs} = blogPageSlice.actions
 
 const blogPageReducer = blogPageSlice.reducer;
 

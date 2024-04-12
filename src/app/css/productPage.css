@@ -411,7 +411,7 @@
 
 /* Product rating Style */
 .poduct_review {
-    box-shadow: 0 0 5px black;
+    border: 1px solid gray;
     padding: 25px;
     overflow-y: auto;
     max-height: 400px;
@@ -421,6 +421,7 @@
 .poduct_review .poduct_review_item {
     padding: 10px 0;
     border-bottom: 1px solid rgb(67, 63, 63);
+    max-height: 200px;
 }
 
 /* Product rating Style */

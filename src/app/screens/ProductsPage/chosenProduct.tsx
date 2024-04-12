@@ -416,7 +416,6 @@ export const ChosenProduct = () => {
                         {
                             productReview[0] ? (
                                 <ProductReview
-                                    chosenProduct={chosenProduct}
                                     reviews={productReview}
                                     setRebuild={setRebuild}
                                 />
@@ -431,7 +430,7 @@ export const ChosenProduct = () => {
                         }
                     </TabPanel>
                     <TabPanel value={"3"}>
-                        <ReviewWriting product_id={chosenProduct?._id} />
+                        <ReviewWriting product_id={chosenProduct?._id} title_enabled={true}/>
                     </TabPanel>
                 </TabContext>
                 <PickUpCenter brand_location={chosenProduct?.company_data.mb_nick} />

@@ -1,7 +1,7 @@
 import { Member } from "./member";
 
 export interface Blog {
-    _id: String;
+    _id: string;
     mb_id: String;
     blog_title: String;
     blog_category: String;

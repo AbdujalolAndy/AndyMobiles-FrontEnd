@@ -83,7 +83,11 @@ const ReviewWriting = (props: any) => {
     return (
         <Box className={"reviewPage"}>
             <div className="review_body">
-                <div className="mb-2"><span className="fs-4 text-secondary fw-bold">Body of Review </span><span className={characters < 0 ? "fs-5 text-danger" : "fs-5"}>({characters})</span></div>
+                {
+                    props.title_enabled ? (
+                        <div className="mb-2"><span className="fs-4 text-secondary fw-bold">Body of Review </span><span className={characters < 0 ? "fs-5 text-danger" : "fs-5"}>({characters})</span></div>
+                    ) : null
+                }
                 <Stack
                     flexDirection={"row"}
                     alignItems={"center"}

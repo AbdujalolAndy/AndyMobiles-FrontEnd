@@ -8,6 +8,8 @@ const initialState: MemberPageState = {
     followers: [],
     followings: [],
     targetBlogs: [],
+    targetReviews: [],
+    chosenBlog:null,
 }
 
 const memberPageSlice = createSlice(
@@ -32,7 +34,14 @@ const memberPageSlice = createSlice(
             },
             setTargetBlogs: (state, action) => {
                 state.targetBlogs = action.payload
+            },
+            setTargetReviews: (state, action) => {
+                state.targetReviews = action.payload
+            },
+            setChosenBlog:(state,action)=>{
+                state.chosenBlog=action.payload
             }
+
         }
     }
 )
@@ -43,7 +52,9 @@ export const {
     setFollowers,
     setFollowings,
     setTargetBlogs,
-    setWishListItems
+    setWishListItems,
+    setTargetReviews,
+    setChosenBlog
 } = memberPageSlice.actions
 
 const memberPageReducer = memberPageSlice.reducer

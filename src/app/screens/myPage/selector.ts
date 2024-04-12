@@ -1,3 +1,4 @@
+import MemberPage from ".";
 import { AppRootState } from "../../types/screen";
 import { createSelector } from 'reselect'
 const selectMembePage = (state: AppRootState) => state.memberPage
@@ -31,4 +32,13 @@ export const followingsRetrieve = createSelector(
 export const targetBlogsRetrieve = createSelector(
     selectMembePage,
     (MemberPage) => MemberPage.targetBlogs
+)
+export const targetReviewsRetrieve = createSelector(
+    selectMembePage,
+    (MemberPage) => MemberPage.targetReviews
+)
+
+export const chosenBlogRetrieve = createSelector(
+    selectMembePage,
+    (MemberPage) => MemberPage.chosenBlog
 )

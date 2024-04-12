@@ -70,6 +70,18 @@ class CommunityServiceApi {
         }
     }
 
+    async getChosenBlog(id: string): Promise<Blog> {
+        try {
+            const url = `${this.path}/community/chosenBlog/${id}`;
+            const result = await axios.get(url, { withCredentials: true });
+            console.log(`GET: getChosenBlog State, ${result.data.state}`);
+            const chosenBlog: Blog = result.data.value;
+            return chosenBlog
+        } catch (err: any) {
+            throw err
+        }
+    }
+
     async uploadImageData(image: any): Promise<string> {
         try {
             const url = `${this.path}/community/image`;

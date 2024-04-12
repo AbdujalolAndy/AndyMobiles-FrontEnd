@@ -2,7 +2,7 @@
     background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
     background-repeat: no-repeat;
     background-size: cover;
-    padding-bottom: 200px;
+    padding-bottom: 100px;
 }
 
 .setting_controller {
@@ -10,7 +10,7 @@
     margin-top: 30px;
     background-color: aliceblue;
     border-radius: 10px;
-    height: auto;
+    height: 800px;
 }
 
 .settings_items {

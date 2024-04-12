@@ -30,7 +30,9 @@ const Followings = (props: any) => {
     const { followings } = useSelector(retrieveFollowings);
     const { setFollowings } = actionDispatch(useDispatch())
     const [reBuild, setRebuild] = useState<Date>(new Date())
+    const {mb_id} = props
     const [objSearch, setObjSearch] = useState({
+        mb_id:mb_id?mb_id:"",
         limit: 5,
         page: 1
     })

@@ -27,7 +27,9 @@ const Followers = (props: any) => {
     //Initializations
     const { setFollowers } = actionDispatch(useDispatch())
     const { followers } = useSelector(retrieveFollowers)
+    const { mb_id } = props
     const [objSearch, setObjSearch] = useState({
+        mb_id: mb_id ? mb_id : "",
         limit: 5,
         page: 1
     })
@@ -157,7 +159,7 @@ const Followers = (props: any) => {
                     count={objSearch.page >= 3 ? objSearch.page + 1 : 3}
                     onChange={(e: any, newValue: number) => {
                         objSearch.page = newValue
-                        setObjSearch({...objSearch})
+                        setObjSearch({ ...objSearch })
                     }}
                     renderItem={(item) => (
                         <PaginationItem

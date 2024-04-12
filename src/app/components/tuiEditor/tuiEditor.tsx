@@ -58,7 +58,6 @@ export const TuiEditor = (props: any) => {
             const editor: any = editorRef.current
             blogData.blog_context = editor?.getInstance().getHTML()
             setBlogData({ ...blogData })
-            console.log(blogData)
             assert.ok(
                 blogData.blog_category != "" &&
                 blogData.blog_context != "" &&

@@ -6,16 +6,8 @@ import { useEffect, useState } from "react";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import MoodBadIcon from "@mui/icons-material/MoodBad";
 
-interface ReviewsProp {
-    reviews: Review[];
-    setRebuild: any;
-    chosenProduct: any
-}
-const ProductReview = (props: ReviewsProp) => {
+const ProductReview = (props: any) => {
     //Three circle Hook
-    useEffect(() => {
-        props.setRebuild(new Date)
-    }, [])
     return (
         <Box className={"poduct_review"}>
             {
@@ -47,10 +39,10 @@ const ProductReview = (props: ReviewsProp) => {
                                     </div>
                                     <Box>
                                         <div className="review_title fs-4">
-                                            {review.member_data.mb_nick}
+                                            {review.member_data?.mb_nick}
                                         </div>
                                         <div className="review_date">
-                                            Reviewed by <b><i>{review.member_data.mb_email ?? review.member_data.mb_nick}</i></b> on <b><i>
+                                            Reviewed by <b><i>{review.member_data?.mb_email ?? review.member_data?.mb_nick}</i></b> on <b><i>
                                                 <Moment format="YYYY-MM-DD">
                                                     {review.createdAt}
                                                 </Moment>
@@ -87,7 +79,7 @@ const ProductReview = (props: ReviewsProp) => {
 
                                         <EmojiEmotionsIcon style={{ fill: "grey" }} />
                                     </div>
-                                    <div><b>{review?.review_likes.toString() ?? "0"}</b></div>
+                                    <div><b>{review?.review_likes}</b></div>
                                 </Stack>
                                 <Stack
                                     flexDirection={"row"}
@@ -101,7 +93,7 @@ const ProductReview = (props: ReviewsProp) => {
 
                                         <MoodBadIcon style={{ fill: "grey" }} />
                                     </div>
-                                    <div><b>{review?.review_dislikes ? review?.review_dislikes.toString() : "0"}</b></div>
+                                    <div><b>{review?.review_dislikes ? review.review_dislikes.toString() : "0"}</b></div>
                                 </Stack>
                             </Stack>
                         </Box>

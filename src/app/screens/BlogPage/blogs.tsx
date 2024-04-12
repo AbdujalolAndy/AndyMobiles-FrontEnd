@@ -1,7 +1,7 @@
 import { Comment, Favorite, RemoveRedEye } from "@mui/icons-material"
 import { Box, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import { Blog } from "../../types/blog"
 import Moment from "react-moment"
 import { serverApi } from "../../../lib/config"
@@ -23,11 +23,12 @@ export const BlogsPage = (props: any) => {
         >
             {props.blogs?.map((blog: Blog, index: number) => {
                 const image_url = blog.mb_data.mb_image ? `${serverApi}/${blog.mb_data.mb_image}` : "/pictures/auth/default_user.svg"
+                const blog_image = blog.blog_images[0] ? `${serverApi}/${blog.blog_images[0]}` : "/pictures/community/default_article.svg"
                 return (
                     <Box className={loaded ? "blog_card aos-animate" : ""} data-aos="fade-left" data-aos-delay={150 * index}>
                         <div className="blog_img w-100 position-relative">
                             <div className="blog_type position-absolute">{blog.blog_category}</div>
-                            <img src={blog?.blog_images[0] ?? "/icons/blog_1.jpg"} alt="blog_img" />
+                            <img src={blog_image} alt="blog_img" height={"220px"} width={"autovs"} />
                         </div>
                         <div className="blog_body">
                             <div className="me-2 ms-2">
@@ -61,7 +62,7 @@ export const BlogsPage = (props: any) => {
                                     </NavLink>
                                 </div>
                                 <div className="blog_text">
-                                    {blog.blog_context}
+                                    <Link to={`community/chosenBlog/${blog._id}`}>Continue Reading</Link>
                                 </div>
                                 <div className="blog_author d-flex align-items-center gap-3 mt-3 mb-1">
                                     <img src={image_url} alt="" />

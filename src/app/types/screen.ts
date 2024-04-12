@@ -40,7 +40,8 @@ export interface ProductPageState {
 
 //Blog Page State
 export interface BlogPageState {
-    targetBlogs: Blog[]
+    targetBlogs: Blog[];
+    chosenBlog:Blog;
 }
 
 //Member Page State
@@ -52,6 +53,8 @@ export interface MemberPageState {
     followers: FollowInterface[],
     followings: FollowInterface[];
     targetBlogs: Blog[];
+    targetReviews:Review[];
+    chosenBlog:Blog | null
 }
 
 //Track Page State
