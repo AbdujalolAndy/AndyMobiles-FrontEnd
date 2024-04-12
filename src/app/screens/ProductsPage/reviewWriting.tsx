@@ -71,7 +71,8 @@ const ReviewWriting = (props: any) => {
                     review_target_id: props.product_id
                 }
             )
-            await sweetTopSmallSuccessAlert("Successfully submitted!", 3000, true)
+            await sweetTopSmallSuccessAlert("Successfully submitted!", 500, false)
+            props?.setRebuildReview(new Date())
         } catch (err: any) {
             sweetErrorHandling(err).then()
         }

@@ -19,7 +19,7 @@ import { MemberServiceApi } from "../../apiServices/memberServiceApi"
 import { Dispatch, createSlice } from "@reduxjs/toolkit"
 import { Member } from "../../types/member"
 import { setChosenBlog, setChosenMember, setTargetReviews } from "./slice"
-import { chosenBlogRetrieve, chosenMemberRetrieve, targetBlogsRetrieve, targetReviewsRetrieve } from "./selector"
+import { chosenMemberRetrieve } from "./selector"
 import { useDispatch, useSelector } from "react-redux"
 import { ViewerPage } from "../../components/tuiEditor/tuiViewer"
 import { Blog } from "../../types/blog"
@@ -27,6 +27,8 @@ import CommunityServiceApi from "../../apiServices/communityServiceApi"
 import { Review } from "../../types/review"
 import { serverApi } from "../../../lib/config"
 import FollowServiceApi from "../../apiServices/followServiceApi"
+import { useHistory } from "react-router-dom"
+import assert from "assert"
 
 //Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -40,44 +42,45 @@ const retrieveChosenMember = createSelector(
     (chosenMember) => ({ chosenMember })
 )
 
-const chosenBlogRetriever = createSelector(
-    chosenBlogRetrieve,
-    (chosenBlog) => ({ chosenBlog })
-)
-const retrieveTargetReviews = createSelector(
-    targetReviewsRetrieve,
-    (targetReviews) => ({ targetReviews })
-)
 
 export const OtherPage = (props: any) => {
     //Initilizations
     const [value, setValue] = useState<string>("5");
     const { setChosenMember, setChosenBlog, setTargetReviews } = actionDispatch(useDispatch());
     const { chosenMember } = useSelector(retrieveChosenMember);
-    const { chosenBlog } = useSelector(chosenBlogRetriever);
-    const { targetReviews } = useSelector(retrieveTargetReviews)
     const [reBuild, setRebuild] = useState<Date>(new Date());
-    const [validate, setValidate] = useState<boolean>(false)
     let localValue: any;
+    const history = useHistory()
     //React Hook
+    useEffect(() => {
+        if (props.art_id) {
+            handleChosenBlogData(props.art_id)
+            handleTargetReviews(props.art_id)
+        }
+    }, [])
     useEffect(() => {
         const localValueJson: any = localStorage.getItem("value")
         localValue = JSON.parse(localValueJson)
+        if (props.mb_id === verifiedMemberData?._id) {
+            if (props.art_id) {
+                history.push(`/user-page/?art_id=${props.art_id}`)
+            } else {
+                history.push(`/user-page/`)
+            }
+        } else {
+            //Calling chosenMember
+            const memberServiceApi = new MemberServiceApi();
+            memberServiceApi.getChosenMember(props.mb_id).then((data: Member) => setChosenMember(data)).catch(err => console.log(err))
+        }
         if (localValue?.value) {
             setValue(localValue.value.toString())
             props.setRebuild(new Date())
         }
-        if (!verifiedMemberData) {
-            sweetFailureProvider(Definer.auth_err1, false, true)
-        }
-
-        //Calling chosenMember
-        const memberServiceApi = new MemberServiceApi();
-        memberServiceApi.getChosenMember(props.mb_id).then(data => setChosenMember(data)).catch(err => console.log(err))
         return () => {
             localStorage.setItem("value", JSON.stringify(null))
         }
     }, [reBuild])
+
 
     async function handleChosenBlogData(id: string) {
         try {
@@ -108,17 +111,16 @@ export const OtherPage = (props: any) => {
             const followServiceApi = new FollowServiceApi();
             await followServiceApi.subscribeMember(id)
             await sweetTopSmallSuccessAlert("Successfully subscribed", 500, false)
-            setValidate(true)
         } catch (err: any) {
             await sweetErrorHandling(err)
         }
     }
     async function handleUnSubscribe(id: string) {
         try {
+            assert.ok(verifiedMemberData, Definer.auth_err1)
             const followServiceApi = new FollowServiceApi();
             await followServiceApi.unsubscribeMember(id)
             await sweetTopSmallSuccessAlert("Successfully unsubscribed", 500, false)
-            setValidate(false)
         } catch (err: any) {
             await sweetErrorHandling(err)
         }
@@ -134,8 +136,7 @@ export const OtherPage = (props: any) => {
                             alignItems={"center"}
                         >
                             <div className="user_info">
-                                <div className="user_type text-danger fw-bold">{verifiedMemberData?.mb_type}</div>
-                                <button className="user_logout btn"><img src="/icons/exit.png" alt="" /></button>
+                                <div className="user_type text-danger fw-bold">{chosenMember?.mb_type}</div>
                                 <div className="user_img">
                                     <img
                                         src={chosenMember?.mb_image ? `${serverApi}/${chosenMember?.mb_image}` : "/products/auth/default_user.svg"}
@@ -162,16 +163,16 @@ export const OtherPage = (props: any) => {
                                 </div>
                             </Stack>
                             {
-                                validate ? (
+                                chosenMember?.my_following && chosenMember?.my_following[0] ? (
                                     <Stack
                                         flexDirection={"row"}
                                         gap="10px"
-                                        className="btn btn-success mt-2"
+                                        className="btn btn-info mt-2"
                                         alignContent={"center"}
                                         onClick={() => { handleSubscribe(props.mb_id) }}
                                     >
-                                        <span><i className="fa-solid fa-user-plus"></i></span>
-                                        <span>Follow</span>
+                                        <span><i className="fa-solid fa-user"></i></span>
+                                        <span>Following</span>
                                     </Stack>
                                 ) : (
 
@@ -183,7 +184,7 @@ export const OtherPage = (props: any) => {
                                         onClick={() => { handleUnSubscribe(props.mb_id) }}
                                     >
                                         <span><i className="fa-solid fa-user"></i></span>
-                                        <span>UnSubscribe</span>
+                                        <span>Follow</span>
                                     </Stack>
                                 )
                             }
@@ -227,23 +228,21 @@ export const OtherPage = (props: any) => {
                             </Tabs>
                         </Stack>
                         <TabPanel value="4">
-                            <ViewerPage
-                                setChosenBlog={setChosenBlog}
-                                chosenBlog={chosenBlog}
-                                targetReviews={targetReviews}
-                            />
+                            <ViewerPage />
                         </TabPanel>
                         <TabPanel value={"5"} className={"account_info"}>
                             <Followers
-                                action_enable={true}
+                                action_enable={false}
                                 setRebuild={setRebuild}
+                                reBuild={reBuild}
                                 mb_id={props.mb_id}
                             />
                         </TabPanel>
                         <TabPanel value={"6"} className={"account_info"}>
                             <Followings
-                                action_enable={false}
+                                action_enable={true}
                                 setRebuild={setRebuild}
+                                reBuild={reBuild}
                                 mb_id={props.mb_id}
                             />
                         </TabPanel>

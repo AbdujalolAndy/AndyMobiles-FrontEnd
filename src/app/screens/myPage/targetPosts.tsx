@@ -1,12 +1,45 @@
-import { ArrowBack, ArrowForward, Comment, Favorite, RemoveRedEye } from "@mui/icons-material"
-import { Alert, Box, Pagination, PaginationItem, Stack } from "@mui/material"
+import { ArrowBack, ArrowForward, Comment, FavoriteTwoTone, RemoveRedEye } from "@mui/icons-material"
+import { Pagination, PaginationItem, Stack } from "@mui/material"
 import { Blog } from "../../types/blog"
-import { useEffect, useState } from "react"
 import { serverApi } from "../../../lib/config"
 import Moment from "react-moment"
-import { useHistory } from "react-router-dom"
+import { sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert"
+import CommunityServiceApi from "../../apiServices/communityServiceApi"
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import { verifiedMemberData } from "../../apiServices/verified"
 
 const TargetPosts = (props: any) => {
+
+    //Handlers
+    async function handleDeletePost(blog_id: string) {
+        try {
+            const communityServiceApi = new CommunityServiceApi();
+            await communityServiceApi.removeChosenBlog(blog_id)
+            await sweetTopSmallSuccessAlert("Successfully Deleted!", 500, false);
+            props.setRebuildBlog(new Date())
+        } catch (err: any) {
+            await sweetTopSmallSuccessAlert(err)
+        }
+    }
+    function handleAlertConfirmation(e: any, blog_id: string) {
+        e.stopPropagation()
+        let result = false
+        confirmAlert({
+            title: "Confirm to delete",
+            message: "Are you sure to delete this blog",
+            buttons: [
+                {
+                    label: "Yes",
+                    onClick: async () => await handleDeletePost(blog_id)
+                },
+                {
+                    label: "No",
+                }
+            ]
+        })
+        return result
+    }
     return (
         <Stack
             className=" mt-5"
@@ -22,7 +55,7 @@ const TargetPosts = (props: any) => {
                             const user_url = blog.mb_data.mb_image ? `${serverApi}/${blog.mb_data.mb_image}` : "/pictures/auth/default_user.svg"
                             return (
                                 <Stack
-                                    className={"targetPost position-relative aos-animate"}
+                                    className={"targetPost position-relative"}
                                     flexDirection={"row"}
                                     gap={"20px"}
                                     onClick={() => {
@@ -38,9 +71,23 @@ const TargetPosts = (props: any) => {
                                             borderRadius: "10px 0 0px 10px",
                                         }}
                                     >{blog.blog_category}</div>
+                                    {
+                                        verifiedMemberData?._id === blog.mb_id ? (
+                                            <div
+                                                className="position-absolute btn btn-danger text-light fw-bold"
+                                                style={{
+                                                    right: "40px",
+                                                    top: "60px",
+                                                }}
+                                                onClick={(e) => handleAlertConfirmation(e, blog._id)}
+                                            >Delete Article</div>
+                                        ) : null
+                                    }
+
                                     <div
-                                        className="post_img d-flex justify-content-center align-items-center ps-2"
+                                        className="post_img d-flex main_img justify-content-center align-items-center ps-2"
                                     >
+
                                         <img src={blog_image} alt="image" className="rounded" />
                                     </div>
                                     <Stack>
@@ -55,16 +102,16 @@ const TargetPosts = (props: any) => {
                                                     height: "60px",
                                                     width: "60px",
                                                     borderRadius: "50%",
-                                                    boxShadow: "0 0 10px white",
                                                     display: "flex",
                                                     justifyContent: "center",
                                                     alignItems: "center"
                                                 }}
                                             >
                                                 <img
+
                                                     src={user_url}
                                                     alt=""
-                                                    style={{ width: "70%" }}
+                                                    style={{ width: "100%", height: "100%", borderRadius: "50%" }}
                                                 />
                                             </div>
                                             <div
@@ -73,10 +120,11 @@ const TargetPosts = (props: any) => {
                                                 <a href="">{blog.mb_data.mb_nick}</a>
                                             </div>
                                         </Stack>
-                                        <div className="post_titile fs-5 mt-3 text-light">
+                                        <div className="post_titile fs-5 mt-3 fw-bold">
                                             {blog.blog_title}
                                         </div>
                                     </Stack>
+
                                     <Stack
                                         flexDirection={"row"}
                                         justifyContent={"space-between"}
@@ -91,15 +139,15 @@ const TargetPosts = (props: any) => {
                                             className="fw-bold"
                                         >
                                             <div>
-                                                <Favorite style={{ fill: "white" }} className="me-2" />
+                                                <FavoriteTwoTone style={{ fill: "gray" }} className="me-2" />
                                                 <span>{blog.blog_likes.toString()}</span>
                                             </div>
                                             <div>
-                                                <Comment className="me-2" style={{ fill: "white" }} />
+                                                <Comment className="me-2" style={{ fill: "black" }} />
                                                 <span>{blog.blog_comments.toString()}</span>
                                             </div>
                                             <div>
-                                                <RemoveRedEye className="me-2" style={{ fill: "white" }} />
+                                                <RemoveRedEye className="me-2" style={{ fill: "black" }} />
                                                 <span>{blog.blog_views.toString()}</span>
                                             </div>
                                         </Stack>
@@ -137,6 +185,7 @@ const TargetPosts = (props: any) => {
                     />
                 )}
             />
+
         </Stack >
     )
 }

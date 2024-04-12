@@ -35,6 +35,7 @@ export interface Member {
     mb_followers: number;
     mb_followings: number;
     mb_description?: string;
+    my_following:any
     createdAt: Date;
     updatedAt: Date;
 }

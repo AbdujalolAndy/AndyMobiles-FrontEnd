@@ -20,6 +20,7 @@ export const BlogsPage = (props: any) => {
             flexDirection={"row"}
             flexWrap={"wrap"}
             justifyContent={"start"}
+            gap={"15px"}
         >
             {props.blogs?.map((blog: Blog, index: number) => {
                 const image_url = blog.mb_data.mb_image ? `${serverApi}/${blog.mb_data.mb_image}` : "/pictures/auth/default_user.svg"
@@ -27,6 +28,7 @@ export const BlogsPage = (props: any) => {
                 return (
                     <Box className={loaded ? "blog_card aos-animate" : ""} data-aos="fade-left" data-aos-delay={150 * index}>
                         <div className="blog_img w-100 position-relative">
+                            <div className="blog_wrapper"><img className="w-100" src={blog_image} alt="" /></div>
                             <div className="blog_type position-absolute">{blog.blog_category}</div>
                             <img src={blog_image} alt="blog_img" height={"220px"} width={"autovs"} />
                         </div>
@@ -61,20 +63,22 @@ export const BlogsPage = (props: any) => {
                                         {blog.blog_title}
                                     </NavLink>
                                 </div>
-                                <div className="blog_text">
-                                    <Link to={`community/chosenBlog/${blog._id}`}>Continue Reading</Link>
-                                </div>
                                 <div className="blog_author d-flex align-items-center gap-3 mt-3 mb-1">
                                     <img src={image_url} alt="" />
                                     <a
                                         className="author_name fw-bold"
-                                        href="/"
+                                        href={`/user-page/other/?mb_id=${blog.mb_data._id}`}
+                                        title={`/user-page/other/?mb_id=${blog.mb_data._id}`}
                                     >
                                         {blog.mb_data.mb_nick}
                                     </a>
                                 </div>
                             </div>
                         </div>
+                        <Stack className="blog_text fw-bold" flexDirection={"row"} alignItems={"center"} gap={"5px"}>
+                            <span><i className="fa-solid fa-link"></i></span>
+                            <Link title={`/user-page/other/?mb_id=${blog.mb_data._id}&art_id=${blog._id}`} to={`/user-page/other/?mb_id=${blog.mb_data._id}&art_id=${blog._id}`}>Continue Reading</Link>
+                        </Stack>
                     </Box>
                 )
             })}

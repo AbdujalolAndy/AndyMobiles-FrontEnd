@@ -29,12 +29,13 @@ const Posts = (props: any) => {
     //Initializations
     const [value, setValue] = useState<string>("1");
     const { setTargetBlogs } = actionDispatch(useDispatch());
-    const { targetBlogs } = useSelector(retrieveTargetBlogs)
+    const { targetBlogs } = useSelector(retrieveTargetBlogs);
+    const [rebuildBlog, setRebuildBlog] = useState<Date>(new Date())
     const [searchObj, setSearchObj] = useState({
         order: "ALL",
         filter: "newToOld",
         page: 1,
-        limit: 5,
+        limit: 4,
         mb_id: props.mb_id
     })
 
@@ -43,7 +44,7 @@ const Posts = (props: any) => {
         //Calling TargetBlogs
         const communityServiceApi = new CommunityServiceApi();
         communityServiceApi.getTargetBlogs(searchObj).then(data => setTargetBlogs(data)).catch(err => console.log(err))
-    }, [searchObj])
+    }, [searchObj, rebuildBlog])
 
     //Handlers
     function handleChangeOrder(e: any, order: string, index: string) {
@@ -70,6 +71,7 @@ const Posts = (props: any) => {
                             searchObj={searchObj}
                             handleChosenBlogData={props.handleChosenBlogData}
                             handleTargetReviews={props.handleTargetReviews}
+                            setRebuildBlog={setRebuildBlog}
                         />
                     </TabPanel>
                     <TabPanel value={"2"}>
@@ -79,6 +81,7 @@ const Posts = (props: any) => {
                             searchObj={searchObj}
                             handleChosenBlogData={props.handleChosenBlogData}
                             handleTargetReviews={props.handleTargetReviews}
+                            setRebuildBlog={setRebuildBlog}
                         />
                     </TabPanel>
                     <TabPanel value={"3"}>
@@ -88,6 +91,7 @@ const Posts = (props: any) => {
                             searchObj={searchObj}
                             handleChosenBlogData={props.handleChosenBlogData}
                             handleTargetReviews={props.handleTargetReviews}
+                            setRebuildBlog={setRebuildBlog}
                         />
                     </TabPanel>
                     <TabPanel value={"4"}>
@@ -97,6 +101,7 @@ const Posts = (props: any) => {
                             searchObj={searchObj}
                             handleChosenBlogData={props.handleChosenBlogData}
                             handleTargetReviews={props.handleTargetReviews}
+                            setRebuildBlog={setRebuildBlog}
                         />
                     </TabPanel>
                 </Stack>

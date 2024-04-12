@@ -81,6 +81,17 @@ class CommunityServiceApi {
             throw err
         }
     }
+    async removeChosenBlog(blog_id: string): Promise<Blog> {
+        try {
+            const url = `${serverApi}/community/removeBlog/${blog_id}`;
+            const result = await axios.get(url, { withCredentials: true });
+            console.log(`GET: removeChosenBlog, ${result.data.state}`)
+            const deletedBlog: Blog = result.data.value;
+            return deletedBlog
+        } catch (err: any) {
+            throw err
+        }
+    }
 
     async uploadImageData(image: any): Promise<string> {
         try {

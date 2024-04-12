@@ -1,15 +1,49 @@
 import { Box, Stack } from "@mui/material"
 import { Viewer } from "@toast-ui/react-editor"
 import "@toast-ui/editor/dist/toastui-editor.css"
-import {useEffect, useRef} from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import ReviewWriting from "../../screens/ProductsPage/reviewWriting"
 import ProductReview from "../../screens/ProductsPage/productReview"
 
+//Redux
+import { createSelector } from "reselect"
+import { chosenBlogRetrieve, targetReviewsRetrieve } from "../../screens/MyPage/selector"
+import { useDispatch, useSelector } from "react-redux"
+import CommunityServiceApi from "../../apiServices/communityServiceApi"
+import { Dispatch, createSlice } from "@reduxjs/toolkit"
+import { Review } from "../../types/review"
+import { setTargetReviews } from "../../screens/MyPage/slice"
+import { useLocation } from "react-router-dom"
 
 
-export const ViewerPage = (props: any) => {
+//Slice
+const actionDispatch = (dispatch: Dispatch) => ({
+    setTargetReviews: (data: Review) => dispatch(setTargetReviews(data)),
+})
+
+//Selector
+const retrieveTargetReviews = createSelector(
+    targetReviewsRetrieve,
+    (targetReviews) => ({ targetReviews })
+)
+const retrieveChosenBlog = createSelector(
+    chosenBlogRetrieve,
+    (chosenBlog) => ({ chosenBlog })
+)
+export const ViewerPage = () => {
     //Initializations
     const refViewer = useRef();
+    const { targetReviews } = useSelector(retrieveTargetReviews)
+    const { setTargetReviews } = actionDispatch(useDispatch())
+    const { chosenBlog } = useSelector(retrieveChosenBlog);
+    const [rebuildReview, setRebuildReview] = useState<Date>(new Date())
+
+    //three circle React Hook
+    useEffect(() => {
+        const communityServiceApi = new CommunityServiceApi();
+        //@ts-ignore
+        communityServiceApi.getProductReviews(chosenBlog?._id).then(data => setTargetReviews(data)).catch(err => console.log(err))
+    }, [rebuildReview])
     return (
         <Box
             style={{
@@ -21,20 +55,20 @@ export const ViewerPage = (props: any) => {
             }}
         >
             <div className="fw-bold text-center fs-2">Single Article</div>
+            <div className="text-center fw-bold fs-3">{chosenBlog?.blog_title}</div>
             <Stack
                 alignItems={"center"}
             >
                 <Viewer
                     //@ts-ignore
-                    ref={refViewer}
-                    initialValue={props.chosenBlog?.blog_context}
+                    initialValue={chosenBlog?.blog_context}
                     height="600px"
                 />
             </Stack>
             {
-                props?.targetReviews[0] ? (
+                targetReviews && targetReviews[0] ? (
                     <ProductReview
-                        reviews={props.targetReviews}
+                        reviews={targetReviews}
                     />
                 ) : (
                     <div
@@ -45,7 +79,7 @@ export const ViewerPage = (props: any) => {
                     </div>
                 )
             }
-            <ReviewWriting title_enabled={false} product_id={props.chosenBlog?._id} />
+            <ReviewWriting title_enabled={false} product_id={chosenBlog?._id} setRebuildReview={setRebuildReview} />
         </Box>
     )
 }

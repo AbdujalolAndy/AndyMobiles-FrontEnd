@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 
@@ -28,11 +28,12 @@ export const TuiEditor = (props: any) => {
         blog_title: '',
         blog_images: []
     })
+
+
     //Handlers
 
     function handleGetTitle(e: any) {
-        blogData.blog_title = e.target.value
-        setBlogData({ ...blogData })
+        setBlogData({ ...blogData, blog_title:e.target.value })
     }
 
     function hadleGetCategory(e: any) {
@@ -59,18 +60,17 @@ export const TuiEditor = (props: any) => {
             blogData.blog_context = editor?.getInstance().getHTML()
             setBlogData({ ...blogData })
             assert.ok(
-                blogData.blog_category != "" &&
-                blogData.blog_context != "" &&
-                blogData.blog_title != "",
+                blogData.blog_category !== "" &&
+                blogData.blog_context !== "" &&
+                blogData.blog_title !== "",
                 Definer.input_err1
             )
-
             const communityServiceApi = new CommunityServiceApi();
-            const result = await communityServiceApi.createBlogData(blogData)
-            assert.ok(result, Definer.general_err1);
+            await communityServiceApi.createBlogData(blogData)
             await sweetTopSmallSuccessAlert("succeessfully submitted!", 500, false)
             props.setValue("7")
         } catch (err: any) {
+            console.log(err)
             await sweetErrorHandling(err)
         }
     }
@@ -105,7 +105,7 @@ export const TuiEditor = (props: any) => {
                         type="text"
                         style={{ width: "300px", border: "1px solid gray", padding: "3px 10px" }}
                         placeholder="Enter a title"
-                        onKeyUp={handleGetTitle}
+                        onChange={handleGetTitle}
                     />
                 </div>
 
@@ -113,9 +113,9 @@ export const TuiEditor = (props: any) => {
 
             {/*@ts-ignore*/}
             <Editor
+                /* @ts-ignore */
                 ref={editorRef}
                 initialValue="Type here"
-                placeholder="Type here"
                 previewStyle="vertical"
                 height="640px"
                 initialEditType="WYSIWYG"

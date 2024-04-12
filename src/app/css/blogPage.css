@@ -1,6 +1,6 @@
 /* Blog Card Style */
 
-.blogPage{
+.blogPage {
     background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
     background-repeat: no-repeat;
     background-size: cover;
@@ -17,11 +17,14 @@
 
 
 .blog_card {
-    width: 32%;
+    position: relative;
+    width: 31%;
     margin: 0.3%;
     max-height: 500px;
     border-radius: 10px;
     box-sizing: border-box;
+    box-shadow: 0 0 5px black;
+    border-radius: 10px;
     transition: all .2s ease-in-out;
 }
 
@@ -33,9 +36,27 @@
     background-color: transparent;
 }
 
-.blog_img img {
+.blog_img {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 11;
+}
+.blog_wrapper{
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    height: 100%;
     width: 100%;
-    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+    filter:blur(4px)
+}
+
+.blog_img img {
+    position: relative;
+    width: auto;
+    z-index: 11;
 }
 
 .blog_type {
@@ -49,7 +70,7 @@
     font-weight: 500;
     letter-spacing: 0.6px;
     cursor: pointer;
-    z-index: 10;
+    z-index: 12;
 }
 
 .blog_type:hover {
@@ -57,8 +78,10 @@
 }
 
 .blog_body {
-    border: dashed gray;
+    border-radius: 0 0  20px 10px;
+    padding-bottom: 10px;
     border-width: 0 1px 1px 1px;
+    background-color: rgb(251, 251, 251);
 }
 
 .blog_subtitle {
@@ -83,7 +106,17 @@
 }
 
 .blog_text {
+    position: absolute;
     color: rgb(91, 93, 93);
+    right: 10px;
+    bottom: 10px;
+}
+.blog_text a{
+    transition: all .3s ease-in-out;
+    text-decoration: none;
+}
+.blog_text :hover{
+    color:#FEC007
 }
 
 .blog_author img {

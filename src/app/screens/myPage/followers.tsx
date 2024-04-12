@@ -13,6 +13,7 @@ import { setFollowers, setFollowings } from "./slice";
 import { followersRetrieve, followingsRetrieve } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import { verifiedMemberData } from "../../apiServices/verified";
+import { useHistory } from "react-router-dom";
 
 //Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -34,7 +35,7 @@ const Followers = (props: any) => {
         page: 1
     })
     const [reBuild, setRebuild] = useState<Date>(new Date())
-
+    const history = useHistory()
     //React Hook
     useEffect(() => {
         //Calling followers
@@ -42,11 +43,12 @@ const Followers = (props: any) => {
         followServiceApi.getFollowers(objSearch).then((data: FollowInterface[]) => {
             setFollowers(data)
         }).catch(err => console.log(err))
-    }, [reBuild])
+    }, [reBuild, props.reBuild])
 
     //Handlers
-    async function handleSubscribeMember(follower: FollowInterface) {
+    async function handleSubscribeMember(e:any,follower: FollowInterface) {
         try {
+            e.stopPropagation()
             const followServiceApi = new FollowServiceApi();
             await followServiceApi.subscribeMember(follower.member_data._id);
             await sweetTopSuccessAlert(`Subscribed ${follower.member_data.mb_nick}`, 500, false)
@@ -56,8 +58,9 @@ const Followers = (props: any) => {
             await sweetErrorHandling(err)
         }
     }
-    async function handleUnsubscribeMember(follower: FollowInterface) {
+    async function handleUnsubscribeMember(e:any,follower: FollowInterface) {
         try {
+            e.stopPropagation()
             const followServiceApi = new FollowServiceApi();
             await followServiceApi.unsubscribeMember(verifiedMemberData._id, follower.member_data._id,);
             await sweetTopSuccessAlert(`Unsubscribed ${follower.member_data.mb_nick}`, 500, false);
@@ -83,6 +86,10 @@ const Followers = (props: any) => {
                                     flexDirection={"row"}
                                     justifyContent={"space-between"}
                                     alignItems={"center"}
+                                    onClick={()=>{
+                                        history.push(`/user-page/other/?mb_id=${follower.following_id}`)
+                                        document.location.reload();
+                                    }}
                                 >
                                     <Stack
                                         flexDirection={"row"}
@@ -99,47 +106,53 @@ const Followers = (props: any) => {
                                         </div>
                                     </Stack>
                                     <Box>
-                                        {props.action_enable && follower?.me_following[0]?.me_following ? (
-                                            <Stack
-                                                flexDirection={"row"}
-                                                gap={"10px"}
-                                                alignItems={"center"}
-                                                className="btn btn-success fw-bold fs-6"
-                                            >
-                                                <i className="fa-solid fa-user"></i>
-                                                <div>Following</div>
-                                            </Stack>
-                                        ) : (
-                                            <Stack flexDirection={"row"} gap={"10px"}>
-                                                <button
-                                                    className="btn btn-success fw-bold fs-6"
-                                                    onClick={() => handleSubscribeMember(follower)}
-                                                >
+                                        {
+                                            props.action_enable ?
+                                                follower?.me_following[0]?.me_following ? (
                                                     <Stack
                                                         flexDirection={"row"}
                                                         gap={"10px"}
                                                         alignItems={"center"}
+                                                        className="btn btn-success fw-bold fs-6"
                                                     >
-                                                        <i className="fa-solid fa-user-plus"></i>
-                                                        <div>Follow Back</div>
+                                                        <i className="fa-solid fa-user"></i>
+                                                        <div>Following</div>
                                                     </Stack>
-                                                </button>
-                                                <button
-                                                    className="btn btn-success fw-bold fs-6"
-                                                    onClick={() => handleUnsubscribeMember(follower)}
-                                                >
-                                                    <Stack
-                                                        flexDirection={"row"}
-                                                        gap={"10px"}
-                                                        alignItems={"center"}
-                                                    >
-                                                        <i className="fa-solid fa-trash-can"></i>
-                                                        <div>Delete</div>
-                                                    </Stack>
-                                                </button>
+                                                ) : (
+                                                    <Stack flexDirection={"row"} gap={"10px"}>
+                                                        <button
+                                                            className="btn btn-success fw-bold fs-6"
+                                                            onClick={(e) => handleSubscribeMember(e,follower)}
+                                                        >
+                                                            <Stack
+                                                                flexDirection={"row"}
+                                                                gap={"10px"}
+                                                                alignItems={"center"}
+                                                            >
+                                                                <i className="fa-solid fa-user-plus"></i>
+                                                                <div>Follow Back</div>
+                                                            </Stack>
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-success fw-bold fs-6"
+                                                            onClick={(e) => handleUnsubscribeMember(e,follower)}
+                                                        >
+                                                            <Stack
+                                                                flexDirection={"row"}
+                                                                gap={"10px"}
+                                                                alignItems={"center"}
+                                                            >
+                                                                <i className="fa-solid fa-trash-can"></i>
+                                                                <div>Delete</div>
+                                                            </Stack>
+                                                        </button>
 
-                                            </Stack>
-                                        )}
+                                                    </Stack>
+                                                )
+                                                : (
+                                                    null
+                                                )
+                                        }
                                     </Box>
                                 </Stack>
                             )

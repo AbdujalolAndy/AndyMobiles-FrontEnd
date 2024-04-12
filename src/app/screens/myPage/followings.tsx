@@ -12,6 +12,7 @@ import { createSelector } from "reselect"
 import { setFollowers, setFollowings } from "./slice";
 import { followersRetrieve, followingsRetrieve } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 //Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -36,7 +37,7 @@ const Followings = (props: any) => {
         limit: 5,
         page: 1
     })
-
+    const history = useHistory()
     //React Hook
     useEffect(() => {
         //Calling Followings
@@ -45,7 +46,7 @@ const Followings = (props: any) => {
             setFollowings(data)
 
         }).catch(err => console.log(err))
-    }, [reBuild])
+    }, [reBuild,props.reBuild])
     //Handlers
     async function handleUnsubscribeMember(follower: FollowInterface) {
         try {
@@ -74,6 +75,10 @@ const Followings = (props: any) => {
                                     flexDirection={"row"}
                                     justifyContent={"space-between"}
                                     alignItems={"center"}
+                                    onClick={()=>{
+                                        history.push(`/user-page/other/?mb_id=${follower.follower_id}`)
+                                        document.location.reload();
+                                    }}
                                 >
                                     <Stack
                                         flexDirection={"row"}

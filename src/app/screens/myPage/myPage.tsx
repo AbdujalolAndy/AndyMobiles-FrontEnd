@@ -20,7 +20,7 @@ import { Member } from "../../types/member"
 import { setChosenBlog, setChosenMember, setTargetReviews } from "./slice"
 import { chosenBlogRetrieve, chosenMemberRetrieve, targetBlogsRetrieve, targetReviewsRetrieve } from "./selector"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useHistory, useLocation, useParams } from "react-router-dom"
 import { ViewerPage } from "../../components/tuiEditor/tuiViewer"
 import { Blog } from "../../types/blog"
 import CommunityServiceApi from "../../apiServices/communityServiceApi"
@@ -52,11 +52,16 @@ export const MyPage = (props: any) => {
     const [value, setValue] = useState<string>("1");
     const { setChosenMember, setChosenBlog, setTargetReviews } = actionDispatch(useDispatch());
     const { chosenMember } = useSelector(retrieveChosenMember);
-    const { chosenBlog } = useSelector(chosenBlogRetriever);
-    const { targetReviews } = useSelector(retrieveTargetReviews)
     const [reBuild, setRebuild] = useState<Date>(new Date());
+    const history = useHistory()
     let localValue: any;
     //React Hook
+    useEffect(() => {
+        if (props.art_id) {
+            handleChosenBlogData(props.art_id)
+            handleTargetReviews(props.art_id)
+        }
+    }, [])
     useEffect(() => {
         const localValueJson: any = localStorage.getItem("value")
         localValue = JSON.parse(localValueJson)
@@ -67,7 +72,6 @@ export const MyPage = (props: any) => {
         if (!verifiedMemberData) {
             sweetFailureProvider(Definer.auth_err1, false, true)
         }
-
         //Calling chosenMember
         const memberServiceApi = new MemberServiceApi();
         memberServiceApi.getChosenMember(verifiedMemberData?._id).then(data => setChosenMember(data)).catch(err => console.log(err))
@@ -81,7 +85,6 @@ export const MyPage = (props: any) => {
             const communityServiceApi = new CommunityServiceApi()
             const chosenBlog = await communityServiceApi.getChosenBlog(id)
             setChosenBlog(chosenBlog)
-
             setValue("4")
         } catch (err: any) {
             await sweetErrorHandling(err)
@@ -231,11 +234,7 @@ export const MyPage = (props: any) => {
                             <WishList reBuild={props.reBuild} setRebuild={props.setRebuild} />
                         </TabPanel>
                         <TabPanel value="4">
-                            <ViewerPage
-                                setChosenBlog={setChosenBlog}
-                                chosenBlog={chosenBlog}
-                                targetReviews={targetReviews}
-                            />
+                            <ViewerPage />
                         </TabPanel>
                         <TabPanel value={"5"} className={"account_info"}>
                             <Followers
@@ -257,7 +256,7 @@ export const MyPage = (props: any) => {
                             />
                         </TabPanel>
                         <TabPanel value={"8"} className={"account_info"}>
-                            <TuiEditor />
+                            <TuiEditor setValue={setValue} />
                         </TabPanel>
                     </Stack>
                 </TabContext>
