@@ -116,10 +116,20 @@ export const NewProducts = (props: any) => {
                                         className="product_img_2"
                                     />
                                     <Stack
-                                        className="card-features p-2 rounded"
-                                        onClick={(e: any) => { e.stopPropagation(); }}
+                                        className="card-features"
+                                        gap={"10px"}
                                     >
-                                        <Favorite style={{ fill: ele?.me_liked && ele?.me_liked[0]?.mb_id ? "red" : "white" }} onClick={(e: any) => { handleLikeItem(e, ele) }} />
+                                        <div
+                                            className="rounded btn btn-outline-secondary border-0"
+                                            
+                                        >
+                                            <Favorite
+                                                style={{ fill: ele?.me_liked && ele?.me_liked[0]?.mb_id ? "red" : "white" }}
+                                                onClick={(e: any) => { handleLikeItem(e, ele) }} />
+                                        </div>
+                                        <div className="rounded btn btn-outline-warning border-0" onClick={()=>props.handleSaveBasket(ele)}>
+                                            <i className="fa-brands fa-shopify"></i>
+                                        </div>
                                     </Stack>
                                     <Stack
                                         flexDirection={"row"}

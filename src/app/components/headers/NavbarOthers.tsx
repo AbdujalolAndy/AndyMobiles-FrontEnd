@@ -114,7 +114,7 @@ export const NavbarOthers = (props: any) => {
                             >
                                 <i className="fa-brands fa-shopify"></i>
                                 <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
-                                    0
+                                    {props.ordersAmount}
                                 </span>
                             </button>
                         </Box>

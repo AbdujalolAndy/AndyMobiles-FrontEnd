@@ -152,9 +152,19 @@
     align-items: center;
     transform: translateY(20%);
     transition: all .6s ease-in-out;
-    background-color: #c4c4c4;
 }
 
+.card-features div {
+    background-color: #c6c2c4;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card-features div i{
+    font-size: 19px;
+}
 
 .slider-card .product_sort {
     position: absolute;
@@ -218,18 +228,20 @@
     width: 15px;
 }
 
-.animate-heart{
+.animate-heart {
     animation: heart-animate .4s ease-in-out;
 }
 
 @keyframes heart-animate {
-    0%{
+    0% {
         transform: scale(1);
     }
-    50%{
+
+    50% {
         transform: scale(1.2);
     }
-    100%{
+
+    100% {
         transform: scale(1);
     }
 }

@@ -26,6 +26,8 @@ import { WishListItem } from './types/others'
 import { setWishListItems } from './screens/MyPage/slice'
 import { useDispatch } from 'react-redux'
 import { verifiedMemberData } from './apiServices/verified'
+import { Product } from './types/product'
+import { OrderItem } from './types/order'
 
 
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -42,7 +44,10 @@ const App: React.FC = () => {
   const [likedItemAmount, setLikedItemAmount] = useState<number>(0)
   const { setWishListItems } = actionDispatch(useDispatch());
   const [reBuild, setRebuild] = useState<Date>(new Date())
-
+  const listJson: any = localStorage.getItem("basket_items")
+  const current_items = JSON.parse(listJson) ?? [];
+  const [addItem, setAddItem] = useState(current_items);
+  const [ordersAmount, setOrdersAmount] = useState<number>(current_items.length)
   //React Hook
   useEffect(() => {
     //calling wishListItems
@@ -71,6 +76,32 @@ const App: React.FC = () => {
       sweetErrorHandling(err).then()
     }
   }
+
+  function handleSaveBasket(basketItem: Product) {
+    try {
+      const doesExist = addItem.some((ele: OrderItem) => ele.order_id === basketItem._id)
+      if (doesExist) {
+        sweetTopSmallSuccessAlert('You have already added!', 500, false);
+        return false
+      } else {
+        const new_item = {
+          item_quantity: 1,
+          item_price: basketItem.product_price,
+          order_id: basketItem._id,
+          item_name: basketItem.product_name,
+          product_image: basketItem.product_images[0]
+        }
+        addItem.push(new_item)
+        setAddItem([...addItem])
+        localStorage.setItem("basket_items", JSON.stringify(addItem))
+      }
+      setOrdersAmount(addItem.length)
+      sweetTopSmallSuccessAlert("Added to the basket!", 500, false)
+    } catch (err) {
+      console.log(err)
+      sweetErrorHandling(err).then()
+    }
+  }
   return (
     <div>
       {pathname == "/" ? <HomeNavbar
@@ -79,6 +110,7 @@ const App: React.FC = () => {
         handleLogOut={handleLogOut}
         device={device}
         likedItemAmount={likedItemAmount}
+        ordersAmount={ordersAmount}
       /> :
         (pathname.includes("/brands") ?
           <NavbarOthers
@@ -87,6 +119,7 @@ const App: React.FC = () => {
             handleBasketOpen={handleBasketOpen}
             handleLogOut={handleLogOut}
             likedItemAmount={likedItemAmount}
+            ordersAmount={ordersAmount}
           /> :
           (pathname.includes("/products") ?
             <ProductNavbar
@@ -95,6 +128,7 @@ const App: React.FC = () => {
               handleBasketOpen={handleBasketOpen}
               handleLogOut={handleLogOut}
               likedItemAmount={likedItemAmount}
+              ordersAmount={ordersAmount}
             /> :
             pathname.includes("/blogs") ?
               <NavbarOthers
@@ -103,6 +137,7 @@ const App: React.FC = () => {
                 handleBasketOpen={handleBasketOpen}
                 handleLogOut={handleLogOut}
                 likedItemAmount={likedItemAmount}
+                ordersAmount={ordersAmount}
               /> :
               pathname.includes("/track-order") ?
                 <NavbarOthers
@@ -111,6 +146,7 @@ const App: React.FC = () => {
                   handleBasketOpen={handleBasketOpen}
                   handleLogOut={handleLogOut}
                   likedItemAmount={likedItemAmount}
+                  ordersAmount={ordersAmount}
                 /> :
                 pathname.includes("/faq") ?
                   <NavbarOthers
@@ -119,6 +155,7 @@ const App: React.FC = () => {
                     handleBasketOpen={handleBasketOpen}
                     handleLogOut={handleLogOut}
                     likedItemAmount={likedItemAmount}
+                    ordersAmount={ordersAmount}
                   /> :
                   pathname.includes("/user-page") ?
                     <NavbarOthers
@@ -127,6 +164,7 @@ const App: React.FC = () => {
                       handleBasketOpen={handleBasketOpen}
                       handleLogOut={handleLogOut}
                       likedItemAmount={likedItemAmount}
+                      ordersAmount={ordersAmount}
                     /> :
                     ""
           ))}
@@ -159,6 +197,7 @@ const App: React.FC = () => {
           <HomePage
             deviceDetect={device}
             setRebuild={setRebuild}
+            handleSaveBasket={handleSaveBasket}
           />
         </Route>
       </Switch>
@@ -169,6 +208,10 @@ const App: React.FC = () => {
       <Basket
         openBasket={openBasket}
         handleBasketClose={handleBasketClose}
+        addItems={addItem}
+        setAddItem={setAddItem}
+        setOrdersAmount={setOrdersAmount}
+        ordersAmount={ordersAmount}
       />
       <Chatting />
     </div>

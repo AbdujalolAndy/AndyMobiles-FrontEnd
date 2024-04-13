@@ -23,6 +23,7 @@ function HomePage(props: any) {
             <NewProducts
                 searchProducts={{ limit: 10, order: "new", random: true, contractMonth: [] }}
                 setRebuild={props.setRebuild}
+                handleSaveBasket={props.handleSaveBasket}
             />
             <DealContract />
             <OurBrands />

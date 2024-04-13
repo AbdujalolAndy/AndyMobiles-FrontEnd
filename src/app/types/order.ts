@@ -1,9 +1,9 @@
-interface OrderItem {
-    item_quantity: Number;
-    item_price: Number;
-    order_id: String;
-    product_id: String;
-    product_image: String;
+export interface OrderItem {
+    item_quantity: number;
+    item_price: number;
+    order_id: string;
+    item_name: string;
+    product_image: string;
 }
 
 export interface Order {
@@ -17,5 +17,4 @@ export interface Order {
     order_delivery_address: String;
     order_owner_name: String;
     order_delivery_postal: Number;
-    order_items:OrderItem[]
 }
