@@ -35,6 +35,7 @@ const OrderProcess = (props: any) => {
     const [openAccordionCard, setOpenAccordionCard] = useState<boolean>(true)
     const [cardDetail, setCardDetail] = useState<CardDetail>({
         exist_card: false,
+        exist_address: false,
         order_code: chosenOrder?.order_code ?? "",
         order_id: chosenOrder?._id ?? "",
         order_address: verifiedMemberData?.mb_address,
@@ -72,7 +73,7 @@ const OrderProcess = (props: any) => {
                 sweetErrorHandling({ message: Definer.trans_err1 }).then()
                 setOpenAccordionAddress(true)
             } else {
-                cardDetail.order_address = verifiedMemberData?.mb_address;
+                cardDetail.exist_address = true;
                 setCardDetail({ ...cardDetail })
                 setOpenAccordionAddress(false)
             }
@@ -108,7 +109,7 @@ const OrderProcess = (props: any) => {
     }
     async function handleProceedPayment() {
         try {
-            let order_address = refs.current.address.value === "" ? cardDetail.order_address : refs.current.address.value;
+            let order_address = cardDetail.exist_address ? verifiedMemberData.mb_address : refs.current.address.value;
             if (cardDetail.exist_card) {
                 assert.ok(
                     order_address !== "" &&

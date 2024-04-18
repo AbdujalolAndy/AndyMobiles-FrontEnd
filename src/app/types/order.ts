@@ -22,14 +22,15 @@ export interface Order {
     order_owner_name: string;
     order_delivery_postal: number;
     order_items: OrderItem[]
-    order_shipping_time:Date;
-    order_shipped_time:Date;
-    order_delivered_time:Date;
+    order_shipping_time: Date;
+    order_shipped_time: Date;
+    order_delivered_time: Date;
     createdAt?: Date
 }
 
 export interface CardDetail {
     exist_card: boolean,
+    exist_address: boolean;
     order_id: string,
     order_code: string;
     order_address: string,

@@ -63,18 +63,28 @@ const TrackOrderPage = (props: any) => {
     const theme = useTheme()
     //three circle React Hook
     useEffect(() => {
+        const orderServiceApi = new OrderServiceApi();
+        const transactionServiceApi = new TransactionServiceApi()
         if (!verifiedMemberData) {
             sweetFailureProvider(Definer.auth_err1, false, true)
         }
-        //calling targetOrders
-        const orderServiceApi = new OrderServiceApi();
-        const transactionServiceApi = new TransactionServiceApi()
         orderServiceApi.getOrdersData(searchObj).then((orders: Order[]) => {
             setTargetOrders(orders)
-            setOrderId(orders[orders.length - 1]._id)
         }
         ).catch(err => console.log(err))
+    }, [searchObj])
 
+    useEffect(() => {
+        const orderServiceApi = new OrderServiceApi();
+        const transactionServiceApi = new TransactionServiceApi()
+        //calling targetOrders
+        orderServiceApi.getOrdersData(searchObj).then((orders: Order[]) => {
+            setTargetOrders(orders)
+            if (!orderId) {
+                handleChooseOrder(orders[orders.length - 1])
+            }
+        }
+        ).catch(err => console.log(err))
         //calling chosenOrder
         orderServiceApi.getChosenOrder(orderId).then(data => setChosenOrder(data)).catch(err => console.log(err))
         transactionServiceApi.getChosenTransaction(chosenOrder?._id).then(data => {
@@ -84,14 +94,18 @@ const TrackOrderPage = (props: any) => {
 
         //caling targetChosenTransaction 
         transactionServiceApi.getChosenTransaction(orderId).then(data => setChosenTargetTransaction(data)).catch(err => console.log(err))
-    }, [rebuild])
+    }, [rebuild, orderId])
 
     //Handlers
     function handleChangeView(e: any, index: number) {
         setValue(index)
 
     }
-
+    function handleChooseOrderByBtn(order: Order) {
+        setOderStatus(order.order_status)
+        handleChooseOrder(order)
+        setRebuild(new Date())
+    }
     function handleChooseOrder(order: Order) {
         setOrderId(order._id)
         switch (order.order_status) {
@@ -102,12 +116,12 @@ const TrackOrderPage = (props: any) => {
                 setValue(1);
                 break;
             case "FINISHED":
+            case "DELIVERED":
                 setValue(2);
                 break;
             default:
                 break;
         }
-        setRebuild(new Date())
     }
     function handleProcess(status: string, index: number) {
         setValue(index)
@@ -126,7 +140,7 @@ const TrackOrderPage = (props: any) => {
                 case "PROCESS":
                     setValue(1);
                     break;
-                case "FINISHED":
+                case "FINISHED" || "DELIVERED":
                     setValue(2);
                     break;
                 default:
@@ -143,6 +157,11 @@ const TrackOrderPage = (props: any) => {
         await orderServiceApi.deleteOrderData(id);
         await sweetTopSmallSuccessAlert("Successfully Deleted Order", 500, false)
         setRebuild(new Date())
+    }
+
+    function handleSearchOrder(e: any) {
+        searchObj.search = e.target.value;
+        setSearchObj({ ...searchObj })
     }
     return (
         <Box className={"trackPage"}>
@@ -211,9 +230,9 @@ const TrackOrderPage = (props: any) => {
                             justifyContent={"space-between"}
                         >
                             <Tabs value={value}>
-                                <Tab className={orderStatus == "PAUSED" ? "btn btn_status" : "btn "} onClick={() => handleProcess("PAUSED", 0)} label="Order Checkout" />
-                                <Tab className={orderStatus == "PROCESS" ? "btn btn_status" : "btn "} onClick={() => handleProcess("PROCESS", 1)} label="Process Checkout Details" />
-                                <Tab className={orderStatus == "FINISHED" ? "btn btn_status" : "btn "} onClick={() => handleProcess("FINISHED", 2)} label="Delivered Product Confirmation" />
+                                <Tab className={orderStatus === "PAUSED" ? "btn btn_status" : "btn "} onClick={() => handleProcess("PAUSED", 0)} label="Order Checkout" />
+                                <Tab className={orderStatus === "PROCESS" ? "btn btn_status" : "btn "} onClick={() => handleProcess("PROCESS", 1)} label="Process Checkout Details" />
+                                <Tab className={orderStatus === "FINISHED" ? "btn btn_status" : "btn "} onClick={() => handleProcess("FINISHED", 2)} label="Delivered Product Confirmation" />
                             </Tabs>
                         </Stack>
                     </Box>
@@ -262,7 +281,7 @@ const TrackOrderPage = (props: any) => {
                             alignItems={"center"}
                             gap={"20px"}
                         >
-                            <input type="text" className="form-control" placeholder="Search Order" />
+                            <input type="text" className="form-control" placeholder="Search Order" onKeyUpCapture={handleSearchOrder} />
                         </Stack>
                         <Box className={"pb-4"} style={{ height: "200px", overflowY: "auto" }}>
                             <table className="table table-hover mt-3">
@@ -286,10 +305,12 @@ const TrackOrderPage = (props: any) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {targetOrders?.map((order: Order, index: number) => {
+                                    {targetOrders && targetOrders[0] ? targetOrders.map((order: Order, index: number) => {
                                         const chosen = order?._id === chosenOrder?._id
                                         return (
-                                            <tr onClick={() => handleChooseOrder(order)} className={"order-table bg-danger"}>
+                                            <tr onClick={() => {
+                                                handleChooseOrderByBtn(order)
+                                            }} className={"order-table bg-danger"}>
                                                 <td style={chosen ? { color: "red" } : {}}>
                                                     {order.order_code}
                                                 </td>
@@ -308,6 +329,17 @@ const TrackOrderPage = (props: any) => {
                                             </tr>
                                         )
                                     }
+                                    ) : (
+                                        <tr>
+                                            <td colSpan={5}>
+                                                <div
+                                                    className=" text-secondary rounded mt-2 fs-6 p-2 text-center"
+                                                    style={{ backgroundColor: "#DBDDEF" }}
+                                                >
+                                                    There is no order found!
+                                                </div>
+                                            </td>
+                                        </tr>
                                     )}
                                 </tbody>
                             </table>
