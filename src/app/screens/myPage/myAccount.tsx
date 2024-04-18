@@ -180,7 +180,7 @@ export const MyAccount = () => {
                                 type="text"
                                 className="form-control ps-3 fs-5"
                                 id="update_name"
-                                placeholder={verifiedMemberData?.mb_address ?? "No address"}
+                                placeholder={verifiedMemberData?.mb_address ? verifiedMemberData?.mb_address : "No address"}
                                 onChange={(handleChangeAddress)}
                             />
                         </Box>

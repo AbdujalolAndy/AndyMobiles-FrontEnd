@@ -28,7 +28,9 @@ export interface Member {
     mb_type: string;
     mb_top?: string;
     mb_image?: string;
-    mb_address?: string;
+    mb_address: string;
+    mb_address_postCode:number;
+    mb_address_province:string;
     mb_email?: string;
     mb_likes: number;
     mb_views: number;

@@ -7,3 +7,12 @@ export interface Bank {
     card_cvc: number;
     card_pincode: string;
 }
+
+export interface Transaction {
+    order_address: string
+    trans_owner: string
+    trans_card_number: number
+    trans_card_expiry: string,
+    trans_card_cvc: number,
+    createdAt: Date,
+}

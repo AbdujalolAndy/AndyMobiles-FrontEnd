@@ -20,6 +20,10 @@
     position: relative;
     display: block;
 }
+.trackPage .order-table{
+    cursor: pointer;
+}
+
 
 .order-tracking .is-complete {
     display: flex;
@@ -90,12 +94,12 @@
 
 .trackPage .order_track_controller button {
     box-shadow: none;
-
     border-radius: 0;
+    font-weight: bold;
 }
 
 .trackPage .order_track_controller .btn_status {
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid #F7BE16;
 }
 
 .trackPage button:focus {
@@ -126,10 +130,6 @@
 
 }
 
-.processing_body>div {
-    width: 300%;
-    transition: transform .3s ease-in-out
-}
 
 .delivery_details {
     max-height: max-content;
@@ -162,13 +162,11 @@
     max-height: 500px;
     box-sizing: border-box;
     overflow-y: scroll;
-    width: 33.3%;
     transition: transform .3s ease-in-out;
 }
 
 .process_checkout {
     height: 500px;
-    width: 33%;
     padding: 20px;
     transition: transform .3s ease-in-out;
 }
@@ -184,9 +182,9 @@
 
 .list_of_orders .order_filter input[type="text"] {
     width: 200px;
-    border: 1px solid black;
+    box-shadow: 0 0 5px black;
     border-radius: 10px;
-    padding: 0 5px;
+    padding: 0 10px;
 }
 
 
@@ -198,7 +196,7 @@
 .trackPage .processed_products {
     max-height: 350px;
     padding: 10px 0;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .processed_products .processed_product_img {
@@ -215,14 +213,12 @@
     height: 100%;
 }
 
-.processing_body .finished_orders {
-    width: 33%;
-}
 
 .processing_body .finished_orders {
     overflow-y: scroll;
     display: flex;
     justify-content: center;
+    padding: 10px 20px;
 }
 
 .finished_orders .product_order {
@@ -239,7 +235,6 @@
     width: 45%;
     height: 100%;
     background-color: #F6F6F6;
-    border-right: 1px solid black;
 }
 
 .finished_orders .purchased_products {

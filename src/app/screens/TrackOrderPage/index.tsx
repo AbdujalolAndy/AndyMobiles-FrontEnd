@@ -1,53 +1,148 @@
-import React, { useState } from "react";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Pagination, PaginationItem, Stack, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Stack, Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs } from "@mui/material";
+import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import "../../css/trackOrderPage.css"
+import OrderServiceApi from "../../apiServices/orderServiceApi";
+import { CardDetail, Order, OrderItem } from "../../types/order";
+import SwipeableViews from "react-swipeable-views";
+import { useTheme } from "@mui/material"
+
+//REDUX
+import { createSelector } from "reselect"
+import { Dispatch } from "@reduxjs/toolkit";
+import { setChosenOrder, setChosenTargetTransaction, setTargetOrders } from "./slice";
+import { chosenOrderRetrieve, chosenTargetTransactionRetrieve, targetOrdersRetrieve } from "./selector";
+import { useDispatch, useSelector } from "react-redux";
+import { serverApi } from "../../../lib/config";
+import { stringSplitterHandler } from "../../components/features/stringSplitter";
+import Moment from "react-moment";
+import { sweetErrorHandling, sweetFailureProvider, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import { verifiedMemberData } from "../../apiServices/verified";
+import Definer from "../../../lib/Definer";
+import { Transaction } from "../../types/bank";
+import OrderPaused from "./orderPaused";
+import OrderProcess from "./orderProcess";
+import OrderFinished from "./orderFinished";
+import TransactionServiceApi from "../../apiServices/transactionServiceApi";
+
+//SLICE
+const actionDispatch = (dispatch: Dispatch) => ({
+    setTargetOrders: (data: Order[]) => dispatch(setTargetOrders(data)),
+    setChosenOrder: (data: Order) => dispatch(setChosenOrder(data)),
+    setChosenTargetTransaction: (data: Transaction) => dispatch(setChosenTargetTransaction(data))
+})
+
+//SELECTOR
+const retrieverTargetOrders = createSelector(
+    targetOrdersRetrieve,
+    (targetOrders) => ({ targetOrders })
+)
+
+const retrieverChosenOrder = createSelector(
+    chosenOrderRetrieve,
+    (chosenOrder) => ({ chosenOrder })
+)
+
+const retrieverChosenTargetTransaction = createSelector(
+    chosenTargetTransactionRetrieve,
+    (chosenTargetTransaction) => ({ chosenTargetTransaction })
+)
 
 const TrackOrderPage = (props: any) => {
     //Initilizations
-    const [productAmount, setProductAmount] = useState<number>(0)
     const [orderStatus, setOderStatus] = useState<string>("PAUSED")
-    const [openAccordionAddress, setOpenAccordionAddress] = useState<boolean>(false)
-    const [openAccordionCard, setOpenAccordionCard] = useState<boolean>(true)
-    const [completeStages, setCompleteStages] = useState<any>([])
+    const [searchObj, setSearchObj] = useState({
+        search: "",
+    })
+    const [rebuild, setRebuild] = useState<Date>(new Date())
+    const { setTargetOrders, setChosenOrder, setChosenTargetTransaction } = actionDispatch(useDispatch())
+    const { targetOrders } = useSelector(retrieverTargetOrders)
+    const { chosenOrder } = useSelector(retrieverChosenOrder)
+    const [value, setValue] = useState<number>(0)
+    const [orderId, setOrderId] = useState<string>('')
+    const theme = useTheme()
+    //three circle React Hook
+    useEffect(() => {
+        if (!verifiedMemberData) {
+            sweetFailureProvider(Definer.auth_err1, false, true)
+        }
+        //calling targetOrders
+        const orderServiceApi = new OrderServiceApi();
+        const transactionServiceApi = new TransactionServiceApi()
+        orderServiceApi.getOrdersData(searchObj).then((orders: Order[]) => {
+            setTargetOrders(orders)
+            setOrderId(orders[orders.length - 1]._id)
+        }
+        ).catch(err => console.log(err))
+
+        //calling chosenOrder
+        orderServiceApi.getChosenOrder(orderId).then(data => setChosenOrder(data)).catch(err => console.log(err))
+        transactionServiceApi.getChosenTransaction(chosenOrder?._id).then(data => {
+            setChosenTargetTransaction(data)
+        }
+        ).catch(err => console.log(err))
+
+        //caling targetChosenTransaction 
+        transactionServiceApi.getChosenTransaction(orderId).then(data => setChosenTargetTransaction(data)).catch(err => console.log(err))
+    }, [rebuild])
+
     //Handlers
-    function removeProductAmount() {
-        if (productAmount > 0) {
-            setProductAmount(productAmount - 1)
-        }
-    }
-    function addProductAmount() {
-        setProductAmount(productAmount + 1)
-    }
-    function handleProcess(status: string) {
-        setOderStatus(status)
-    }
-    function handleOpenAccordionAddress(e: any, chosenFeature: string) {
-        if (e.target.checked && chosenFeature === "existAddress") {
-            setOpenAccordionAddress(false)
-        } else if (e.target.checked && chosenFeature === "extraAddress") {
-            setOpenAccordionAddress(true)
-        }
-    }
-    function handleOpenAccordionCard(e: any, chosenFeature: string) {
-        if (e.target.checked && chosenFeature === "existDepit") {
-            setOpenAccordionCard(false)
-        } else if (e.target.checked && chosenFeature === "extraDebit") {
-            setOpenAccordionCard(true)
-        }
-    }
-    function handleProcessCheckout(stage: number) {
-        if (window.confirm("Do you want to process to checkout?")) {
-            setCompleteStages(Array.from({ length: stage }).map((ele, index) => index))
-        }
-        if (stage == 1) { setOderStatus("PROCESS") };
-        if (stage == 2) { setOderStatus("FINISHED") };
+    function handleChangeView(e: any, index: number) {
+        setValue(index)
 
     }
-    function handleRemoveAllPausedProducts() {
-        if (window.confirm("Do you want to remove all products?")) {
-            alert("yes")
+
+    function handleChooseOrder(order: Order) {
+        setOrderId(order._id)
+        switch (order.order_status) {
+            case "PAUSED":
+                setValue(0);
+                break;
+            case "PROCESS":
+                setValue(1);
+                break;
+            case "FINISHED":
+                setValue(2);
+                break;
+            default:
+                break;
         }
+        setRebuild(new Date())
+    }
+    function handleProcess(status: string, index: number) {
+        setValue(index)
+        setOderStatus(status)
+    }
+    async function handleProcessCheckout(status: string) {
+        if (window.confirm(`Do you agree to ${status}`)) {
+            const orderServiceApi = new OrderServiceApi();
+            //@ts-ignore
+            await orderServiceApi.updateOrderData(chosenOrder?._id, { order_status: status });
+            setOderStatus(status)
+            switch (status) {
+                case "PAUSED":
+                    setValue(0);
+                    break;
+                case "PROCESS":
+                    setValue(1);
+                    break;
+                case "FINISHED":
+                    setValue(2);
+                    break;
+                default:
+                    break;
+            }
+            setRebuild(new Date())
+        }
+    }
+
+
+
+    async function handleDeleteOrder(id: string) {
+        const orderServiceApi = new OrderServiceApi();
+        await orderServiceApi.deleteOrderData(id);
+        await sweetTopSmallSuccessAlert("Successfully Deleted Order", 500, false)
+        setRebuild(new Date())
     }
     return (
         <Box className={"trackPage"}>
@@ -58,7 +153,7 @@ const TrackOrderPage = (props: any) => {
                     </div>
                     <hr />
                     <div className="track_order_code fw-bold fs-3">
-                        Order Code: 365njnioQSws302
+                        Order Code: {chosenOrder?.order_code}
                     </div>
                     <div className="Tracker_process mt-3 mb-3">
                         <div className="hh-grayBox">
@@ -67,387 +162,98 @@ const TrackOrderPage = (props: any) => {
                                     <span className="is-complete">
                                         <i className="fa-brands fa-shopify text-light fs-2"></i>
                                     </span>
-                                    <p>Ordered<br /><span>Mon, June 24</span></p>
+                                    <p>Order Sort<br /><b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder?.createdAt}</Moment></b></p>
                                 </div>
-                                <div className={completeStages.length >= 1 ? "order-tracking completed" : "order-tracking"}>
+                                <div className={
+                                    chosenOrder?.order_status === "PROCESS" ? "order-tracking completed"
+                                        : chosenOrder?.order_status === "FINISHED" ? "order-tracking completed" :
+                                            chosenOrder?.order_status === "DELIVERED" ? "order-tracking completed" :
+                                                "order-tracking"
+                                }
+                                >
                                     <span className="is-complete">
                                         <i className="fa-solid fa-wallet text-light fs-2"></i>
                                     </span>
-                                    <p>Shipped<br /><span>Tue, June 25</span></p>
+                                    <p>Shipping<br />
+                                        {chosenOrder?.order_status === "PROCESS" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder?.order_shipping_time}</Moment></b>)
+                                            : chosenOrder?.order_status === "FINISHED" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder?.order_shipping_time}</Moment></b>) :
+                                                chosenOrder?.order_status === "DELIVERED" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder?.order_shipping_time}</Moment></b>) : (
+                                                    <i className="fa-solid fa-spinner fa-spin"></i>
+                                                )}
+                                    </p>
                                 </div>
-                                <div className={completeStages.length >= 2 ? "order-tracking completed" : "order-tracking"}>
+                                <div className={
+                                    chosenOrder?.order_status === "FINISHED" ? "order-tracking completed"
+                                        : chosenOrder?.order_status === "DELIVERED" ? "order-tracking completed"
+                                            : "order-tracking"}>
                                     <span className="is-complete">
                                         <i className="fa-solid fa-truck-fast text-light fs-2"></i>
                                     </span>
-                                    <p>Delivered<br /><span>Fri, June 28</span></p>
+                                    <p>Shipped<br />
+                                        {chosenOrder?.order_status === "FINISHED" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder.order_shipped_time}</Moment></b>) :
+                                            chosenOrder?.order_status === "DELIVERED" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder.order_shipped_time}</Moment></b>) :
+                                                (<i className="fa-solid fa-spinner fa-spin"></i>)}
+                                    </p>
                                 </div>
-                                <div className="order-tracking">
+                                <div className={chosenOrder?.order_status === "DELIVERED" ? "order-tracking completed" : "order-tracking"}>
                                     <span className="is-complete">
                                         <i className="fa-solid fa-clipboard-check text-light fs-2"></i>
                                     </span>
-                                    <p>Delivered<br /><span>Fri, June 28</span></p>
+                                    <p>Delivered<br />{chosenOrder?.order_status === "DELIVERED" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder?.order_delivered_time}</Moment></b>) : (<i className="fa-solid fa-spinner fa-spin"></i>)}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <Box >
                         <Stack
-                            className={"order_track_controller"}
+                            className={"order_track_controller d-flex justify-content-center"}
                             direction={"row"}
                             justifyContent={"space-between"}
                         >
-                            <button className={orderStatus == "PAUSED" ? "btn btn_status" : "btn"} onClick={() => handleProcess("PAUSED")}>Order Checkout</button>
-                            <button className={orderStatus == "PROCESS" ? "btn btn_status" : "btn"} onClick={() => handleProcess("PROCESS")}>Process Checkout Details</button>
-                            <button className={orderStatus == "FINISHED" ? "btn btn_status" : "btn"} onClick={() => handleProcess("FINISHED")}>Delivered Product Confirmation</button>
+                            <Tabs value={value}>
+                                <Tab className={orderStatus == "PAUSED" ? "btn btn_status" : "btn "} onClick={() => handleProcess("PAUSED", 0)} label="Order Checkout" />
+                                <Tab className={orderStatus == "PROCESS" ? "btn btn_status" : "btn "} onClick={() => handleProcess("PROCESS", 1)} label="Process Checkout Details" />
+                                <Tab className={orderStatus == "FINISHED" ? "btn btn_status" : "btn "} onClick={() => handleProcess("FINISHED", 2)} label="Delivered Product Confirmation" />
+                            </Tabs>
                         </Stack>
-
                     </Box>
                 </Box>
                 <Box className="processing_body">
-                    <Stack
-                        direction={"row"}
-                        gap={"30px"}
-                        style={orderStatus == "PAUSED" ? { transform: "translateX(0)" } : orderStatus == "PROCESS" ? { transform: "translateX(-33%)" } : { transform: "translateX(-67%)" }}
+                    <SwipeableViews
+                        enableMouseEvents
+                        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                        index={value}
+                        value={value}
+                        onChangeIndex={handleChangeView}
                     >
-                        <Box className={"order_checkout"}>
-                            <Stack>
-                                <Table >
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>
-                                                NO
-                                            </TableCell>
-                                            <TableCell align="center" colSpan={2}>
-                                                PRODUCT
-                                            </TableCell>
-                                            <TableCell>
-                                                PRICE
-                                            </TableCell>
-                                            <TableCell>
-                                                QUANTITY
-                                            </TableCell>
-                                            <TableCell>
-                                                TOTAL
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {Array.from({ length: 4 }).map((ele, index) => (
-                                            <TableRow>
-                                                <TableCell className="fw-bold fs-5" align="center">
-                                                    {index + 1}
-                                                </TableCell>
-                                                <TableCell >
-                                                    <Stack alignItems={"center"}>
-                                                        <img src="/icons/yellow_phone.webp" alt="phone" width={"20px"} />
-                                                    </Stack>
-                                                </TableCell>
-                                                <TableCell>
-                                                    Iphone 13 Pro Max
-                                                </TableCell>
-                                                <TableCell>
-                                                    $999.00
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Stack direction={"row"} gap={"20px"}>
-                                                        <span onClick={removeProductAmount}>
-                                                            <i className="fa-solid fa-minus"></i>
-                                                        </span>
-                                                        <span className="fw-bold">{productAmount}</span>
-                                                        <span onClick={addProductAmount}>
-                                                            <i className="fa-solid fa-plus"></i>
-                                                        </span>
-                                                    </Stack>
-                                                </TableCell>
-                                                <TableCell>
-                                                    $999.00
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                                <Stack
-                                    direction={"row"}
-                                    gap={"20px"}
-                                    justifyContent={"end"}
-                                    className="mt-3"
-                                >
-                                    <a href="/products" className="btn btn-info" >Continue Shopping</a>
-                                    <button className="btn btn-success" onClick={() => handleProcessCheckout(1)}>Process Checkout</button>
-                                    <button className="btn btn-danger" onClick={handleRemoveAllPausedProducts}>Remove All</button>
-                                </Stack>
-                            </Stack>
-                        </Box>
-                        <Stack
-                            className="process_checkout"
-                            direction={"row"}
-                            gap={"20px"}
-                        >
-                            <Box className="delivery_details" style={{ width: "40%" }}>
-                                <div className="rounded p-3">
-                                    <div className="form-check  fs-5">
-                                        <input
-                                            className="form-check-input"
-                                            type="radio"
-                                            name="flexRadioDefault"
-                                            id="flexRadioDefault1"
-                                            style={{ opacity: 1, position: "static" }}
-                                            onChange={(e) => handleOpenAccordionAddress(e, "existAddress")}
-                                            checked={!openAccordionAddress}
-                                        />
-                                        <label className="form-check-label text-dark fw-bold" htmlFor="flexRadioDefault1">
-                                            Existed Address on Account
-                                        </label>
-                                    </div>
-                                </div>
-                                <Accordion expanded={openAccordionAddress} className="address_filling">
-                                    <AccordionSummary>
-                                        <div className="form-check fs-5">
-                                            <input
-                                                className="form-check-input"
-                                                type="radio"
-                                                name="flexRadioDefault"
-                                                id="modifyAddress"
-                                                style={{ opacity: 1, position: "static" }}
-                                                onChange={(e) => handleOpenAccordionAddress(e, "extraAddress")}
-                                                checked={openAccordionAddress}
-                                            />
-                                            <label
-                                                htmlFor="modifyAddress"
-                                                className="text-dark fw-bold form-check-label"
-                                            >
-                                                Select Different Address
-                                            </label>
-                                        </div>
-                                    </AccordionSummary>
-                                    <AccordionDetails className="show">
-                                        <div className="form-floating">
-                                            <select id="country" className="form-select">
-                                                <option value="">South Korea</option>
-                                                <option value="">Russia</option>
-                                                <option value="">Uzbekistan</option>
-                                                <option value="">Palestine</option>
-                                            </select>
-                                            <label htmlFor="country">Country/Region</label>
-                                        </div>
-                                        <Stack
-                                            direction={"row"}
-                                            justifyContent={"space-between"}
-                                            gap="30px"
-                                        >
-                                            <div className="form-floating">
-                                                <input type="text" className="form-control p-1" id="last_name" placeholder="Last Name" />
-                                                <label htmlFor="last_name">Last Name</label>
-                                            </div>
-                                            <div className="form-floating">
-                                                <input type="text" className="form-control p-1" id="first_name" placeholder="First Name" />
-                                                <label htmlFor="first_name">First Name</label>
-                                            </div>
-                                        </Stack>
-                                        <div className="form-floating">
-                                            <input type="number" className="form-control p-1" id="postal_code" placeholder="Postal Code" />
-                                            <label htmlFor="postal_code">Postal Code</label>
-                                        </div>
-                                        <Stack
-                                            direction={"row"}
-                                            justifyContent={"space-between"}
-                                            className="mt-3"
-                                            gap="30px"
-                                        >
-                                            <Box className="form-floating">
-                                                <select name="" className="form-select province_select" id={"province"}>
-                                                    <option value="">Busan</option>
-                                                    <option value="">Seoul</option>
-                                                    <option value="">Yeosu</option>
-                                                    <option value="">Deajon</option>
-                                                    <option value="">Chonju</option>
-                                                </select>
-                                                <label htmlFor="province">Province</label>
-                                            </Box>
-                                            <Box className="form-floating">
-                                                <input type="text" className="form-control" placeholder="City" id="city" />
-                                                <label htmlFor="city">City</label>
-                                            </Box>
-                                        </Stack>
-                                        <input type="text" placeholder="Address" className="form-control mt-2" />
-                                    </AccordionDetails>
-                                </Accordion>
-                                <div className="rounded p-3">
-                                    <div className="form-check  fs-5">
-                                        <input
-                                            className="form-check-input"
-                                            type="radio"
-                                            name="debit_card"
-                                            id="debit_card"
-                                            style={{ opacity: 1, position: "static" }}
-                                            onChange={(e) => handleOpenAccordionCard(e, "existDepit")}
-                                            checked={!openAccordionCard}
-                                        />
-                                        <label className="form-check-label text-dark fw-bold" htmlFor="debit_card">
-                                            Use Existed Card On Account
-                                        </label>
-                                    </div>
-                                </div>
-                                <Accordion expanded={openAccordionCard}>
-                                    <AccordionSummary>
-                                        <div className="form-check  fs-5">
-                                            <input
-                                                className="form-check-input"
-                                                type="radio"
-                                                name="debit_card"
-                                                id="debit_card_2"
-                                                style={{ opacity: 1, position: "static" }}
-                                                onChange={(e) => handleOpenAccordionCard(e, "extraDebit")}
-                                                checked={openAccordionCard}
-                                            />
-                                            <label className="form-check-label text-dark fw-bold" htmlFor="debit_card_2">
-                                                <Stack direction={"row"} gap={"30px"}>
-                                                    <div>Different Debit Card</div>
-                                                    <div><img src="/icons/credit_cards.jpg" alt="credits" width={"100px"} /></div>
-                                                </Stack>
-                                            </label>
-                                        </div>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <Stack direction={"row"} alignItems={"center"}>
-                                            <div className="card-number form-floating col-11">
-                                                <input type="text" placeholder="card Number" id="cardNumber" className="form-control" />
-                                                <label htmlFor="cardNumber">Card Number</label>
-                                            </div>
-                                            <div className="bg-warning" style={{ padding: "10px" }}>
-                                                <i className="fa-regular fa-credit-card"></i>
-                                            </div>
-                                        </Stack>
-                                        <Stack direction={"row"} gap={"20px"}>
-                                            <div className="form-floating">
-                                                <input type="text" id={"expireCard"} className="form-control" placeholder="Expiration date(MM/YY)" />
-                                                <label htmlFor="expireCard">Expiration date(MM/YY)</label>
-                                            </div>
-                                            <div className="form-floating">
-                                                <input type="text" id={"expireCard"} className="form-control" placeholder="Security code" />
-                                                <label htmlFor="expireCard">Security code</label>
-                                            </div>
-                                        </Stack>
-                                        <div className="form-floating">
-                                            <input type="text" placeholder="Name on card" className="form-control" id="cardName" />
-                                            <label htmlFor="cardName">Name on card</label>
-                                        </div>
-                                    </AccordionDetails>
-                                </Accordion>
-                            </Box>
-                            <Box
-                                style={{ width: "60%" }}
-                            >
-                                <Stack className={"processed_products"}>
-                                    {
-                                        Array.from({ length: 4 }).map(ele => (
-                                            <Stack
-                                                direction={"row"}
-                                                alignItems={"center"}
-                                                gap={"50px"}
-                                                className="border-bottom mb-3 pb-2 ps-4"
-                                            >
-                                                <div className="processed_product_img position-relative">
-                                                    <img src="/icons/yellow_phone.webp" alt="product" />
-                                                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light fs-6">
-                                                        3
-                                                    </span>
-                                                </div>
-                                                <div className="processed_product_info">
-                                                    <div>Iphone 13 Pro Max</div>
-                                                    <div><span className="pe-2">color: Yellow</span><span>storage: 128GB</span></div>
-                                                </div>
-                                                <div className="processed_product_price fw-bold">
-                                                    $999.00
-                                                </div>
-                                            </Stack>
-                                        ))
-                                    }
-                                </Stack>
-                                <Stack className="fs-4 ps-5 pe-5" direction={"row"} justifyContent={"space-between"}>
-                                    <div>Subtotal</div>
-                                    <div>$999.00</div>
-                                </Stack>
-                                <Stack className="fs-2 ps-5 pe-5 fw-bold" direction={"row"} justifyContent={"space-between"}>
-                                    <div>Total</div>
-                                    <div>$999.00</div>
-                                </Stack>
-                                <Stack direction={"row"} justifyContent={"center"} gap={"50px"}>
-                                    <button className="btn btn-danger">Cancel</button>
-                                    <button className="btn btn-dark " onClick={() => handleProcessCheckout(2)}>Proceed Payment</button>
-                                </Stack>
-                            </Box>
-                        </Stack>
-                        <Box className="finished_orders">
-                            <Stack
-                                className={"product_order"}
-                                direction={"row"}
-                                justifyContent={"space-between"}
-                            >
-                                <div className="order_info">
-                                    <Stack className="order_code" direction={"row"} justifyContent={"space-between"}>
-                                        <div className="fw-bold fs-5">Order Code</div>
-                                        <div className="fw-bold text-warning fs-6">365njnioQSws302</div>
-                                    </Stack>
-                                    <Stack className="order_code" direction={"row"} justifyContent={"space-between"}>
-                                        <div className="fw-bold fs-5">Subtotal</div>
-                                        <div className="fw-bold text-warning fs-6">$1750.00</div>
-                                    </Stack>
-                                    <Stack className="order_code" direction={"row"} justifyContent={"space-between"}>
-                                        <div className="fw-bold fs-5">Total Price</div>
-                                        <div className="fw-bold text-warning fs-6">$2476.00</div>
-                                    </Stack>
-                                    <Stack className="order_code" direction={"row"} justifyContent={"space-between"}>
-                                        <div className="fw-bold fs-5">Transaction Owner</div>
-                                        <div className="fw-bold text-warning fs-6">Abdujalol</div>
-                                    </Stack>
-                                    <Stack className="order_code" direction={"row"} justifyContent={"space-between"}>
-                                        <div className="fw-bold fs-5">Card Number</div>
-                                        <div className="fw-bold text-warning fs-6">2341 **** **** 3425</div>
-                                    </Stack>
-                                    <Stack className="order_code" direction={"row"} justifyContent={"space-between"}>
-                                        <div className="fw-bold fs-5">Transaction Date</div>
-                                        <div className="fw-bold text-warning fs-6">12.09.2023 12:34 AM</div>
-                                    </Stack>
-                                </div>
-                                <div className="purchased_products">
-                                    <Box className={"processed_products"} style={{ height: "100%", width: "100%" }}>
-                                        {
-                                            Array.from({ length: 4 }).map(ele => (
-                                                <Stack
-                                                    direction={"row"}
-                                                    alignItems={"center"}
-                                                    gap={"40px"}
-                                                    className="border-bottom mb-3 pb-2"
-                                                >
-                                                    <div className="processed_product_img position-relative">
-                                                        <img src="/icons/yellow_phone.webp" alt="product" />
-                                                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light fs-6">
-                                                            3
-                                                        </span>
-                                                    </div>
-                                                    <div className="processed_product_info">
-                                                        <div>Iphone 13 Pro Max</div>
-                                                        <div><span className="pe-2">color: Yellow</span><span>storage: 128GB</span></div>
-                                                    </div>
-                                                    <div className="processed_product_price fw-bold">
-                                                        $999.00
-                                                    </div>
-                                                </Stack>
-                                            ))
-                                        }
-                                    </Box>
-                                </div>
-                            </Stack>
-
-                        </Box>
-                    </Stack>
+                        <OrderPaused
+                            index={0}
+                            value={value}
+                            dir={theme.direction}
+                            handleProcessCheckout={handleProcessCheckout}
+                            setRebuild={setRebuild}
+                            rebuild={rebuild}
+                        />
+                        <OrderProcess
+                            index={1}
+                            value={value}
+                            dir={theme.direction}
+                            chosenOrder={chosenOrder}
+                            handleProcessCheckout={handleProcessCheckout}
+                        />
+                        <OrderFinished
+                            index={2}
+                            value={value}
+                            dir={theme.direction}
+                            handleProcessCheckout={handleProcessCheckout}
+                        />
+                    </SwipeableViews>
                 </Box>
                 <Box
                     className={"list_of_orders"}
                 >
                     <Box>
-                        <div className="fw-bold fs-3">All Orders</div>
+                        <div className="fw-bold fs-3">All Orders' History</div>
                         <hr />
                         <Stack
                             className="order_filter"
@@ -456,73 +262,55 @@ const TrackOrderPage = (props: any) => {
                             alignItems={"center"}
                             gap={"20px"}
                         >
-                            <div>Search</div>
-                            <input type="text" />
+                            <input type="text" className="form-control" placeholder="Search Order" />
                         </Stack>
-                        <Box>
-                            <Table className="table table-striped">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>
-                                            #
-                                        </TableCell>
-                                        <TableCell>
+                        <Box className={"pb-4"} style={{ height: "200px", overflowY: "auto" }}>
+                            <table className="table table-hover mt-3">
+                                <thead>
+                                    <tr>
+                                        <th className="fw-bold">
                                             Order Code
-                                        </TableCell>
-                                        <TableCell>
-                                            Product Name
-                                        </TableCell>
-                                        <TableCell>
-                                            Qty
-                                        </TableCell>
-                                        <TableCell>
-                                            Price
-                                        </TableCell>
-                                        <TableCell>
+                                        </th>
+                                        <th className="fw-bold">
+                                            Total Price
+                                        </th>
+                                        <th className="fw-bold">
+                                            Delivery Cost
+                                        </th>
+                                        <th className="fw-bold">
                                             Delivery Status
-                                        </TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {Array.from({ length: 3 }).map((ele, index) => (
-                                        <TableRow>
-                                            <TableCell>
-                                                {index + 1}
-                                            </TableCell>
-                                            <TableCell>
-                                                365njnioQSws302
-                                            </TableCell>
-                                            <TableCell>
-                                                Iphone 13 Pro Max
-                                            </TableCell>
-                                            <TableCell>
-                                                2
-                                            </TableCell>
-                                            <TableCell>
-                                                $1999.00
-                                            </TableCell>
-                                            <TableCell>
-                                                Process Checkout
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                            <Pagination
-                                className="brand_pagination d-flex justify-content-center"
-                                page={1}
-                                count={3}
-                                renderItem={(item) => (
-                                    <PaginationItem
-                                        components={{
-                                            previous: ArrowBack,
-                                            next: ArrowForward
-                                        }}
-                                        {...item}
-
-                                    />
-                                )}
-                            />
+                                        </th>
+                                        <th>
+                                            Delete Order
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {targetOrders?.map((order: Order, index: number) => {
+                                        const chosen = order?._id === chosenOrder?._id
+                                        return (
+                                            <tr onClick={() => handleChooseOrder(order)} className={"order-table bg-danger"}>
+                                                <td style={chosen ? { color: "red" } : {}}>
+                                                    {order.order_code}
+                                                </td>
+                                                <td style={chosen ? { color: "red" } : {}}>
+                                                    {stringSplitterHandler(order.order_total_amount, 3, ".")} ₩
+                                                </td>
+                                                <td style={chosen ? { color: "red" } : {}}>
+                                                    {order.order_delivery_cost}
+                                                </td>
+                                                <td style={chosen ? { color: "red" } : {}}>
+                                                    {order.order_status}
+                                                </td>
+                                                <td>
+                                                    <div className="btn btn-danger" onClick={async () => await handleDeleteOrder(order._id)}>Delete</div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    }
+                                    )}
+                                </tbody>
+                            </table>
                         </Box>
                     </Box>
                 </Box>

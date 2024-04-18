@@ -1,20 +1,41 @@
 export interface OrderItem {
+    _id: string;
     item_quantity: number;
     item_price: number;
     order_id: string;
     item_name: string;
     product_image: string;
+    item_color: string;
+    item_storage: number
 }
 
 export interface Order {
-    mb_id: String;
-    order_code: String;
-    order_total_amount: Number;
-    order_status: String;
-    order_delivery_cost: Number;
-    order_subtotal_amount: Number;
-    order_product_qty: Number;
-    order_delivery_address: String;
-    order_owner_name: String;
-    order_delivery_postal: Number;
+    _id: string;
+    mb_id: string;
+    order_code: string;
+    order_total_amount: number;
+    order_status: string;
+    order_delivery_cost: number;
+    order_subtotal_amount: number;
+    order_product_qty: number;
+    order_delivery_address: string;
+    order_owner_name: string;
+    order_delivery_postal: number;
+    order_items: OrderItem[]
+    order_shipping_time:Date;
+    order_shipped_time:Date;
+    order_delivered_time:Date;
+    createdAt?: Date
+}
+
+export interface CardDetail {
+    exist_card: boolean,
+    order_id: string,
+    order_code: string;
+    order_address: string,
+    trans_owner: string,
+    trans_card_number: number,
+    trans_card_expiry: string,
+    trans_card_cvc: number,
+    trans_card_pincode: string
 }

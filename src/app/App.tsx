@@ -88,6 +88,8 @@ const App: React.FC = () => {
           item_quantity: 1,
           item_price: basketItem.product_price,
           order_id: basketItem._id,
+          item_color: basketItem.product_color,
+          item_storage: basketItem.product_memory,
           item_name: basketItem.product_name,
           product_image: basketItem.product_images[0]
         }

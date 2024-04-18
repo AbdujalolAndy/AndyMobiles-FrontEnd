@@ -5,6 +5,7 @@ import brandPageReducer from './screens/BrandPage/slice';
 import productPageReducer from './screens/ProductsPage/slice';
 import blogPageReducer from './screens/BlogPage/slice';
 import memberPageReducer from './screens/MyPage/slice';
+import orderPageReducer from './screens/TrackOrderPage/slice';
 
 
 export const store = configureStore({
@@ -15,7 +16,8 @@ export const store = configureStore({
     brandPage: brandPageReducer,
     productPage: productPageReducer,
     blogPage: blogPageReducer,
-    memberPage: memberPageReducer
+    memberPage: memberPageReducer,
+    orderPage:orderPageReducer
   },
 });
 

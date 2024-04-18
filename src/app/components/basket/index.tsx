@@ -5,9 +5,12 @@ import { OrderItem } from "../../types/order"
 import { serverApi } from "../../../lib/config"
 import { stringSplitterHandler } from "../features/stringSplitter"
 import { AddCircle, Equalizer, PlusOne, RemoveCircle } from "@mui/icons-material"
-import { sweetErrorHandling } from "../../../lib/sweetAlert"
+import { sweetErrorHandling, sweetFailureProvider } from "../../../lib/sweetAlert"
 import OrderServiceApi from "../../apiServices/orderServiceApi"
 import { useHistory } from "react-router-dom"
+import assert from "assert"
+import { verifiedMemberData } from "../../apiServices/verified"
+import Definer from "../../../lib/Definer"
 
 export const Basket = (props: any) => {
     //Initializations
@@ -31,17 +34,20 @@ export const Basket = (props: any) => {
         localStorage.setItem("basket_items", JSON.stringify(props.addItems))
     }
 
-    function handlePurchaseAll(products: OrderItem[]) {
+    async function handlePurchaseAll(products: OrderItem[]) {
         try {
+            if (!verifiedMemberData) {
+                props.handleBasketClose()
+                throw new Error(Definer.auth_err1)
+            }
             const orderServiceApi = new OrderServiceApi();
-            orderServiceApi.createOrder(products).then()
+            await orderServiceApi.createOrder(products)
             localStorage.setItem("basket_items", JSON.stringify([]))
             props.handleBasketClose()
             history.push("/track-order")
             document.location.reload()
-
         } catch (err: any) {
-            sweetErrorHandling(err).then()
+            sweetFailureProvider(Definer.auth_err1, false, true)
         }
     }
     return (
@@ -126,7 +132,7 @@ export const Basket = (props: any) => {
                             <input id={"terms"} type="checkbox" onChange={handleCheckout} />
                             <label htmlFor="terms">I agree with the terms and conditions</label>
                         </Stack>
-                        <button className={!checkout ? "btn btn-danger d-block w-100 mb-3 disabled" : "btn btn-danger d-block w-100 mb-3"} onClick={() => handlePurchaseAll(props.addItems)} disabled={!checkout}>ChECKOUT</button>
+                        <button className={!checkout ? "btn btn-danger d-block w-100 mb-3 disabled" : "btn btn-danger d-block w-100 mb-3"} onClick={async () => await handlePurchaseAll(props.addItems)} disabled={!checkout}>ChECKOUT</button>
                         <button className="btn btn-dark d-block w-100">VIEW CART</button>
                     </div>
                 </Stack>

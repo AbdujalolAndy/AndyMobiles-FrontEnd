@@ -1,4 +1,4 @@
-import { Bank } from "./bank";
+import { Bank, Transaction } from "./bank";
 import { Blog } from "./blog";
 import { Brand, FollowInterface, Member } from "./member";
 import { Order } from "./order";
@@ -13,7 +13,7 @@ export interface AppRootState {
     productPage: ProductPageState,
     blogPage: BlogPageState,
     memberPage: MemberPageState;
-    trackOrderPage: TrackOrderPageState
+    orderPage: OrderPage
 }
 
 //Home Page State
@@ -41,7 +41,7 @@ export interface ProductPageState {
 //Blog Page State
 export interface BlogPageState {
     targetBlogs: Blog[];
-    chosenBlog:Blog;
+    chosenBlog: Blog;
 }
 
 //Member Page State
@@ -53,12 +53,13 @@ export interface MemberPageState {
     followers: FollowInterface[],
     followings: FollowInterface[];
     targetBlogs: Blog[];
-    targetReviews:Review[];
-    chosenBlog:Blog | null
+    targetReviews: Review[];
+    chosenBlog: Blog | null
 }
 
-//Track Page State
-export interface TrackOrderPageState {
-    getAllOrders: Order[];
-    getChosenTarget: Order;
+
+export interface OrderPage {
+    targetOrders: Order[];
+    chosenOrder: Order | null;
+    chosenTargetTransaction: Transaction | null
 }

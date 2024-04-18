@@ -1,10 +1,13 @@
 import axios from "axios";
 import { serverApi } from "../../lib/config"
-import { Bank } from "../types/bank";
+import { Bank, Transaction } from "../types/bank";
 import { BankInfoObj } from "../types/others";
+import { CardDetail } from "../types/order";
 
 class TransactionServiceApi {
+    private readonly path: string
     constructor() {
+        this.path = serverApi
     }
 
     async getChosenBankCard(): Promise<Bank> {
@@ -27,6 +30,30 @@ class TransactionServiceApi {
             const newBankCard: Bank = result.data.value[0];
             return newBankCard
         } catch (err: any) {
+            throw err
+        }
+    }
+    async createTransactionData(data: any): Promise<Transaction> {
+        try {
+            const url = `${this.path}/bankCard/transaction`;
+            const result = await axios.post(url, data, { withCredentials: true })
+            console.log(`POST: createTransactionData State, ${result.data.state}`)
+            const transactionData: Transaction = result.data.value;
+            return transactionData
+        } catch (err: any) {
+            throw err
+        }
+    }
+    async getChosenTransaction(id: any): Promise<Transaction> {
+        try {
+            const url = `${serverApi}/bankCard/transaction/${id}`;
+            console.log("salom",url)
+            const result = await axios.get(url, { withCredentials: true });
+            console.log(`GET getChosenTransaction State, ${result.data.state}`);
+            const transactionData: Transaction = result.data.value[0];
+            return transactionData
+        } catch (err: any) {
+            console.log(err)
             throw err
         }
     }
