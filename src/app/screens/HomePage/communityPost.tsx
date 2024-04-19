@@ -13,6 +13,7 @@ import { retrieveCommunityPost } from './selector';
 import CommunityServiceApi from '../../apiServices/communityServiceApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { serverApi } from '../../../lib/config';
+import { useHistory } from 'react-router-dom';
 
 
 //SLICE
@@ -29,6 +30,7 @@ function CommunityPosts() {
     const [scrolled, setScrolled] = useState<boolean>(false)
     const { setCommunityPost } = actionDispatch(useDispatch())
     const { communityPost } = useSelector(communityPostRetriever)
+    const history = useHistory()
     //three circle Hook
     useEffect(() => {
         const communityServiceApi = new CommunityServiceApi()
@@ -52,6 +54,11 @@ function CommunityPosts() {
         }
     }, [])
 
+    //handlers
+    function handleOpenPost(post: Blog) {
+        history.push(`/user-page/other/?mb_id=${post.mb_data._id}&art_id=${post._id}`)
+    }
+
     return (
         <Box className="communityHomePosts">
             <Marquee
@@ -62,9 +69,12 @@ function CommunityPosts() {
                     const image_url = blog.blog_images[0] ? `${serverApi}/${blog.blog_images[0]}` : "/pictures/community/cute_girl.jpg";
                     const user_image = blog.mb_data.mb_image ? `${serverApi}/${blog.mb_data.mb_image}` : "/pictures/auth/default_user.svg"
                     return (
-                        <Box className={"post_card"}>
-                            <div className="post_img" >
-                                <img src={image_url} alt="" style={{ width: "350px", height: "200px" }} />
+                        <Box className={"post_card"} onClick={() => handleOpenPost(blog)}>
+                            <div className="post_img">
+                                <div className="img_wrapper">
+                                    <img src={image_url} alt="" className='w-100' />
+                                </div>
+                                <img src={image_url} alt="" />
                                 <div className='post_type'>{blog.blog_category}</div>
                             </div>
                             <div className="post_body">
@@ -78,13 +88,20 @@ function CommunityPosts() {
                                             height: "50px",
                                             width: "50px"
                                         }}>
-                                        <img 
-                                        src={user_image} 
-                                        alt="" 
-                                        style={{ width: "80%", borderRadius: "50%" }} />
+                                        <img
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                history.push(`/user-page/other/?mb_id=${blog.mb_data._id}`)
+                                            }}
+                                            src={user_image}
+                                            alt=""
+                                            style={{ width: "80%", borderRadius: "50%" }} />
                                     </div>
-                                    <Box>
-                                        <div className="author text-warning fw-bold">
+                                    <Box >
+                                        <div className="author text-warning fw-bold" onClick={(e) => {
+                                            e.stopPropagation()
+                                            history.push(`/user-page/other/?mb_id=${blog.mb_data._id}`)
+                                        }}>
                                             {blog.mb_data.mb_nick}
                                         </div>
                                         <Stack direction={"row"} gap={"5px"}>

@@ -162,7 +162,8 @@
     justify-content: center;
     align-items: center;
 }
-.card-features div i{
+
+.card-features div i {
     font-size: 19px;
 }
 
@@ -547,10 +548,27 @@
     position: relative;
     border-radius: 20px;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.post_card .post_img img {
+    width:auto;
+    max-height: 200px;
+    position: relative;
+    z-index: 10;
+}
+
+.post_card .post_img>div:nth-child(1) {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    filter: blur(5px);
+    z-index: 9;
 }
 
 .post_card .post_img:hover {
-    box-shadow: 0 0 10px black;
+    box-shadow: 0 0 5px black;
 
 }
 
