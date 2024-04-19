@@ -25,6 +25,7 @@ import { ViewerPage } from "../../components/tuiEditor/tuiViewer"
 import { Blog } from "../../types/blog"
 import CommunityServiceApi from "../../apiServices/communityServiceApi"
 import { Review } from "../../types/review"
+import { handleViewItem } from "../../components/features/viewItem"
 
 //Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -86,7 +87,7 @@ export const MyPage = (props: any) => {
             const memberServiceApi = new MemberServiceApi()
             const chosenBlog = await communityServiceApi.getChosenBlog(id)
             setChosenBlog(chosenBlog)
-            await memberServiceApi.viewItem(chosenBlog._id, "COMMUNITY")
+            handleViewItem(chosenBlog._id, "COMMUNITY")
             setValue("4")
         } catch (err: any) {
             await sweetErrorHandling(err)

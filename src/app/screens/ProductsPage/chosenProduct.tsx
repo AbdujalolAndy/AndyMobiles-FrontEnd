@@ -28,6 +28,7 @@ import { locations } from "../../../lib/locations";
 import { NewProducts } from "../HomePage/releasedProducts";
 import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import { MemberServiceApi } from "../../apiServices/memberServiceApi";
+import { handleViewItem } from "../../components/features/viewItem";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -73,11 +74,10 @@ export const ChosenProduct = () => {
         window.addEventListener("scroll", handleScroll);
         //Chosen Product
         const productServiceApi = new ProductServiceApi();
-        const memberServiceApi = new MemberServiceApi()
         productServiceApi.getChosenProduct(product_id)
             .then(data => {
                 setChosenProduct(data)
-                memberServiceApi.viewItem(data._id, "PRODUCT").then()
+                handleViewItem(data._id, "PRODUCT")
             })
             .catch(err => console.log(err))
 

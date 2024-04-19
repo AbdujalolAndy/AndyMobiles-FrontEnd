@@ -4,21 +4,27 @@ import { useEffect, useState } from "react";
 //REDUX
 import { createSelector } from "reselect"
 import { Dispatch } from "@reduxjs/toolkit";
-import { setAllBrands, setTargetProducts } from "./slice";
+import { setAllBrands, setTargetProducts, setTargetReviews } from "./slice";
 import { Product } from "../../types/product";
 import { useDispatch, useSelector } from "react-redux";
 import ProductServiceApi from "../../apiServices/productServiceApi";
-import { allBrandsRetriever, targetProductsRetriever } from "./selector";
+import { allBrandsRetriever, targetProductsRetriever, targetReviewsRetrieve } from "./selector";
 import { Brand } from "../../types/member";
 import BrandsServiceApi from "../../apiServices/brandsServiceApi";
 import { Products } from "./products";
 import { ProductFilter } from "../../components/filters/productFilter";
 import { useParams } from "react-router-dom";
+import { handleViewItem } from "../../components/features/viewItem";
+import ReviewWriting from "./reviewWriting";
+import ProductReview from "./productReview";
+import { Review } from "../../types/review";
+import CommunityServiceApi from "../../apiServices/communityServiceApi";
 
 //SLICE
 const actionDispath = (dispatch: Dispatch) => ({
     setTargetProducts: (data: Product[]) => dispatch(setTargetProducts(data)),
-    setAllBrands: (data: Brand[]) => dispatch(setAllBrands(data))
+    setAllBrands: (data: Brand[]) => dispatch(setAllBrands(data)),
+    setTargetReviews: (data: Review[]) => dispatch(setTargetReviews(data))
 })
 //SELECTOR
 const retrieveTargetProducts = createSelector(
@@ -31,16 +37,24 @@ const retrieveAllBrands = createSelector(
     (allBrands) => ({ allBrands })
 )
 
+const retrieverTargetReviews = createSelector(
+    targetReviewsRetrieve,
+    (targetReviews) => ({ targetReviews })
+)
+
 
 
 const AllProducts = () => {
     //Hook intilizations 
     const [boxSize, setBoxSize] = useState<string>("45%");
-    const { setTargetProducts } = actionDispath(useDispatch());
+    const { setTargetProducts, setTargetReviews } = actionDispath(useDispatch());
     const { setAllBrands } = actionDispath(useDispatch());
     const { targetProducts } = useSelector(retrieveTargetProducts)
     const { allBrands } = useSelector(retrieveAllBrands)
+    const { targetReviews } = useSelector(retrieverTargetReviews)
     const { company_id } = useParams<{ company_id: string }>()
+    const [rebuild, setRebuild] = useState<Date>(new Date())
+    const reviews: Review[] = []
     const [searchObj, setSearchObj] = useState({
         limit: 6,
         company_id: company_id,
@@ -58,11 +72,18 @@ const AllProducts = () => {
         //Target Products
         const productServiceApi = new ProductServiceApi;
         productServiceApi.getTargetProducts(searchObj).then(data => setTargetProducts(data)).catch(err => console.log(err))
+        if (searchObj.company_id) {
+            handleViewItem(searchObj.company_id, "MEMBER")
+        }
 
         //Target Brands
         const brandsServiceApi = new BrandsServiceApi()
         brandsServiceApi.getAllBrands().then(data => setAllBrands(data)).catch(err => console.log(err))
-    }, [searchObj])
+
+        //Target reviews
+        const communityServiceApi = new CommunityServiceApi();
+        communityServiceApi.getProductReviews(company_id).then((data: Review[]) => setTargetReviews(data)).catch(err => console.log(err))
+    }, [searchObj, rebuild])
 
     //Handle 
     function handleBoxSize(size: string) { setBoxSize(size) }
@@ -133,6 +154,27 @@ const AllProducts = () => {
                         setSearchObj={setSearchObj}
                     />
                 </Stack>
+                {
+                    company_id ? (
+                        <Box>
+                            <div className="fs-1 fw-bold text-center mt-5 mb-3">Reviewing Company</div>
+                            {targetReviews && targetReviews[0] ? (
+                                <div className="mb-4">
+                                    <ProductReview reviews={targetReviews} />
+                                </div>
+                            ) : (
+                                <div
+                                    className=" text-secondary rounded mb-5 fs-5 p-2 text-center"
+                                    style={{ backgroundColor: "#DBDDEF" }}
+                                >
+                                    There is no comments yet!
+                                </div>
+                            )}
+                            <ReviewWriting product_id={company_id} item_group={"MEMBER"} setRebuildReview={setRebuild} />
+                        </Box>
+
+                    ) : null
+                }
             </Container>
         </Box>
     )

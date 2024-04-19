@@ -26,3 +26,8 @@ export const relatedProductsRetriever = createSelector(
     selectProductPage,
     (ProductPage) => ProductPage.relatedProducts
 )
+
+export const targetReviewsRetrieve = createSelector(
+    selectProductPage,
+    (ProductPage) => ProductPage.targetReviews
+)

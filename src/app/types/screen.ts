@@ -36,6 +36,7 @@ export interface ProductPageState {
     productReview: Review[];
     allBrands: Brand[];
     relatedProducts: Product[]
+    targetReviews: Review[]
 }
 
 //Blog Page State

@@ -29,6 +29,7 @@ import { serverApi } from "../../../lib/config"
 import FollowServiceApi from "../../apiServices/followServiceApi"
 import { useHistory } from "react-router-dom"
 import assert from "assert"
+import { handleViewItem } from "../../components/features/viewItem"
 
 //Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -88,7 +89,7 @@ export const OtherPage = (props: any) => {
             const memberServiceApi = new MemberServiceApi()
             const chosenBlog = await communityServiceApi.getChosenBlog(id)
             setChosenBlog(chosenBlog)
-            await memberServiceApi.viewItem(chosenBlog._id, "COMMUNITY")
+            handleViewItem(chosenBlog._id, "COMMUNITY")
             setValue("4")
         } catch (err: any) {
             await sweetErrorHandling(err)

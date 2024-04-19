@@ -77,7 +77,8 @@ const ReviewWriting = (props: any) => {
             props?.setRebuildReview(new Date())
             refs.current["context"].value = ""
         } catch (err: any) {
-            sweetErrorHandling(err).then()
+            console.log(err)
+            await sweetErrorHandling(err)
         }
     }
     function handleIconContainer(props: IconContainerProps) {

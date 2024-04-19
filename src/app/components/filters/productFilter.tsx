@@ -166,7 +166,7 @@ export const ProductFilter = (props: any) => {
                                         props.setSearchObj({ ...props.searchObj })
                                     }}
                                 >
-                                    <option value={["0","24"]}>Deal month contract</option>
+                                    <option value={["0", "24"]}>Deal month contract</option>
                                     <option value={["0", "6"]}>0 ~ 6 months</option>
                                     <option value={['6', "12"]}>6 ~ 12 months</option>
                                     <option value={["12", "24"]}>12 ~ 24 months</option>
@@ -177,43 +177,45 @@ export const ProductFilter = (props: any) => {
                     </div>
                 </div>
             </Box>
-            <Box>
-                <div className="accordion" id="brands">
-                    <div className="accordion-item border-0">
-                        <h2 className="accordion-header">
-                            <button className="accordion-button fw-bold fs-5" data-bs-toggle="collapse" data-bs-target="#brands_list" aria-expanded="true" aria-controls="collapseOne">
-                                Brands
-                            </button>
-                        </h2>
-                        <div id="brands_list" className="accordion-collapse collapse" data-bs-parent="#brands">
-                            <Stack
-                                className="accordion-body pb-3 pt-3"
-                                flexDirection={"row"}
-                                gap={"7px"}
-                                flexWrap={"wrap"}
-                                justifyContent={"center"}
-                                alignItems={"satrt"}
-                            >
-                                {props.allBrands.map((ele: Brand, index: number) => {
-                                    const image_url = `${serverApi}/${ele.mb_image}`
-                                    return (
-                                        <Box
-                                            className="brand_box"
-                                            style={chosenBrand == index.toString() ? { border: "2px solid black" } : {}}
-                                            onClick={() => handleBrand((index.toString()), ele._id)}
-                                        >
-                                            <div className="brand_img">
-                                                <img src={image_url} alt="apple_logo" className="w-100 rounded" />
-                                            </div>
-                                            <div className="brand_name_2 ">{ele.mb_nick}</div>
-                                        </Box>
-                                    )
-                                })}
-                            </Stack>
+            {props.company_id ? null : (
+                <Box>
+                    <div className="accordion" id="brands">
+                        <div className="accordion-item border-0">
+                            <h2 className="accordion-header">
+                                <button className="accordion-button fw-bold fs-5" data-bs-toggle="collapse" data-bs-target="#brands_list" aria-expanded="true" aria-controls="collapseOne">
+                                    Brands
+                                </button>
+                            </h2>
+                            <div id="brands_list" className="accordion-collapse collapse" data-bs-parent="#brands">
+                                <Stack
+                                    className="accordion-body pb-3 pt-3"
+                                    flexDirection={"row"}
+                                    gap={"7px"}
+                                    flexWrap={"wrap"}
+                                    justifyContent={"center"}
+                                    alignItems={"satrt"}
+                                >
+                                    {props.allBrands.map((ele: Brand, index: number) => {
+                                        const image_url = `${serverApi}/${ele.mb_image}`
+                                        return (
+                                            <Box
+                                                className="brand_box"
+                                                style={chosenBrand == index.toString() ? { border: "2px solid black" } : {}}
+                                                onClick={() => handleBrand((index.toString()), ele._id)}
+                                            >
+                                                <div className="brand_img">
+                                                    <img src={image_url} alt="apple_logo" className="w-100 rounded" />
+                                                </div>
+                                                <div className="brand_name_2 ">{ele.mb_nick}</div>
+                                            </Box>
+                                        )
+                                    })}
+                                </Stack>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </Box>
+                </Box>
+            )}
             <Stack className="colors">
                 <div className="accordion" id="colors">
                     <div className="accordion-item border-0">

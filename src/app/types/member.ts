@@ -15,6 +15,7 @@ export interface Brand {
     mb_followers: number;
     mb_followings: number;
     mb_description: string;
+    me_liked: any;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -29,15 +30,15 @@ export interface Member {
     mb_top?: string;
     mb_image?: string;
     mb_address: string;
-    mb_address_postCode:number;
-    mb_address_province:string;
+    mb_address_postCode: number;
+    mb_address_province: string;
     mb_email?: string;
     mb_likes: number;
     mb_views: number;
     mb_followers: number;
     mb_followings: number;
     mb_description?: string;
-    my_following:any
+    my_following: any
     createdAt: Date;
     updatedAt: Date;
 }

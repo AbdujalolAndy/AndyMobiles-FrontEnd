@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Box, Button, Container, Pagination, PaginationItem, Stack } from "@mui/material"
 import { ArrowBack, ArrowForward, Favorite, RemoveRedEye, Comment } from "@mui/icons-material"
 import "../../css/brandsPage.css";
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BrandsServiceApi from "../../apiServices/brandsServiceApi";
 import { serverApi } from "../../../lib/config";
 import { useHistory } from "react-router-dom";
+import { handleLikeItem } from "../../components/features/likeItem";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -32,14 +33,16 @@ const BrandPage = () => {
     const { setTargetBrands } = actionDispatch(useDispatch())
     const { targetBrands } = useSelector(targetBrandsRetriever)
     const [searchObj, setSearchObj] = useState({ limit: 6, order: "createdAt", search: "", page: 1 })
-    const location = useHistory()
+    const [rebuild, setRebuild] = useState<Date>(new Date())
+    const history = useHistory()
+    const refs: any = useRef([])
     //Three circle Hook
     useEffect(() => {
         const brandsServiceApi = new BrandsServiceApi
         brandsServiceApi.getTargetBrands(searchObj).then(data => setTargetBrands(data)).catch(err => console.log(err))
         window.scrollTo(0, 0)
         setLoad(true)
-    }, [searchObj])
+    }, [searchObj, rebuild])
 
     //Handlers
     function handleBoxSize(size: string) {
@@ -102,9 +105,6 @@ const BrandPage = () => {
                         return (
                             <div
                                 className={load ? "card aos-animate" : "card"}
-                                onClick={() => {
-                                    location.replace(`/products/${ele._id}`)
-                                }}
                                 data-aos="fade-right"
                                 data-aos-delay={150 * index}
                                 style={boxSize == "32%" ? { fontSize: "19px", width: boxSize } : boxSize == "49%" ? { fontSize: "24px", width: boxSize } : { width: boxSize }}
@@ -119,10 +119,18 @@ const BrandPage = () => {
                                         top: "20px",
                                         zIndex: 100
                                     }}
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        handleLikeItem(e, ele, "MEMBER", refs, setRebuild)
+                                    }}
                                 >
-                                    <Favorite style={{ fill: "white" }} />
+                                    <Favorite style={ele.me_liked && ele.me_liked[0]?.mb_id ? { fill: "red" } : { fill: "white" }} />
                                 </button>
-                                <div className="brand_img">
+                                <div
+                                    className="brand_img"
+                                    onClick={() => {
+                                        history.push(`/products/${ele._id}`)
+                                    }}>
                                     <img src={image_url} alt="" />
                                 </div>
                                 <Box className="card-content">
@@ -138,19 +146,23 @@ const BrandPage = () => {
                                             alignItems={"center"}
                                             gap={"5px"}
                                         >
-                                            <div className="text-dark fw-bold">
+                                            <div className="text-dark fw-bold"
+                                                
+                                            >
                                                 <Favorite style={{ fill: "white", marginRight: "2px" }} />
-                                                {ele.mb_likes.toString()}
+                                                <span ref={(e) => refs.current[ele._id] = e}>
+                                                {ele.mb_likes}
+                                                </span>
                                             </div>
                                             {"|"}
                                             <div className="text-dark fw-bold">
                                                 <RemoveRedEye style={{ fill: "white", marginRight: "2px" }} />
-                                                {ele.mb_views.toString()}
+                                                {ele.mb_views}
                                             </div>
                                             {"|"}
                                             <div className="text-dark fw-bold">
                                                 <Comment style={{ fill: "white", marginRight: "2px" }} />
-                                                {ele.mb_comments ? ele.mb_comments.toString() : 0}
+                                                {ele.mb_comments ? ele.mb_comments : 0}
                                             </div>
                                         </Stack>
                                     </Stack>
