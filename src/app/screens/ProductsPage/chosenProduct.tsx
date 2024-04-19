@@ -27,6 +27,7 @@ import CommunityServiceApi from "../../apiServices/communityServiceApi";
 import { locations } from "../../../lib/locations";
 import { NewProducts } from "../HomePage/releasedProducts";
 import { AddCircle, RemoveCircle } from "@mui/icons-material";
+import { MemberServiceApi } from "../../apiServices/memberServiceApi";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -72,8 +73,12 @@ export const ChosenProduct = () => {
         window.addEventListener("scroll", handleScroll);
         //Chosen Product
         const productServiceApi = new ProductServiceApi();
+        const memberServiceApi = new MemberServiceApi()
         productServiceApi.getChosenProduct(product_id)
-            .then(data => setChosenProduct(data))
+            .then(data => {
+                setChosenProduct(data)
+                memberServiceApi.viewItem(data._id, "PRODUCT").then()
+            })
             .catch(err => console.log(err))
 
         //Product related Reviews
@@ -343,7 +348,7 @@ export const ChosenProduct = () => {
                             <div className="fs-5 fw-bold"><u>{quantity}</u></div>
                             <div
                                 onClick={(e) => {
-                                    setQuantity(quantity +1)
+                                    setQuantity(quantity + 1)
                                 }}
                                 className="btn btn-outline-secondary fw-bold d-flex justify-content-center align-items-center"
                                 style={{
@@ -430,7 +435,7 @@ export const ChosenProduct = () => {
                         }
                     </TabPanel>
                     <TabPanel value={"3"}>
-                        <ReviewWriting product_id={chosenProduct?._id} title_enabled={true}/>
+                        <ReviewWriting product_id={chosenProduct?._id} title_enabled={true} item_group={"PRODUCT"} />
                     </TabPanel>
                 </TabContext>
                 <PickUpCenter brand_location={chosenProduct?.company_data.mb_nick} />

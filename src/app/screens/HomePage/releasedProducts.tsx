@@ -18,6 +18,7 @@ import { useHistory, useLocation } from "react-router-dom"
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert"
 import { MemberServiceApi } from "../../apiServices/memberServiceApi"
 import Definer from "../../../lib/Definer"
+import { handleLikeItem } from "../../components/features/likeItem"
 
 //REDUX Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -55,26 +56,7 @@ export const NewProducts = (props: any) => {
             history.push(`/products/product/${key}`)
         }
     }
-    async function handleLikeItem(e: any, product: Product) {
-        try {
-            const memberServiceApi = new MemberServiceApi();
-            const result = await memberServiceApi.likenItem(product._id, "PRODUCT", product);
-            if (result) {
-                e.target.style.fill = "red"
-                e.target.classList.add("animate-heart")
-                refs.current[product._id].innerHTML++
-                await sweetTopSmallSuccessAlert("success", 700, false)
-            } else {
-                e.target.style.fill = "white"
-                e.target.classList.remove("animate-heart")
-                refs.current[product._id].innerHTML--
-                await sweetTopSmallSuccessAlert("success", 700, false)
-            }
-            props.setRebuild(new Date())
-        } catch (err: any) {
-            await sweetErrorHandling({ message: Definer.auth_err1 })
-        }
-    }
+
     return (
         <Container className="hot-products mt-5">
             <Box className="text-center  hot-products-title">
@@ -121,13 +103,13 @@ export const NewProducts = (props: any) => {
                                     >
                                         <div
                                             className="rounded btn btn-outline-secondary border-0"
-                                            
+
                                         >
                                             <Favorite
                                                 style={{ fill: ele?.me_liked && ele?.me_liked[0]?.mb_id ? "red" : "white" }}
-                                                onClick={(e: any) => { handleLikeItem(e, ele) }} />
+                                                onClick={(e: any) => { handleLikeItem(e, ele, "PRODUCT", refs, props.setRebuild) }} />
                                         </div>
-                                        <div className="rounded btn btn-outline-warning border-0" onClick={()=>props.handleSaveBasket(ele)}>
+                                        <div className="rounded btn btn-outline-warning border-0" onClick={() => props.handleSaveBasket(ele)}>
                                             <i className="fa-brands fa-shopify"></i>
                                         </div>
                                     </Stack>

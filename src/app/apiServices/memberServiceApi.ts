@@ -4,7 +4,7 @@ import assert from "assert";
 import Definer from "../../lib/Definer";
 import { serverApi } from "../../lib/config"
 import { Product } from "../types/product";
-import { LikenItem, WishListItem } from "../types/others";
+import { LikenItem, View, WishListItem } from "../types/others";
 
 export class MemberServiceApi {
     private readonly path: string
@@ -126,13 +126,16 @@ export class MemberServiceApi {
             }
             const result = await axios.post(url, data, { withCredentials: true });
             const likenItem: LikenItem = result.data.value[0]
-            if (result.data.value[0] && product) {
-                await this.createWishListItem(product)
-            } else if (product) {
-                await this.removeWishListItem(product?._id)
+            if (item_group === "PRODUCT") {
+                if (result.data.value[0] && product) {
+                    await this.createWishListItem(product)
+                } else if (product) {
+                    await this.removeWishListItem(product?._id)
+                }
             }
             return likenItem
         } catch (err: any) {
+            console.log(err)
             throw err
         }
     }
@@ -185,6 +188,18 @@ export class MemberServiceApi {
             const result = await axios.get(url, { withCredentials: true });
             const item: WishListItem = result.data.value
             return item
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async viewItem(view_item_id: string, item_group: string): Promise<View> {
+        try {
+            const url = `${this.path}/member/viewItem`
+            const result = await axios.post(url, { view_item_id, item_group }, { withCredentials: true })
+            console.log(`POST: viewItem state, ${result.data.state}`);
+            const view: View = result.data.value;
+            return view
         } catch (err) {
             throw err
         }

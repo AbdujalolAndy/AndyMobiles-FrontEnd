@@ -6,6 +6,7 @@ export interface Review {
     review_target_id: String;
     review_stars: number
     review_context: string;
+    review_group: string
     review_likes: number;
     review_dislikes: number;
     member_data: Member;
@@ -17,4 +18,5 @@ export interface reviewCreateData {
     review_target_id: string;
     review_stars: number;
     review_context: string;
+    review_group: string
 }

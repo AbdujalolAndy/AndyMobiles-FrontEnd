@@ -85,8 +85,10 @@ export const OtherPage = (props: any) => {
     async function handleChosenBlogData(id: string) {
         try {
             const communityServiceApi = new CommunityServiceApi()
+            const memberServiceApi = new MemberServiceApi()
             const chosenBlog = await communityServiceApi.getChosenBlog(id)
             setChosenBlog(chosenBlog)
+            await memberServiceApi.viewItem(chosenBlog._id, "COMMUNITY")
             setValue("4")
         } catch (err: any) {
             await sweetErrorHandling(err)

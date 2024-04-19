@@ -53,5 +53,11 @@ export interface WishListItem {
     product_discount: number,
     product_qnt: number,
     createdAt: Date,
-    updatedAt:Date,
+    updatedAt: Date,
+}
+
+export interface View {
+    mb_id: string;
+    view_item_id: string,
+    view_group: string;
 }

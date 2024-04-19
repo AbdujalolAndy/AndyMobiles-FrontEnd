@@ -79,7 +79,7 @@ export const ViewerPage = () => {
                     </div>
                 )
             }
-            <ReviewWriting title_enabled={false} product_id={chosenBlog?._id} setRebuildReview={setRebuildReview} />
+            <ReviewWriting title_enabled={false} product_id={chosenBlog?._id} setRebuildReview={setRebuildReview} item_group={"COMMUNITY"} />
         </Box>
     )
 }

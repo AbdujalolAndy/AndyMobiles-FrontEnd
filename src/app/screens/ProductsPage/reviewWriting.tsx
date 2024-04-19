@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 //Rating
 import { styled } from '@mui/material/styles';
@@ -52,6 +52,7 @@ const ReviewWriting = (props: any) => {
     const [characters, setCharacters] = useState<number>(1500);
     const [value, setValue] = useState<number>(2);
     const [context, setContext] = useState<string>("");
+    const refs: any = useRef([])
     //Handlers
     function handleCharacterLimit(e: any) {
         setContext(e.target.value)
@@ -68,11 +69,13 @@ const ReviewWriting = (props: any) => {
                 {
                     review_stars: value,
                     review_context: context,
-                    review_target_id: props.product_id
+                    review_target_id: props.product_id,
+                    review_group: props.item_group,
                 }
             )
             await sweetTopSmallSuccessAlert("Successfully submitted!", 500, false)
             props?.setRebuildReview(new Date())
+            refs.current["context"].value = ""
         } catch (err: any) {
             sweetErrorHandling(err).then()
         }
@@ -107,6 +110,7 @@ const ReviewWriting = (props: any) => {
                     />
                 </Stack>
                 <textarea
+                    ref={(ele) => refs.current["context"] = ele}
                     className="form-control p-2 mt-2"
                     style={{ position: "relative", zIndex: "2" }}
                     placeholder="Write your comment from here"

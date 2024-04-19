@@ -2,21 +2,22 @@ import { Member } from "./member";
 
 export interface Blog {
     _id: string;
-    mb_id: String;
+    mb_id: string;
     blog_title: String;
     blog_category: String;
     blog_context: String;
     blog_images: string[];
-    blog_likes: Number;
-    blog_views: Number;
-    blog_comments: Number;
+    blog_likes: number;
+    blog_views: number;
+    blog_comments: number;
     blog_status: String;
     mb_data: Member;
+    me_liked: any;
     createdAt: Date;
     updateAt: Date;
 }
 
-export interface BlogCreate{
+export interface BlogCreate {
     blog_title: String;
     blog_category: String;
     blog_context: String;
