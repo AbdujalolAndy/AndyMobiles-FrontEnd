@@ -152,6 +152,7 @@ const AllProducts = () => {
                         boxSize={boxSize}
                         searchObj={searchObj}
                         setSearchObj={setSearchObj}
+                        setRebuild={setRebuild}
                     />
                 </Stack>
                 {

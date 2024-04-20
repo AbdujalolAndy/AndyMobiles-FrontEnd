@@ -27,7 +27,7 @@ import { setWishListItems } from './screens/MyPage/slice'
 import { useDispatch } from 'react-redux'
 import { verifiedMemberData } from './apiServices/verified'
 import { Product } from './types/product'
-import { OrderItem } from './types/order'
+import { BasketItem, OrderItem } from './types/order'
 
 
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -77,21 +77,24 @@ const App: React.FC = () => {
     }
   }
 
-  function handleSaveBasket(basketItem: Product) {
+  function handleSaveBasket(basketItem: BasketItem) {
     try {
       const doesExist = addItem.some((ele: OrderItem) => ele.order_id === basketItem._id)
+      console.log("basket Item", basketItem)
       if (doesExist) {
         sweetTopSmallSuccessAlert('You have already added!', 500, false);
         return false
       } else {
+        const actual_price = basketItem.product_price-(basketItem.product_price*(basketItem.product_discount/100))
         const new_item = {
-          item_quantity: 1,
-          item_price: basketItem.product_price,
+          item_quantity: basketItem.item_quantity ? basketItem.item_quantity : 1,
+          item_price: basketItem.costumize_product_contract>0?basketItem.product_price:actual_price,
           order_id: basketItem._id,
           item_color: basketItem.product_color,
           item_storage: basketItem.product_memory,
           item_name: basketItem.product_name,
-          product_image: basketItem.product_images[0]
+          product_image: basketItem.product_images[0],
+          product_contract: basketItem.costumize_product_contract ? basketItem.costumize_product_contract: 0
         }
         addItem.push(new_item)
         setAddItem([...addItem])
@@ -176,7 +179,7 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path="/products">
-          <ProductsPage />
+          <ProductsPage handleSaveBasket={handleSaveBasket} />
           <Footer />
         </Route>
         <Route path="/blogs">

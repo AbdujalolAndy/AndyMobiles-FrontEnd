@@ -7,7 +7,7 @@ import "../../css/productPage.css"
 
 
 
-const ProductsPage = () => {
+const ProductsPage = (props:any) => {
     const location = useRouteMatch().path
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -17,7 +17,7 @@ const ProductsPage = () => {
             <Box className="productPage">
                 <Switch>
                     <Route path={`${location}/product/:product_id`}>
-                        <ChosenProduct />
+                        <ChosenProduct handleSaveBasket={props.handleSaveBasket}/>
                     </Route>
                     <Route path={`${location}/:company_id`}>
                         <AllProducts />

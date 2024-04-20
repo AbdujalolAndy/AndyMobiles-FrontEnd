@@ -1,10 +1,11 @@
 import { Box, Container, Pagination, PaginationItem, Stack } from "@mui/material";
 import { Product } from "../../types/product";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { serverApi } from "../../../lib/config";
 import { ArrowBack, ArrowForward, Favorite, RemoveRedEye } from "@mui/icons-material";
 import { stringSplitterHandler } from "../../components/features/stringSplitter";
 import { useHistory } from "react-router-dom";
+import { handleLikeItem } from "../../components/features/likeItem";
 
 export const Products = (props: any) => {
     //Initializations
@@ -12,6 +13,7 @@ export const Products = (props: any) => {
     const [chosenColor, setChosenColor] = useState<string>("");
     const [productKey, setPoductKey] = useState<string>("");
     const history = useHistory()
+    const refs: any = useRef([])
     //three circle Hook
     useEffect(() => {
         setLoaded(true)
@@ -66,9 +68,14 @@ export const Products = (props: any) => {
                                 style={props.boxSize == "45%" ? { width: "190px" } : { width: '340px' }}
                                 onClick={() => { return false }}
                             >
-                                <button className="position-absolute"><Favorite style={{ fill: "red" }} /></button>
-                                <img src={`${serverApi}/${pictures[0]}`} alt="phone" className="product_img_1" style={{width:"auto"}} />
-                                <img src={`${serverApi}/${pictures[1]}`} alt="phone" className="product_img_2" style={{width:"auto"}}/>
+                                <button className="position-absolute" onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleLikeItem(e, ele, "PRODUCT", refs)
+                                }}>
+                                    <Favorite style={ele.me_liked && ele.me_liked[0]?.mb_id ? { fill: "red" } : { fill: "white" }} />
+                                </button>
+                                <img src={`${serverApi}/${pictures[0]}`} alt="phone" className="product_img_1" style={{ width: "auto" }} />
+                                <img src={`${serverApi}/${pictures[1]}`} alt="phone" className="product_img_2" style={{ width: "auto" }} />
                             </Box>
                             <div
                                 className="product_item-info p-2"
@@ -141,16 +148,18 @@ export const Products = (props: any) => {
                                 </div>
                                 <Stack className="product_statistics" flexDirection={"row"} gap={"15px"}>
                                     <div className="product_review d-flex gap-2">
-                                        {ele.product_comments}
                                         <i className="fs-5 fa-solid fa-comment"></i>
+                                        <b>{ele.product_comments}</b>
                                     </div>
                                     <div className="product_likes d-flex gap-2" onClick={() => { return false }}>
-                                        {ele.product_likes}
                                         <Favorite style={{ fill: "gray" }} />
+                                        <div >
+                                            <b ref={(e) => refs.current[ele._id] = e}>{ele.product_likes}</b>
+                                        </div>
                                     </div>
                                     <div className="product_views d-flex gap-2">
-                                        {ele.product_views}
                                         <RemoveRedEye />
+                                        <b>{ele.product_views}</b>
                                     </div>
                                 </Stack>
                             </div>

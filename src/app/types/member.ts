@@ -15,6 +15,8 @@ export interface Brand {
     mb_followers: number;
     mb_followings: number;
     mb_description: string;
+    lat: number,
+    lng: number,
     me_liked: any;
     createdAt: Date;
     updatedAt: Date;

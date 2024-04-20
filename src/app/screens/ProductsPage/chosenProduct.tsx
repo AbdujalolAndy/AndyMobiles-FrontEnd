@@ -26,9 +26,16 @@ import { Review } from "../../types/review";
 import CommunityServiceApi from "../../apiServices/communityServiceApi";
 import { locations } from "../../../lib/locations";
 import { NewProducts } from "../HomePage/releasedProducts";
-import { AddCircle, RemoveCircle } from "@mui/icons-material";
+import { AddCircle, Favorite, RemoveCircle } from "@mui/icons-material";
 import { MemberServiceApi } from "../../apiServices/memberServiceApi";
 import { handleViewItem } from "../../components/features/viewItem";
+import { handleLikeItem } from "../../components/features/likeItem";
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import OrderServiceApi from "../../apiServices/orderServiceApi";
+import { OrderItem } from "../../types/order";
+import assert from "assert";
+import Definer from "../../../lib/Definer";
+import { verifiedMemberData } from "../../apiServices/verified";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -46,7 +53,7 @@ const productReviewRetrieve = createSelector(
     (productReview) => ({ productReview })
 )
 
-export const ChosenProduct = () => {
+export const ChosenProduct = (props: any) => {
     //Initilizations
     const { product_id } = useParams<{ product_id: string }>()
     const [chosenColor, setChosenColor] = useState<string>("")
@@ -55,21 +62,34 @@ export const ChosenProduct = () => {
     const [termsAgree, setTermsAgree] = useState<boolean>(false);
     const [openChat, setOpenChat] = useState<boolean>(false);
     const { chosenProduct } = useSelector(chosenProductRetrieve);
-    const [quantity, setQuantity] = useState<number>(1);
     const { productReview } = useSelector(productReviewRetrieve)
     const { setChosenProduct, setProductReview } = actionDispatch(useDispatch())
     const [magnifyImg, setMagnifyImg] = useState<string>("")
     const [chosenProductImgIndex, setChosenProductImgIndex] = useState<number>(0)
     const [reBuild, setRebuild] = useState<Date>(new Date);
+    const [disabledBtn, setDisabledBtn] = useState<boolean>(false)
     const main_img = magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`;
+    const history = useHistory()
     const styleColor = {
         borderColor: "#0066AE",
         color: chosenColor,
         borderWidth: "2px"
     }
     const location = useHistory()
+    const [productObj, setProductObj] = useState({
+        _id: chosenProduct?._id,
+        item_quantity: 1,
+        product_price: chosenProduct?.product_price,
+        product_color: chosenProduct?.product_color,
+        product_memory: chosenProduct?.product_memory,
+        product_name: chosenProduct?.product_name,
+        product_images: chosenProduct?.product_images,
+        costumize_product_contract: 0,
+        product_discount: chosenProduct?.product_discount ? chosenProduct?.product_discount : 0
+    })
     //3 circle React Hook
     useEffect(() => {
+        window.scrollTo(0, 0)
         function handleScroll() { setScrolled(window.scrollY > 500) }
         window.addEventListener("scroll", handleScroll);
         //Chosen Product
@@ -108,6 +128,28 @@ export const ChosenProduct = () => {
         let rating_product: number = 0;
         productReview.map((ele) => (rating_product += ele.review_stars))
         return Math.floor(rating_product / productReview.length)
+    }
+    async function handleBuyProduct() {
+        try {
+            assert.ok(verifiedMemberData, Definer.auth_err1)
+            const orderServiceApi = new OrderServiceApi();
+            const orderItem: OrderItem[] = [{
+                _id: chosenProduct?._id ?? "",
+                item_quantity: productObj.item_quantity,
+                //@ts-ignore
+                item_price: chosenProduct.product_price - (chosenProduct.product_price * (chosenProduct.product_discount / 100)),
+                order_id: "",
+                item_name: chosenProduct?.product_name ?? "",
+                product_image: chosenProduct?.product_images[0] ?? "",
+                item_color: chosenProduct?.product_color ?? "",
+                item_storage: chosenProduct?.product_memory ?? 0
+            }]
+            const result = await orderServiceApi.createOrder(orderItem)
+            assert.ok(result, Definer.general_err1);
+            history.push("/track-order")
+        } catch (err) {
+            await sweetErrorHandling(err)
+        }
     }
     return (
         <Box className="chosen_product">
@@ -156,7 +198,6 @@ export const ChosenProduct = () => {
                                     onClick={(e) => handleSelectImage(e, image_url, index)}
                                 >
                                     <Box
-
                                         className={chosenProductImgIndex == index ? "product_swiper_item chosen_product_img" : "product_swiper_item"}
                                     >
                                         <img src={image_url} key={index} />
@@ -244,7 +285,6 @@ export const ChosenProduct = () => {
                                 flexDirection={"row"}
                                 className="fw-bold"
                             >
-
                                 <div>
                                     {
                                         stringSplitterHandler(chosenProduct?.product_price || 0, 3, ".")
@@ -252,16 +292,15 @@ export const ChosenProduct = () => {
                                 </div>
                             </Stack>
                         )}
-
                     </Stack>
                     <Stack className="product_shipping mb-4" flexDirection={"row"} gap={"50px"}>
                         <Stack className="sipping" flexDirection={"row"} gap={"10px"} alignItems={"center"}>
                             <i className="fa-solid fa-truck-fast text-success fs-5"></i>
-                            <div className="fw-bold link_inquery" onClick={() => location.push("/track-order")}>Shipping</div>
+                            <div className="fw-bold link_inquery" >Shipping 24/7</div>
                         </Stack>
                         <Stack className="ask_about" flexDirection={"row"} gap={"10px"} alignItems={"center"}>
                             <i className="fa-regular fa-envelope fs-5 text-info"></i>
-                            <div className="fw-bold link_inquery" onClick={() => location.push("/faq")}>Ask About This Product</div>
+                            <div className="fw-bold link_inquery" onClick={() => location.push("/faq")}>Ask About Delivery</div>
                         </Stack>
                     </Stack>
                     <Stack
@@ -283,6 +322,7 @@ export const ChosenProduct = () => {
                         className="mb-4"
                         flexDirection={"row"}
                         gap={"15px"}
+                        alignItems={"center"}
                     >
                         <Stack
                             flexDirection={"row"}
@@ -296,7 +336,7 @@ export const ChosenProduct = () => {
                             gap={"10px"}
                         >{
                                 chosenProduct?.product_related.map((product: Product) => {
-                                    const product_color = product.product_color.toLowerCase()
+                                    const product_color = product.product_color.toLowerCase() === "silver" ? "white" : product.product_color.toLowerCase()
                                     return (
                                         <Box>
                                             <Box
@@ -304,15 +344,12 @@ export const ChosenProduct = () => {
                                                 style={chosenColor == product_color ? styleColor : {}}
                                                 onClick={() => handleChosenColor(product_color, product._id)}
                                             >
-                                                <img src={`/pictures/products/${product_color}_phone.webp`} alt="" className="w-50" />
+                                                <img
+                                                    src={`/pictures/products/${product_color}_phone.webp`}
+                                                    alt="" className="w-50"
+                                                    title={product.product_color}
+                                                />
                                             </Box>
-                                            <div style={{
-                                                fontSize: "12px",
-                                                fontWeight: "bold",
-                                                textAlign: "center"
-                                            }}>
-                                                {product.product_color}
-                                            </div>
                                         </Box>
                                     )
                                 })
@@ -338,6 +375,10 @@ export const ChosenProduct = () => {
                         >
                             <div
                                 onClick={(e) => {
+                                    if (!disabledBtn && productObj.item_quantity >= 2) {
+                                        productObj.item_quantity--
+                                        setProductObj({ ...productObj })
+                                    }
                                 }}
                                 className="btn btn-outline-secondary fw-bold d-flex justify-content-center align-items-center"
                                 style={{
@@ -345,10 +386,12 @@ export const ChosenProduct = () => {
                                     height: "30px",
                                 }}
                             ><RemoveCircle /></div>
-                            <div className="fs-5 fw-bold"><u>{quantity}</u></div>
+                            <div className={disabledBtn ? "fs-5 fw-bold text-secondary" : "fs-5 fw-bold"}><u>{productObj.item_quantity}</u></div>
                             <div
                                 onClick={(e) => {
-                                    setQuantity(quantity + 1)
+                                    if (!disabledBtn)
+                                        productObj.item_quantity++
+                                    setProductObj({ ...productObj })
                                 }}
                                 className="btn btn-outline-secondary fw-bold d-flex justify-content-center align-items-center"
                                 style={{
@@ -358,13 +401,29 @@ export const ChosenProduct = () => {
                             ><AddCircle /></div>
                         </Stack>
                     </Stack>
+                    {
+                        productObj.costumize_product_contract > 0 ? (
+                            <div className="animate-warning mb-2">You can only buy 1 product with contract based payment!. Sale is not for contract product</div>
+                        ) : null
+                    }
                     <Stack
                         className="mb-5"
                         flexDirection={"row"}
                         gap={"5px"}
                         alignItems={"center"}
                     >
-                        <select className="form-select w-50" id="">
+                        <select className="form-select w-50" id="" onChange={(e) => {
+                            productObj.costumize_product_contract = parseInt(e.target.value)
+                            if (parseInt(e.target.value) > 0) {
+                                productObj.item_quantity = 1
+                                //@ts-ignore
+                                productObj.product_price = Math.floor(chosenProduct?.product_price / parseInt(e.target.value))
+                                setDisabledBtn(true);
+                            } else {
+                                setDisabledBtn(false)
+                            }
+                            setProductObj({ ...productObj })
+                        }}>
                             <option>Not Monthly contract</option>
                             {
                                 //@ts-ignore
@@ -375,14 +434,16 @@ export const ChosenProduct = () => {
                                 })
                             }
                         </select>
-                        <button className="btn btn-dark">ADD TO CART</button>
-                        <button className="btn btn-light"><i className="fa-regular fa-heart"></i></button>
+                        <button className="btn btn-dark" onClick={() => { props.handleSaveBasket(productObj) }}>ADD TO CART</button>
+                        <button className="btn btn-light" onClick={(e) => handleLikeItem(e, chosenProduct, "PRODUCT")}>
+                            <Favorite style={chosenProduct?.me_liked && chosenProduct.me_liked[0]?.mb_id ? { fill: "red" } : { fill: "gray" }} />
+                        </button>
                     </Stack>
                     <Stack className="buy_terms mb-1" flexDirection={"row"} gap={"10px"}>
                         <input type="checkbox" id="buy_terms" onChange={hadleTermsUse} />
                         <label htmlFor="buy_terms">I agree with the terms and conditions</label>
                     </Stack>
-                    <button className={termsAgree ? "btn btn-warning mb-3" : "btn btn-warning mb-3 disabled"} >BUY IT NOW</button>
+                    <button className={termsAgree ? "btn btn-warning mb-3" : "btn btn-warning mb-3 disabled"} onClick={handleBuyProduct}>BUY IT NOW</button>
                     <hr />
                     <Stack direction={"row"} gap={"20px"} className="payment_guarantee ">
                         <div>Guaranteed safe checkout:</div>
@@ -435,10 +496,10 @@ export const ChosenProduct = () => {
                         }
                     </TabPanel>
                     <TabPanel value={"3"}>
-                        <ReviewWriting product_id={chosenProduct?._id} title_enabled={true} item_group={"PRODUCT"} />
+                        <ReviewWriting product_id={chosenProduct?._id} title_enabled={true} item_group={"PRODUCT"} setRebuildReview={setRebuild} />
                     </TabPanel>
                 </TabContext>
-                <PickUpCenter brand_location={chosenProduct?.company_data.mb_nick} />
+                <PickUpCenter lat={chosenProduct?.company_data?.lat} lng={chosenProduct?.company_data?.lng} title={chosenProduct?.company_data?.mb_nick} />
                 <NewProducts searchProducts={{ limit: 5, order: "createdAt", random: true, contractMonth: [] }} />
             </Box>
         </Box>

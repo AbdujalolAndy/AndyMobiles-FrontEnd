@@ -1,4 +1,4 @@
-import { Member } from "./member";
+import { Brand, Member } from "./member";
 
 export interface Product {
     _id: string;
@@ -24,7 +24,7 @@ export interface Product {
     product_description: string;
     product_related_colors: any;
     product_related: any;
-    company_data: Member;
+    company_data: Brand;
     owner_data: any;
     me_liked:any;
     createdAt: Date;

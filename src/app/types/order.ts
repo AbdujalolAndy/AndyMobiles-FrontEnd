@@ -40,3 +40,15 @@ export interface CardDetail {
     trans_card_cvc: number,
     trans_card_pincode: string
 }
+
+export interface BasketItem {
+    _id: string,
+    item_quantity?: number;
+    product_price: number,
+    product_color: string,
+    product_memory: number,
+    product_name: string,
+    product_images: string[];
+    costumize_product_contract: number;
+    product_discount: number;
+}

@@ -366,6 +366,11 @@
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.product_info .product_color:hover {
+    box-shadow: 0 0 5px black;
 }
 
 .product_info .product_quantity_count {
@@ -376,6 +381,24 @@
 .product_info .buy_terms input {
     position: relative !important;
     opacity: 1 !important;
+}
+
+.product_info .animate-warning {
+    animation: animate-warning 2s infinite ease-in-out;
+}
+
+@keyframes animate-warning {
+    0% {
+        color: white;
+    }
+
+    50% {
+        color: red;
+    }
+
+    100% {
+        color: white;
+    }
 }
 
 .product_share a {
@@ -433,7 +456,8 @@
     padding: 5px;
     border-radius: 10px;
 }
-.reviewPage .select_rating>:last-child{
+
+.reviewPage .select_rating>:last-child {
     display: none;
 }
 
