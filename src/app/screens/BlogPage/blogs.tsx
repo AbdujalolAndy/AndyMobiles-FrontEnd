@@ -1,19 +1,26 @@
 import { Comment, Favorite, RemoveRedEye } from "@mui/icons-material"
 import { Box, Stack } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { Blog } from "../../types/blog"
 import Moment from "react-moment"
 import { serverApi } from "../../../lib/config"
+import { handleLikeItem } from "../../components/features/likeItem"
 
 export const BlogsPage = (props: any) => {
+    //Initializations
     const [loaded, setLoaded] = useState<boolean>(false)
+    const refs: any = useRef({})
+
+    //LifeCircle hook
     useEffect(() => {
         setLoaded(true)
         return () => {
             setLoaded(false)
         }
     }, [])
+
+    //handlers
     return (
         <Stack
             className="blogs"
@@ -29,6 +36,12 @@ export const BlogsPage = (props: any) => {
                     <Box className={loaded ? "blog_card aos-animate" : ""} data-aos="fade-left" data-aos-delay={150 * index}>
                         <div className="blog_img w-100 position-relative">
                             <div className="blog_wrapper"><img className="w-100" src={blog_image} alt="" /></div>
+                            <div
+                                className="btn btn-secondary position-absolute blog_like_btn"
+                                onClick={(e) => handleLikeItem(e, blog, "COMMUNITY", refs)}
+                            >
+                                <Favorite style={blog.me_liked && blog.me_liked[0].mb_id?{fill:"red"}:{ fill: "white" }} />
+                            </div>
                             <div className="blog_type position-absolute">{blog.blog_category}</div>
                             <img src={blog_image} alt="blog_img" height={"220px"} width={"autovs"} />
                         </div>
@@ -45,15 +58,15 @@ export const BlogsPage = (props: any) => {
                                     </div>
                                     <Stack className="statistic" flexDirection={"row"} gap={"15px"}>
                                         <div className="d-flex gap-2 align-items-center">
-                                            {blog.blog_comments.toString()}
+                                            {blog.blog_comments}
                                             <Comment />
                                         </div>
                                         <div className="d-flex gap-2 align-items-center">
-                                            {blog.blog_likes.toString()}
+                                            <span ref={(ele) => refs.current[blog._id] = ele}>{blog.blog_likes}</span>
                                             <Favorite />
                                         </div>
                                         <div className="d-flex gap-2 align-items-center">
-                                            {blog.blog_views.toString()}
+                                            {blog.blog_views}
                                             <RemoveRedEye />
                                         </div>
                                     </Stack>
