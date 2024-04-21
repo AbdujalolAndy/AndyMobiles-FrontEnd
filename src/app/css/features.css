@@ -1,7 +1,7 @@
 .down-to-up {
     position: fixed;
     bottom: 20px;
-    z-index: 1000;
+    z-index: 10000;
     padding: 20px;
     right: 10px;
 }

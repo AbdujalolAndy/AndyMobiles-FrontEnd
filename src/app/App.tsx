@@ -54,7 +54,7 @@ const App: React.FC = () => {
     const memberServiceApi = new MemberServiceApi()
     memberServiceApi.getWishListItems().then(data => {
       setWishListItems(data)
-      setLikedItemAmount(data.length ?? 0)
+      setLikedItemAmount(data?.length ?? 0)
     }
     ).then(err => console.log(err))
   }, [reBuild])

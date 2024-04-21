@@ -26,6 +26,7 @@ import { Blog } from "../../types/blog"
 import CommunityServiceApi from "../../apiServices/communityServiceApi"
 import { Review } from "../../types/review"
 import { handleViewItem } from "../../components/features/viewItem"
+import { DownToUpBtn } from "../../components/features/downToUpBtn"
 
 //Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -264,6 +265,7 @@ export const MyPage = (props: any) => {
                     </Stack>
                 </TabContext>
             </Box>
+            <DownToUpBtn address={"#"} />
         </Box>
     )
 }

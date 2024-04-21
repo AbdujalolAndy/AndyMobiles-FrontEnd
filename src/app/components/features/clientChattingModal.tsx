@@ -61,7 +61,6 @@ const ChattingClient = (props: any) => {
                 </div>
             </Stack>
             <Box className="chatting-body">
-                <DownToUpBtn address={"#bot_greet"} />
                 <Stack className="bot_sender_msg" direction={"row"} alignItems={"center"} gap="10px">
                     <img src="/icons/bot_img.jpg" alt="" />
                     <div id="bot_greet">Hey there! Ask us any question. How can I help?</div>

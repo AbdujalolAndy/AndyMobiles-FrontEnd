@@ -10,7 +10,7 @@ export const DownToUpBtn = (props:any) => {
     //3 circle React Hook
     useEffect(() => {
         function handleScroll() {
-            setScrolled(window.scrollY > 300)
+            setScrolled(window.scrollY > 200)
         }
         window.addEventListener("scroll", handleScroll)
         return () => {

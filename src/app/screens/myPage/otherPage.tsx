@@ -30,6 +30,7 @@ import FollowServiceApi from "../../apiServices/followServiceApi"
 import { useHistory } from "react-router-dom"
 import assert from "assert"
 import { handleViewItem } from "../../components/features/viewItem"
+import { DownToUpBtn } from "../../components/features/downToUpBtn"
 
 //Slice
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -112,6 +113,7 @@ export const OtherPage = (props: any) => {
     }
     async function handleSubscribe(id: string) {
         try {
+            assert.ok(verifiedMemberData, Definer.auth_err1)
             const followServiceApi = new FollowServiceApi();
             await followServiceApi.subscribeMember(id)
             await sweetTopSmallSuccessAlert("Successfully subscribed", 500, false)
@@ -262,6 +264,7 @@ export const OtherPage = (props: any) => {
                     </Stack>
                 </TabContext>
             </Box>
+            <DownToUpBtn address={"#"} />
         </Box>
     )
 }

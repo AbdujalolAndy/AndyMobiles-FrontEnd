@@ -20,6 +20,7 @@ const MemberPage = (props: any) => {
                 <OtherPage
                     mb_id={chosen_mb_id}
                     art_id={chosen_art_id}
+                    setRebuild={props.setRebuild}
                 />
             </Route>
             <Route path={`${member.path}`}>

@@ -1,14 +1,13 @@
-import { Fade, Modal } from "@material-ui/core"
+import {Modal } from "@material-ui/core"
 import { Backdrop, Box, Stack } from "@mui/material"
 import { useState } from "react"
 import { OrderItem } from "../../types/order"
 import { serverApi } from "../../../lib/config"
 import { stringSplitterHandler } from "../features/stringSplitter"
-import { AddCircle, Equalizer, PlusOne, RemoveCircle } from "@mui/icons-material"
-import { sweetErrorHandling, sweetFailureProvider } from "../../../lib/sweetAlert"
+import { AddCircle, RemoveCircle } from "@mui/icons-material"
+import {  sweetFailureProvider } from "../../../lib/sweetAlert"
 import OrderServiceApi from "../../apiServices/orderServiceApi"
 import { useHistory } from "react-router-dom"
-import assert from "assert"
 import { verifiedMemberData } from "../../apiServices/verified"
 import Definer from "../../../lib/Definer"
 
@@ -64,12 +63,21 @@ export const Basket = (props: any) => {
                     className={"bg-light basket_modal"}
                     sx={props.openBasket ? { transform: "translateX(0%)" } : {}}
                 >
-                    <Stack className="basket_title" justifyContent={"space-between"} flexDirection={"row"} alignItems={"center"}>
+                    <Stack
+                        className="basket_title"
+                        justifyContent={"space-between"}
+                        flexDirection={"row"}
+                        alignItems={"center"}
+
+                    >
                         <div className="fs-3">Cart</div>
                         <div className="close_toggle" onClick={props.handleBasketClose}><i className="fa-solid fa-xmark"></i></div>
                     </Stack>
                     <hr />
-                    <Stack className="basket_products" justifyContent={"center"}>
+                    <Stack
+                        className="basket_products "
+                        justifyContent={"center"}
+                    >
                         {props.addItems.map((basket: OrderItem, index: number) => {
                             const basket_image_url = basket.product_image ? `${serverApi}/${basket.product_image}` : "";
                             const total_price = basket.item_price * basket.item_quantity;

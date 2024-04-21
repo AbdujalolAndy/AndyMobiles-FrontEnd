@@ -1,13 +1,14 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import { Box, Container, Stack, Tab } from "@mui/material"
 import { useEffect, useState } from "react"
-import Questions from "./questions"
 import "../../css/faqPage.css"
+import Inquiry from "./inquiry"
+import { faq } from "./faqs"
+import { DownToUpBtn } from "../../components/features/downToUpBtn"
 
 const FaqPage = () => {
     //initializations
     const [value, setValue] = useState<string>("1")
-
     //React Hook
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -27,34 +28,35 @@ const FaqPage = () => {
                         </Box>
                         <Box>
                             <TabList>
-                                <Tab value="1" label="General" onClick={() => handleValue("1")} />
-                                <Tab value="2" label="Payment" onClick={() => handleValue("2")} />
-                                <Tab value="3" label="Services" onClick={() => handleValue("3")} />
-                                <Tab value="4" label="Refund" onClick={() => handleValue("4")} />
-                                <Tab value="5" label="Contact" onClick={() => handleValue("5")} />
+                                <Tab className="fw-bold" value="1" label="General" onClick={() => handleValue("1")} />
+                                <Tab className="fw-bold" value="2" label="Payment" onClick={() => handleValue("2")} />
+                                <Tab className="fw-bold" value="3" label="Services" onClick={() => handleValue("3")} />
+                                <Tab className="fw-bold" value="4" label="Refund" onClick={() => handleValue("4")} />
+                                <Tab className="fw-bold" value="5" label="Contact" onClick={() => handleValue("5")} />
                             </TabList>
                         </Box>
 
                     </Stack>
                     <div className="faq_body mt-4">
                         <TabPanel value="1">
-                            <Questions />
+                            <Inquiry inquiries={faq.General} />
                         </TabPanel>
                         <TabPanel value="2">
-                            <Questions />
+                            <Inquiry inquiries={faq.Payment} />
                         </TabPanel>
                         <TabPanel value="3">
-                            <Questions />
+                            <Inquiry inquiries={faq.Services} />
                         </TabPanel>
                         <TabPanel value="4">
-                            <Questions />
+                            <Inquiry inquiries={faq.Refund} />
                         </TabPanel>
                         <TabPanel value="5">
-                            <Questions />
+                            <Inquiry inquiries={faq.Contact} />
                         </TabPanel>
                     </div>
                 </TabContext>
             </Container>
+            <DownToUpBtn address={"#"} />
         </Box>
     )
 }

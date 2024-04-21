@@ -14,6 +14,7 @@ class Definer {
     static input_err3 = "att: Please, Provide right email address !"
     static input_err4 = "att: Double enter password did not match !"
     static input_err5 = "att:Please, Enter card expirity as MM/DD (e.x: 0112)!"
+    static input_err6 = "att: This is not valid email !"
 
     //Transaction errors
     static trans_err1 = "att: There is no exist address on your profile!"

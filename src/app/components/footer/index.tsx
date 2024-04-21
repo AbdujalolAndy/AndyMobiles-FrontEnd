@@ -1,6 +1,31 @@
 import { Box, Stack } from "@mui/material"
 import "../../css/footer.css"
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert"
+import { useEffect, useRef } from "react"
+import { validEmailChecker } from "../../../lib/validEmails"
+import assert from "assert"
+import Definer from "../../../lib/Definer"
+import { useHistory } from "react-router-dom"
 const Footer = () => {
+    //Initializations
+    const refs: any = useRef([])
+    const history = useHistory()
+    //
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+    //Handlers
+    async function handleSubmitEmail() {
+        try {
+            const email = refs.current["email"].value;
+            const result = validEmailChecker(email)
+            assert.ok(result, Definer.input_err6)
+            sweetTopSmallSuccessAlert("successfully submited!", 1000, false)
+            refs.current["email"].value = ""
+        } catch (err) {
+            await sweetErrorHandling(err)
+        }
+    }
     return (
         <div>
             <footer className="footer position-relative">
@@ -24,8 +49,23 @@ const Footer = () => {
                                 <ul>
                                     <li><a href="/faq">FAQ</a></li>
                                     <li><a href="/user-page">MY SETTINGS</a></li>
-                                    <li><a href="/user-page/wishlist">WISHLIST</a></li>
-                                    <li><a href="/user-page/posts">MY POSTS</a></li>
+                                    <li><a
+                                        className="text-light"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => {
+                                            localStorage.setItem("value", JSON.stringify({ value: 3 }))
+                                            history.push("/user-page")
+                                            window.location.reload()
+                                        }}>WISHLIST</a></li>
+                                    <li><a
+                                        className="text-light"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => {
+                                            localStorage.setItem("value", JSON.stringify({ value: 7 }))
+                                            history.push("/user-page")
+                                            window.location.reload()
+                                        }}
+                                    >MY POSTS</a></li>
                                 </ul>
                             </Stack>
                             <Stack className="social-links mt-4" direction={"row"} gap={"30px"}>
@@ -38,8 +78,8 @@ const Footer = () => {
                         <Box className="email-col">
                             <div className="mb-3 text-warning">If you have questions.Feel free contact with us</div>
                             <Stack direction={"row"} className="footer_email">
-                                <input type="text" className="border p-2 m-0" placeholder="Your email here" />
-                                <button>SUBMIT</button>
+                                <input type="email" className="border p-2 m-0" placeholder="Your email here" ref={(ele) => refs.current["email"] = ele} />
+                                <button onClick={handleSubmitEmail}>SUBMIT</button>
                             </Stack>
                             <Box className={"mt-4"}>
                                 <div className="mt-2">

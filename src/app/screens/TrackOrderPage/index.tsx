@@ -24,6 +24,7 @@ import OrderPaused from "./orderPaused";
 import OrderProcess from "./orderProcess";
 import OrderFinished from "./orderFinished";
 import TransactionServiceApi from "../../apiServices/transactionServiceApi";
+import { DownToUpBtn } from "../../components/features/downToUpBtn";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -347,6 +348,7 @@ const TrackOrderPage = (props: any) => {
                     </Box>
                 </Box>
             </Container>
+            <DownToUpBtn address={"#"} />
         </Box>
     )
 }

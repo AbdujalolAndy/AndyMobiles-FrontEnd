@@ -14,6 +14,7 @@ import BrandsServiceApi from "../../apiServices/brandsServiceApi";
 import { serverApi } from "../../../lib/config";
 import { useHistory } from "react-router-dom";
 import { handleLikeItem } from "../../components/features/likeItem";
+import { DownToUpBtn } from "../../components/features/downToUpBtn";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -147,11 +148,11 @@ const BrandPage = () => {
                                             gap={"5px"}
                                         >
                                             <div className="text-dark fw-bold"
-                                                
+
                                             >
                                                 <Favorite style={{ fill: "white", marginRight: "2px" }} />
                                                 <span ref={(e) => refs.current[ele._id] = e}>
-                                                {ele.mb_likes}
+                                                    {ele.mb_likes}
                                                 </span>
                                             </div>
                                             {"|"}
@@ -213,8 +214,8 @@ const BrandPage = () => {
                     />
                 </Container>
             </Box>
+            <DownToUpBtn address={"#"} />
         </Box>
-
     )
 }
 

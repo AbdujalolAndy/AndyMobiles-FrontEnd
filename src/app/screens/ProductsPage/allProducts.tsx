@@ -19,6 +19,7 @@ import ReviewWriting from "./reviewWriting";
 import ProductReview from "./productReview";
 import { Review } from "../../types/review";
 import CommunityServiceApi from "../../apiServices/communityServiceApi";
+import { DownToUpBtn } from "../../components/features/downToUpBtn";
 
 //SLICE
 const actionDispath = (dispatch: Dispatch) => ({
@@ -178,6 +179,7 @@ const AllProducts = (props:any) => {
                     ) : null
                 }
             </Container>
+            <DownToUpBtn address={"#"} />
         </Box>
     )
 }

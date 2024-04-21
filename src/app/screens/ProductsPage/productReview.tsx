@@ -2,11 +2,14 @@ import { Box, Rating, Stack } from "@mui/material";
 import { Review } from "../../types/review";
 import { serverApi } from "../../../lib/config";
 import Moment from "react-moment"
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import MoodBadIcon from "@mui/icons-material/MoodBad";
+import { handleLikeItem } from "../../components/features/likeItem";
 
 const ProductReview = (props: any) => {
+    //initializations
+    const refs: any = useRef([])
     //Three circle Hook
     return (
         <Box className={"poduct_review"}>
@@ -74,14 +77,14 @@ const ProductReview = (props: any) => {
                                 >
                                     <div
                                         className="p-2 rounded-circle d-inline"
-                                        style={{ backgroundColor: "#EAEAEA" }}
+                                        style={{ backgroundColor: "#EAEAEA", cursor: "pointer" }}
+                                        onClick={(e) => handleLikeItem(e, review, "REVIEW", refs)}
                                     >
-
-                                        <EmojiEmotionsIcon style={{ fill: "grey" }} />
+                                        <EmojiEmotionsIcon style={review.me_liked && review.me_liked[0]?.mb_id ? { fill: "red" } : { fill: "grey" }} />
                                     </div>
-                                    <div><b>{review?.review_likes}</b></div>
+                                    <div><b ref={(ele) => refs.current[review._id] = ele}>{review?.review_likes}</b></div>
                                 </Stack>
-                                <Stack
+                                {/* <Stack
                                     flexDirection={"row"}
                                     alignItems={"center"}
                                     gap={"10px"}
@@ -94,7 +97,7 @@ const ProductReview = (props: any) => {
                                         <MoodBadIcon style={{ fill: "grey" }} />
                                     </div>
                                     <div><b>{review?.review_dislikes ? review.review_dislikes.toString() : "0"}</b></div>
-                                </Stack>
+                                </Stack> */}
                             </Stack>
                         </Box>
                     )

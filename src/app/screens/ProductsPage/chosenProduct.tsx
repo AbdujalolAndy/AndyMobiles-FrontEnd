@@ -37,6 +37,7 @@ import assert from "assert";
 import Definer from "../../../lib/Definer";
 import { verifiedMemberData } from "../../apiServices/verified";
 import { handleBuyProduct } from "../../components/features/handleBuySingleItem";
+import { DownToUpBtn } from "../../components/features/downToUpBtn";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -490,6 +491,7 @@ export const ChosenProduct = (props: any) => {
                 <PickUpCenter lat={chosenProduct?.company_data?.lat} lng={chosenProduct?.company_data?.lng} title={chosenProduct?.company_data?.mb_nick} />
                 <NewProducts searchProducts={{ limit: 5, order: "createdAt", random: true, contractMonth: [] }} />
             </Box>
+            <DownToUpBtn address={"#"} />
         </Box>
     )
 }

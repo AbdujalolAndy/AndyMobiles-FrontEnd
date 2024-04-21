@@ -170,12 +170,9 @@
     padding: 20px 30px;
     transition: transform 4s ease-in-out;
     transform: translateX(-100%);
+    overflow-y: auto;
 }
 
-.basket_modal .basket_products {
-    max-height: 450px;
-    overflow-y: scroll;
-}
 
 .basket_modal .close_toggle {
     font-size: 15px;
