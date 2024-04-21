@@ -54,9 +54,7 @@ const App: React.FC = () => {
     const memberServiceApi = new MemberServiceApi()
     memberServiceApi.getWishListItems().then(data => {
       setWishListItems(data)
-      if (verifiedMemberData && data[0]) {
-        setLikedItemAmount(data.length)
-      }
+      setLikedItemAmount(data.length ?? 0)
     }
     ).then(err => console.log(err))
   }, [reBuild])
@@ -70,7 +68,7 @@ const App: React.FC = () => {
     try {
       const memberServiceApi = new MemberServiceApi();
       await memberServiceApi.logoutRequest();
-      await sweetTopSmallSuccessAlert("Successfully logged out!", 1000,true);
+      await sweetTopSmallSuccessAlert("Successfully logged out!", 1000, true);
     } catch (err: any) {
       sweetErrorHandling(err).then()
     }
@@ -84,16 +82,16 @@ const App: React.FC = () => {
         sweetTopSmallSuccessAlert('You have already added!', 500, false);
         return false
       } else {
-        const actual_price = basketItem.product_price-(basketItem.product_price*(basketItem.product_discount/100))
+        const actual_price = basketItem.product_price - (basketItem.product_price * (basketItem.product_discount / 100))
         const new_item = {
           item_quantity: basketItem.item_quantity ? basketItem.item_quantity : 1,
-          item_price: basketItem.costumize_product_contract>0?basketItem.product_price:actual_price,
+          item_price: basketItem.costumize_product_contract > 0 ? basketItem.product_price : actual_price,
           order_id: basketItem._id,
           item_color: basketItem.product_color,
           item_storage: basketItem.product_memory,
           item_name: basketItem.product_name,
           product_image: basketItem.product_images[0],
-          product_contract: basketItem.costumize_product_contract ? basketItem.costumize_product_contract: 0
+          product_contract: basketItem.costumize_product_contract ? basketItem.costumize_product_contract : 0
         }
         addItem.push(new_item)
         setAddItem([...addItem])
@@ -178,7 +176,10 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path="/products">
-          <ProductsPage handleSaveBasket={handleSaveBasket} />
+          <ProductsPage
+            handleSaveBasket={handleSaveBasket}
+            setRebuild={setRebuild}
+          />
           <Footer />
         </Route>
         <Route path="/blogs">
@@ -190,7 +191,11 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path="/user-page">
-          < MemberPage reBuild={reBuild} setRebuild={setRebuild} handleLogOut={handleLogOut} />
+          < MemberPage
+            reBuild={reBuild}
+            setRebuild={setRebuild}
+            handleLogOut={handleLogOut}
+          />
           <Footer />
         </Route>
         <Route path="/faq">

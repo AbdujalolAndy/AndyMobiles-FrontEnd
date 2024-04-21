@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Box, Stack, Container, Button } from "@mui/material"
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import "../../css/navbar.css"
 import { verifiedMemberData } from "../../apiServices/verified";
 
@@ -17,6 +17,7 @@ export const NavbarOthers = (props: any) => {
     const image_url = wallpapers[props.addressTitle]
     const current_url = `/${props.addressTitle.toLowerCase()}`
     const [scrolled, setScrolled] = useState<boolean>(false)
+    const history = useHistory()
 
     //Three Circle Hook
     useEffect(() => {
@@ -99,9 +100,12 @@ export const NavbarOthers = (props: any) => {
                         <Box className="nav-item basket_btn">
                             <button
                                 className={scrolled ? "btn btn-outline-secondary border-0 position-relative" : "btn btn-outline-secondary border-0 position-relative"}
-                                onClick={() => window.location.replace("/user-page")}
+                                onClick={() => {
+                                    localStorage.setItem("value", JSON.stringify({ value: 3 }))
+                                    history.push("/user-page")
+                                }}
                             >
-                                <i className="fa-regular fa-heart"></i>
+                                <i className="fa-solid fa-thumbs-up" title="Liked Products"></i>
                                 <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
                                     {props.likedItemAmount}
                                 </span>

@@ -414,7 +414,7 @@ export const ChosenProduct = (props: any) => {
                             }
                         </select>
                         <button className="btn btn-dark" onClick={() => { props.handleSaveBasket(productObj) }}>ADD TO CART</button>
-                        <button className="btn btn-light" onClick={(e) => handleLikeItem(e, chosenProduct, "PRODUCT")}>
+                        <button className="btn btn-light" onClick={(e) => handleLikeItem(e, chosenProduct, "PRODUCT", null, props.setAmountRebuild, true)}>
                             <Favorite style={chosenProduct?.me_liked && chosenProduct.me_liked[0]?.mb_id ? { fill: "red" } : { fill: "gray" }} />
                         </button>
                     </Stack>

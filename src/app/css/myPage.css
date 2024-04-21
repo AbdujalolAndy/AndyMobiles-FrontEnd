@@ -243,7 +243,7 @@
     background-repeat: no-repeat;
 }
 
-.bank_card .owner_name_hide{
+.bank_card .owner_name_hide {
     position: absolute;
     height: 20px;
     width: 100px;
@@ -329,6 +329,12 @@
 /* Bank Transition */
 
 /* Wish List Style */
+.wish_list {
+    max-height: 100vh;
+    overflow-y: auto;
+    box-shadow: 0 0 5px black;
+}
+
 .wishList_amount {
     width: 600px;
     background-color: aliceblue;
@@ -384,7 +390,7 @@ th {
     width: 700px;
     height: 150px;
     transition: all .5s ease-in-out;
-    color:black
+    color: black
 }
 
 .targetPost .post_img {

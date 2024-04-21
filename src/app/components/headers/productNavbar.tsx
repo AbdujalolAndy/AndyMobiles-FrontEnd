@@ -1,14 +1,18 @@
 import { Box, Container, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useHistory } from "react-router-dom"
 import { Autoplay, EffectFade } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { verifiedMemberData } from "../../apiServices/verified"
 
 
 export const ProductNavbar = (props: any) => {
+    //Initializations
     const current_url = `/${props.addressTitle.toLowerCase()}`
     const [scrolled, setScrolled] = useState<boolean>(false)
+    const history = useHistory()
+
+    //lifeCircle Hook
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 50) {
@@ -89,9 +93,12 @@ export const ProductNavbar = (props: any) => {
                         <Box className="nav-item basket_btn">
                             <button
                                 className={scrolled ? "btn btn-outline-secondary border-0 position-relative" : "btn btn-outline-secondary border-0 position-relative"}
-                                onClick={() => window.location.replace("/user-page")}
+                                onClick={() => {
+                                    localStorage.setItem("value", JSON.stringify({ value: 3 }))
+                                    history.push("/user-page")
+                                }}
                             >
-                                <i className="fa-regular fa-heart"></i>
+                                <i className="fa-solid fa-thumbs-up" title="Liked Products"></i>
                                 <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
                                     {props.likedItemAmount}
                                 </span>

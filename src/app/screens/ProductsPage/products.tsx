@@ -46,7 +46,7 @@ export const Products = (props: any) => {
                     let image_urls = [ele.product_images[0], ele.product_images[1]]
                     let pictures;
                     if (ele._id == productKey) {
-                        for (let product of ele.product_related_colors) {
+                        for (let product of ele?.product_related_colors) {
                             if (product.product_color === chosenColor) {
                                 pictures = product.product_images
                             }
@@ -70,7 +70,7 @@ export const Products = (props: any) => {
                             >
                                 <button className="position-absolute" onClick={(e) => {
                                     e.stopPropagation();
-                                    handleLikeItem(e, ele, "PRODUCT", refs)
+                                    handleLikeItem(e, ele, "PRODUCT", refs, props.setAmountRebuild, true)
                                 }}>
                                     <Favorite style={ele.me_liked && ele.me_liked[0]?.mb_id ? { fill: "red" } : { fill: "white" }} />
                                 </button>
@@ -82,8 +82,16 @@ export const Products = (props: any) => {
                                 style={{ width: "50%" }}
                             >
                                 <div className="product_name pb-2  fs-5 text-center fw-bold">{ele.product_name} {ele.product_memory == 1 ? `${ele.product_memory}TB` : `${ele.product_memory}GB`}</div>
-                                <div className="select_color">
-                                    <select className="product_colors form-select" key={index} onChange={(e) => handleColor(e, ele._id)}>
+                                <div className="select_color" onClick={(e) => e.stopPropagation()}>
+                                    <select
+                                        className="product_colors form-select"
+                                        key={index}
+                                        onChange={(e) => {
+                                            e.stopPropagation()
+                                            handleColor(e, ele._id)
+                                        }
+                                        }
+                                    >
                                         {ele.product_related_colors ? ele.product_related_colors.map((product: Product, index: number) => (
                                             <option value={product.product_color} >{product.product_color}</option>
                                         )) : (<option value={ele.product_color} disabled selected>{ele.product_color}</option>)}

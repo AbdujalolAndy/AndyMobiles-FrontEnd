@@ -44,7 +44,7 @@ const retrieverTargetReviews = createSelector(
 
 
 
-const AllProducts = () => {
+const AllProducts = (props:any) => {
     //Hook intilizations 
     const [boxSize, setBoxSize] = useState<string>("45%");
     const { setTargetProducts, setTargetReviews } = actionDispath(useDispatch());
@@ -153,6 +153,7 @@ const AllProducts = () => {
                         searchObj={searchObj}
                         setSearchObj={setSearchObj}
                         setRebuild={setRebuild}
+                        setAmountRebuild={props.setRebuild}
                     />
                 </Stack>
                 {

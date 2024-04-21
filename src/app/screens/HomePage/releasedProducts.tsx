@@ -107,7 +107,7 @@ export const NewProducts = (props: any) => {
                                         >
                                             <Favorite
                                                 style={{ fill: ele?.me_liked && ele?.me_liked[0]?.mb_id ? "red" : "white" }}
-                                                onClick={(e: any) => { handleLikeItem(e, ele, "PRODUCT", refs, props.setRebuild) }} />
+                                                onClick={(e: any) => { handleLikeItem(e, ele, "PRODUCT", refs, props.setRebuild,true) }} />
                                         </div>
                                         <div className="rounded btn btn-outline-warning border-0" onClick={() => props.handleSaveBasket(ele)}>
                                             <i className="fa-brands fa-shopify"></i>

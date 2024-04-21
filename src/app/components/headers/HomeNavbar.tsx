@@ -11,7 +11,7 @@ import "../../css/navbar.css"
 
 export const HomeNavbar = (props: any) => {
     //Initilizations
-    const modules = [Navigation, Autoplay]
+    const modules = [Navigation, Autoplay, EffectFade]
     const progressCircle = useRef(null);
     const progressContent = useRef(null);
     const [scrolled, setScrolled] = useState<Number>(0);
@@ -48,7 +48,7 @@ export const HomeNavbar = (props: any) => {
                     autoplay={{
                         delay: 6000,
                     }}
-                    effect={props.deviceDetect === "isMobile" ? "" : "fade"}
+                    effect={"fade"}
                     navigation={true}
                     modules={modules}
                     onAutoplayTimeLeft={onAutoplayTimeLeft}
@@ -186,7 +186,7 @@ export const HomeNavbar = (props: any) => {
                                         history.push("/user-page")
                                     }}
                                 >
-                                    <i className="fa-regular fa-heart"></i>
+                                    <i className="fa-solid fa-thumbs-up" title="Liked Products"></i>
                                     <span className="position-absolute nav-badge top-0 start-100 translate-middle bg-danger border border-light rounded-circle text-center">
                                         {props.likedItemAmount}
                                     </span>
