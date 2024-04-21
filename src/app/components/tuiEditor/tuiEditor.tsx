@@ -19,9 +19,10 @@ import { Blog, BlogCreate } from "../../types/blog";
 import { serverApi } from "../../../lib/config";
 import assert from "assert";
 import Definer from "../../../lib/Definer";
+
 export const TuiEditor = (props: any) => {
     /** INITIALIZATIONS */
-    const editorRef = useRef();
+    const editorRef:any = useRef([]);
     const [blogData, setBlogData] = useState<BlogCreate>({
         blog_category: '',
         blog_context: "",
@@ -56,8 +57,8 @@ export const TuiEditor = (props: any) => {
 
     async function handleSubmitBlog() {
         try {
-            const editor: any = editorRef.current
-            blogData.blog_context = editor?.getInstance().getHTML()
+            blogData.blog_context = editorRef.current["context"]?.getInstance().getHTML();;
+            blogData.blog_title = editorRef.current["title"].value
             setBlogData({ ...blogData })
             assert.ok(
                 blogData.blog_category !== "" &&
@@ -102,10 +103,10 @@ export const TuiEditor = (props: any) => {
                 <div className="form_row" style={{ width: "300px" }}>
                     <div className="fs-4">Write a Title</div>
                     <input
+                        ref={(ele)=>editorRef.current["title"]=ele}
                         type="text"
                         style={{ width: "300px", border: "1px solid gray", padding: "3px 10px" }}
                         placeholder="Enter a title"
-                        onChange={handleGetTitle}
                     />
                 </div>
 
@@ -114,10 +115,11 @@ export const TuiEditor = (props: any) => {
             {/*@ts-ignore*/}
             <Editor
                 /* @ts-ignore */
-                ref={editorRef}
+                ref={(ele)=>editorRef.current["context"]=ele}
                 initialValue="Type here"
                 previewStyle="vertical"
                 height="640px"
+                 /* @ts-ignore */
                 initialEditType="WYSIWYG"
                 toolbarItems={[
                     ["heading", "bold", "italic", "strike"],

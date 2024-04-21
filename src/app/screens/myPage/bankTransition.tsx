@@ -5,7 +5,7 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { createSelector } from "reselect"
 import { Bank } from "../../types/bank"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import TransactionServiceApi from "../../apiServices/transactionServiceApi"
 import { stringSplitterHandler } from "../../components/features/stringSplitter"
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert"
@@ -32,6 +32,8 @@ const BankTransition = () => {
     const [bankExpiry, setBankExpiry] = useState<string>('');
     const [bankCvc, setBankCvc] = useState<string>('');
     const [bankPin, setBankPin] = useState<string>('');
+    const [rebuild, setRebuild] = useState<Date>(new Date())
+    const refs: any = useRef([])
     //React Hook
     useEffect(() => {
         //Chosen Bank Card
@@ -39,7 +41,7 @@ const BankTransition = () => {
         transactionServiceApi.getChosenBankCard()
             .then(data => setChosenBankCard(data))
             .catch(err => console.log(err))
-    }, [])
+    }, [rebuild])
 
     //Handlers
     const handleCardName = (e: any) => {
@@ -53,7 +55,7 @@ const BankTransition = () => {
     const handleCardExpiry = async (e: any) => {
         try {
             if ((e.target.value.slice(0, 2) * 1) > 12 || (e.target.value.slice(2) * 1) > 31) {
-                e.target.value=""
+                e.target.value = ""
                 e.target.focus()
                 throw new Error(Definer.input_err5)
             } else {
@@ -91,10 +93,14 @@ const BankTransition = () => {
             }
             //Saving Bank Card
             const transactionServiceApi = new TransactionServiceApi();
-            const newBankCard = await transactionServiceApi.createBankCard(data)
-            setChosenBankCard(newBankCard)
+            await transactionServiceApi.createBankCard(data)
             await sweetTopSmallSuccessAlert("Successfully saved!", 700, false)
-            window.location.reload()
+            refs.current["name"].value = ""
+            refs.current["number"].value = ""
+            refs.current["expiry"].value = ""
+            refs.current["cvc"].value = ""
+            refs.current["pin"].value = ""
+            setRebuild(new Date)
         } catch (err: any) {
             await sweetErrorHandling(err)
         }
@@ -126,6 +132,7 @@ const BankTransition = () => {
                     <Box className="card_owner">
                         <label htmlFor="owner fs-5 fw-bold">Card Owner</label>
                         <input
+                            ref={(ele) => refs.current["name"] = ele}
                             className="ps-2 pe-2"
                             type="text"
                             placeholder={chosenBankCard?.card_owner_name ?? "E.X John Carter"}
@@ -137,6 +144,7 @@ const BankTransition = () => {
                     <Box className="card_number">
                         <label htmlFor="owner fs-5 fw-bold">Card Number</label>
                         <input
+                            ref={(ele) => refs.current["number"] = ele}
                             className="ps-2 pe-2"
                             type="text"
                             placeholder={`${chosenBankCard?.card_number ?? 1000000000000000}`}
@@ -153,6 +161,7 @@ const BankTransition = () => {
                         <Box className="card_owner">
                             <label htmlFor="owner fs-5 fw-bold">Expiry Date</label>
                             <input
+                                ref={(ele) => refs.current["expiry"] = ele}
                                 className="ps-2 pe-2"
                                 type="text"
                                 placeholder={chosenBankCard?.card_expiry ?? "N/A"}
@@ -164,6 +173,7 @@ const BankTransition = () => {
                         <Box className="card_owner">
                             <label htmlFor="owner fs-5 fw-bold">CVC</label>
                             <input
+                                ref={(ele) => refs.current["cvc"] = ele}
                                 className="ps-2 pe-2"
                                 type="text"
                                 placeholder={`${chosenBankCard?.card_cvc ?? "N/A"}`}
@@ -175,6 +185,7 @@ const BankTransition = () => {
                         <Box className="card_owner">
                             <label htmlFor="owner fs-5 fw-bold">PinCode</label>
                             <input
+                                ref={(ele) => refs.current["pin"] = ele}
                                 className="ps-2 pe-2"
                                 type="password"
                                 placeholder={"**"}

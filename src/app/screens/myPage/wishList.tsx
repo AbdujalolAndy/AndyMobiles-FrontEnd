@@ -13,6 +13,9 @@ import { WishListItem } from "../../types/others";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert, sweetTopSuccessAlert } from "../../../lib/sweetAlert";
 import { wishListItemsRetrieve } from "./selector";
 import { useHistory } from "react-router-dom";
+import { handleBuyProduct } from "../../components/features/handleBuySingleItem";
+import OrderServiceApi from "../../apiServices/orderServiceApi";
+import { OrderItem } from "../../types/order";
 
 //SELECTOR
 const retrieveWishListItems = createSelector(
@@ -23,15 +26,6 @@ const retrieveWishListItems = createSelector(
 const WishList = (props: any) => {
     //Initialization
     const { wishListItems } = useSelector(retrieveWishListItems);
-    let allPrice: number = 0;
-    wishListItems?.forEach((ele: WishListItem) => {
-        if (ele.product_discount > 1) {
-            allPrice += (ele.product_price - (ele.product_price * (ele.product_discount / 100))) * ele.product_qnt
-        } else {
-            allPrice += (ele.product_price * ele.product_qnt)
-        }
-    })
-    const [totalPrice, setTotalPrice] = useState(allPrice)
     const refs: any = useRef([]);
     const history = useHistory()
 
@@ -52,10 +46,8 @@ const WishList = (props: any) => {
                 refs[product.product_name].remove()
             } else if (modifier > 0) {
                 refs.current[product.product_id].innerHTML++
-                setTotalPrice(totalPrice + fixed_price)
             } else {
                 refs.current[product.product_id].innerHTML--
-                setTotalPrice(totalPrice - fixed_price)
             }
             refs.current[product.product_image].innerHTML = stringSplitterHandler(refs.current[product.product_id].innerHTML * fixed_price, 3, ".") + "₩"
             props.setRebuild(new Date())
@@ -81,6 +73,47 @@ const WishList = (props: any) => {
             await sweetErrorHandling(err)
         }
     }
+    async function handleBuySingleItem(product: WishListItem) {
+        try {
+            const memberServiceApi = new MemberServiceApi();
+            await handleBuyProduct(product, { item_quantity: product.product_qnt })
+            await memberServiceApi.removeWishListItem(product.product_id)
+            history.push("/track-order")
+            window.location.reload()
+
+        } catch (err) {
+            sweetErrorHandling(err)
+        }
+    }
+
+    async function handleBuyAll(items: any[]) {
+        try {
+            const orderServiceApi = new OrderServiceApi();
+            const memberServiceApi = new MemberServiceApi()
+            const newList:OrderItem[] = items.map((item: WishListItem) => {
+                return {
+                    _id:item.product_id,
+                    item_quantity: item.product_qnt,
+                    item_name: item.product_name,
+                    item_price: item.product_price,
+                    order_id: "",
+                    item_color: item.product_color,
+                    item_storage: item.product_memory,
+                    product_image: item.product_image
+                };
+            });
+
+            await orderServiceApi.createOrder(newList)
+            for (let item of items) {
+                await memberServiceApi.removeWishListItem(item.product_id)
+            }
+            history.push("track-order")
+        } catch (err) {
+            console.log(err)
+            await sweetErrorHandling(err)
+        }
+    }
+
     return (
         <Box className={"wishList"}>
             <div className="wish_list_title text-start text-warning fw-bold fs-3 mb-4">
@@ -133,7 +166,7 @@ const WishList = (props: any) => {
                                             />
                                         </TableCell>
                                         <TableCell align="center" className=" fs-6">
-                                            {product.product_name}
+                                            {product.product_name} {product.product_memory < 10 ? product.product_memory + "TB" : product.product_memory + "GB"}
                                         </TableCell>
                                         <TableCell className="text-center">
                                             {fixed_price ? (<Stack flexDirection={"row"} gap={"5px"}>
@@ -184,11 +217,16 @@ const WishList = (props: any) => {
                                             >
                                                 <div
                                                     className="bg-danger p-2 text-white rounded"
+                                                    style={{ cursor: "pointer" }}
                                                     onClick={(e) => handleRemoveChosenItem(product)}
                                                 >
                                                     Remove
                                                 </div>
-                                                <div className="bg-success p-2 text-white rounded">
+                                                <div
+                                                    style={{ cursor: "pointer" }}
+                                                    className="bg-success p-2 text-white rounded"
+                                                    onClick={async () => handleBuySingleItem(product)}
+                                                >
                                                     CheckOut
                                                 </div>
                                             </Stack>
@@ -209,51 +247,23 @@ const WishList = (props: any) => {
                             gap={"30px"}
                         >
                             <button
-                                className="btn btn-outline-danger fw-bold"
+                                className="btn btn-danger fw-bold"
                                 onClick={() => { handleRemoveAll(wishListItems) }}
                             >
                                 Remove All
                             </button>
-                            <button className="btn btn-outline-success fw-bold" onClick={() => { history.push("/products") }}>
+                            <button className="btn btn-success fw-bold" onClick={() => { history.push("/products") }}>
                                 Continue Shopping
                             </button>
-                            <button className="btn btn-outline-secondary fw-bold">
+                            <button
+                                className="btn btn-secondary fw-bold"
+                                onClick={() => handleBuyAll(wishListItems)}
+                            >
                                 CheckOut All
                             </button>
                         </Stack>
                     ) : null
                 }
-                <hr />
-                <Stack className="wishList_amount" alignItems={"center"}>
-                    <div className="fs-3 fw-bold text-center mb-3">Cart Totals</div>
-                    <Table >
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>
-                                    Total Products
-                                </TableCell>
-                                <TableCell>
-                                    <b>{wishListItems.length}</b>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    Total Price
-                                </TableCell>
-                                <TableCell className="fw-bold">
-                                    {stringSplitterHandler(totalPrice, 3, ".")}₩
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                    <Stack className="terms_check" alignItems={"center"} flexDirection={"row"} gap={"10px"}>
-                        <input id="terms" type="checkbox" className="form-check-input" />
-                        <label htmlFor="terms" className=" text-dark ">I agree with the terms and conditions</label>
-                    </Stack>
-                    <button className="btn btn-danger mt-3">
-                        PROCEED TO ChECKOUT
-                    </button>
-                </Stack>
             </div>
         </Box>
     )

@@ -27,6 +27,7 @@ const MemberPage = (props: any) => {
                     reBuild={props.reBuild}
                     setRebuild={props.setRebuild}
                     art_id={chosen_art_id}
+                    handleLogOut={props.handleLogOut}
                 />
             </Route>
         </Switch>

@@ -119,7 +119,7 @@ export const MyPage = (props: any) => {
                         >
                             <div className="user_info">
                                 <div className="user_type text-danger fw-bold">{verifiedMemberData?.mb_type}</div>
-                                <button className="user_logout btn"><img src="/icons/exit.png" alt="" /></button>
+                                <button className="user_logout btn" onClick={props.handleLogOut}><img src="/icons/exit.png" alt="" /></button>
                                 <div className="user_img">
                                     <img
                                         src={verifiedMemberData?.mb_image}

@@ -40,7 +40,7 @@ export const BlogsPage = (props: any) => {
                                 className="btn btn-secondary position-absolute blog_like_btn"
                                 onClick={(e) => handleLikeItem(e, blog, "COMMUNITY", refs)}
                             >
-                                <Favorite style={blog.me_liked && blog.me_liked[0].mb_id?{fill:"red"}:{ fill: "white" }} />
+                                <Favorite style={blog.me_liked && blog.me_liked[0]?.mb_id?{fill:"red"}:{ fill: "white" }} />
                             </div>
                             <div className="blog_type position-absolute">{blog.blog_category}</div>
                             <img src={blog_image} alt="blog_img" height={"220px"} width={"autovs"} />

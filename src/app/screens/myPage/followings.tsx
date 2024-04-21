@@ -31,9 +31,9 @@ const Followings = (props: any) => {
     const { followings } = useSelector(retrieveFollowings);
     const { setFollowings } = actionDispatch(useDispatch())
     const [reBuild, setRebuild] = useState<Date>(new Date())
-    const {mb_id} = props
+    const { mb_id } = props
     const [objSearch, setObjSearch] = useState({
-        mb_id:mb_id?mb_id:"",
+        mb_id: mb_id ? mb_id : "",
         limit: 5,
         page: 1
     })
@@ -46,10 +46,11 @@ const Followings = (props: any) => {
             setFollowings(data)
 
         }).catch(err => console.log(err))
-    }, [reBuild,props.reBuild])
+    }, [reBuild, props.reBuild])
     //Handlers
-    async function handleUnsubscribeMember(follower: FollowInterface) {
+    async function handleUnsubscribeMember(e: any, follower: FollowInterface) {
         try {
+            e.stopPropagation()
             const followServiceApi = new FollowServiceApi();
             await followServiceApi.unsubscribeMember(follower.member_data._id);
             await sweetTopSuccessAlert(`Unsubscribed ${follower.member_data.mb_nick}`, 500, false);
@@ -75,7 +76,7 @@ const Followings = (props: any) => {
                                     flexDirection={"row"}
                                     justifyContent={"space-between"}
                                     alignItems={"center"}
-                                    onClick={()=>{
+                                    onClick={() => {
                                         history.push(`/user-page/other/?mb_id=${follower.follower_id}`)
                                         document.location.reload();
                                     }}
@@ -98,7 +99,7 @@ const Followings = (props: any) => {
                                         {props.action_enable ? null : (
                                             <button
                                                 className="btn btn-danger fw-bold fs-6"
-                                                onClick={() => handleUnsubscribeMember(follower)}
+                                                onClick={(e) => handleUnsubscribeMember(e, follower)}
                                             >
                                                 <Stack
                                                     flexDirection={"row"}

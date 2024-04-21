@@ -149,6 +149,8 @@ export class MemberServiceApi {
                 product_image: product.product_images[0],
                 product_price: product.product_price,
                 product_discount: product.product_discount,
+                product_memory: product.product_memory,
+                product_color:product.product_color,
                 product_qnt: 1,
             }
             const result = await axios.post(url, data, { withCredentials: true });

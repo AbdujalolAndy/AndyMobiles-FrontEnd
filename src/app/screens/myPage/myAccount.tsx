@@ -99,8 +99,9 @@ export const MyAccount = () => {
 
             //API
             const memberServiceApi = new MemberServiceApi()
-            const member = await memberServiceApi.resetPasswordData(resetPassword);
+            await memberServiceApi.resetPasswordData(resetPassword);
             sweetTopSuccessAlert("Successfully updated", 700, false);
+            window.location.reload()
         } catch (err: any) {
             sweetErrorHandling(err).then()
         }

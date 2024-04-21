@@ -48,9 +48,11 @@ export interface LikenItem {
 export interface WishListItem {
     product_id: string,
     product_name: string,
+    product_color:string,
     product_image: string,
     product_price: number,
     product_discount: number,
+    product_memory: number
     product_qnt: number,
     createdAt: Date,
     updatedAt: Date,

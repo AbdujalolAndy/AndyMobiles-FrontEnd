@@ -36,6 +36,7 @@ import { OrderItem } from "../../types/order";
 import assert from "assert";
 import Definer from "../../../lib/Definer";
 import { verifiedMemberData } from "../../apiServices/verified";
+import { handleBuyProduct } from "../../components/features/handleBuySingleItem";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -128,28 +129,6 @@ export const ChosenProduct = (props: any) => {
         let rating_product: number = 0;
         productReview.map((ele) => (rating_product += ele.review_stars))
         return Math.floor(rating_product / productReview.length)
-    }
-    async function handleBuyProduct() {
-        try {
-            assert.ok(verifiedMemberData, Definer.auth_err1)
-            const orderServiceApi = new OrderServiceApi();
-            const orderItem: OrderItem[] = [{
-                _id: chosenProduct?._id ?? "",
-                item_quantity: productObj.item_quantity,
-                //@ts-ignore
-                item_price: chosenProduct.product_price - (chosenProduct.product_price * (chosenProduct.product_discount / 100)),
-                order_id: "",
-                item_name: chosenProduct?.product_name ?? "",
-                product_image: chosenProduct?.product_images[0] ?? "",
-                item_color: chosenProduct?.product_color ?? "",
-                item_storage: chosenProduct?.product_memory ?? 0
-            }]
-            const result = await orderServiceApi.createOrder(orderItem)
-            assert.ok(result, Definer.general_err1);
-            history.push("/track-order")
-        } catch (err) {
-            await sweetErrorHandling(err)
-        }
     }
     return (
         <Box className="chosen_product">
@@ -443,7 +422,16 @@ export const ChosenProduct = (props: any) => {
                         <input type="checkbox" id="buy_terms" onChange={hadleTermsUse} />
                         <label htmlFor="buy_terms">I agree with the terms and conditions</label>
                     </Stack>
-                    <button className={termsAgree ? "btn btn-warning mb-3" : "btn btn-warning mb-3 disabled"} onClick={handleBuyProduct}>BUY IT NOW</button>
+                    <button
+                        className={termsAgree ? "btn btn-warning mb-3" : "btn btn-warning mb-3 disabled"}
+                        //@ts-ignore
+                        onClick={async () => {
+                            await handleBuyProduct(chosenProduct, productObj)
+                            history.push("/track-order")
+                        }}
+                    >
+                        BUY IT NOW
+                    </button>
                     <hr />
                     <Stack direction={"row"} gap={"20px"} className="payment_guarantee ">
                         <div>Guaranteed safe checkout:</div>

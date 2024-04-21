@@ -7,14 +7,17 @@ import { store } from './app/store'
 import App from './app/App'
 import theme from './app/materialStyle';
 import { CssVarsProvider } from '@mui/joy';
+import React from 'react';
 
 
 ReactDom.render(
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <Router>
-        <App />
-      </Router>
-    </ThemeProvider>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <App />
+        </Router>
+      </ThemeProvider>
+    </React.StrictMode>
   </Provider>, document.getElementById('root')
 )

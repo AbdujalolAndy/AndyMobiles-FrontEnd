@@ -54,6 +54,7 @@ export const OtherPage = (props: any) => {
     const history = useHistory()
     //React Hook
     useEffect(() => {
+        window.scrollTo(0, 0)
         if (props.art_id) {
             handleChosenBlogData(props.art_id)
             handleTargetReviews(props.art_id)
@@ -114,6 +115,7 @@ export const OtherPage = (props: any) => {
             const followServiceApi = new FollowServiceApi();
             await followServiceApi.subscribeMember(id)
             await sweetTopSmallSuccessAlert("Successfully subscribed", 500, false)
+            setRebuild(new Date())
         } catch (err: any) {
             await sweetErrorHandling(err)
         }
@@ -124,6 +126,7 @@ export const OtherPage = (props: any) => {
             const followServiceApi = new FollowServiceApi();
             await followServiceApi.unsubscribeMember(id)
             await sweetTopSmallSuccessAlert("Successfully unsubscribed", 500, false)
+            setRebuild(new Date())
         } catch (err: any) {
             await sweetErrorHandling(err)
         }
@@ -167,27 +170,27 @@ export const OtherPage = (props: any) => {
                             </Stack>
                             {
                                 chosenMember?.my_following && chosenMember?.my_following[0] ? (
-                                    <Stack
-                                        flexDirection={"row"}
-                                        gap="10px"
-                                        className="btn btn-info mt-2"
-                                        alignContent={"center"}
-                                        onClick={() => { handleSubscribe(props.mb_id) }}
-                                    >
-                                        <span><i className="fa-solid fa-user"></i></span>
-                                        <span>Following</span>
-                                    </Stack>
-                                ) : (
 
                                     <Stack
                                         flexDirection={"row"}
                                         gap="10px"
-                                        className="btn btn-success mt-2"
+                                        className="btn btn-danger mt-2 fw-bold"
                                         alignContent={"center"}
                                         onClick={() => { handleUnSubscribe(props.mb_id) }}
                                     >
-                                        <span><i className="fa-solid fa-user"></i></span>
-                                        <span>Follow</span>
+                                        <span><i className="fa-solid fa-user-xmark me-2"></i></span>
+                                        <span>Unsubscribe</span>
+                                    </Stack>
+                                ) : (
+                                    <Stack
+                                        flexDirection={"row"}
+                                        gap="10px"
+                                        className="btn btn-info mt-2 fw-bold"
+                                        alignContent={"center"}
+                                        onClick={() => { handleSubscribe(props.mb_id) }}
+                                    >
+                                        <span><i className="fa-solid fa-user-plus me-2"></i></span>
+                                        <span>Subscribe</span>
                                     </Stack>
                                 )
                             }

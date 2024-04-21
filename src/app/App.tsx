@@ -70,8 +70,7 @@ const App: React.FC = () => {
     try {
       const memberServiceApi = new MemberServiceApi();
       await memberServiceApi.logoutRequest();
-      await sweetTopSmallSuccessAlert("Successfully logged out!", 2000);
-      window.location.reload()
+      await sweetTopSmallSuccessAlert("Successfully logged out!", 1000,true);
     } catch (err: any) {
       sweetErrorHandling(err).then()
     }
@@ -191,7 +190,7 @@ const App: React.FC = () => {
           <Footer />
         </Route>
         <Route path="/user-page">
-          < MemberPage reBuild={reBuild} setRebuild={setRebuild} />
+          < MemberPage reBuild={reBuild} setRebuild={setRebuild} handleLogOut={handleLogOut} />
           <Footer />
         </Route>
         <Route path="/faq">
