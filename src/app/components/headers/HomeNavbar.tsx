@@ -81,7 +81,9 @@ export const HomeNavbar = (props: any) => {
                                     Elevate your work with the most epic Galaxy yet, featuring the game-changing power
                                     of Galaxy AI. From researching on the spot to capturing every detail of your projects day or night,
                                     unleash new ways to stay productive, collaborate and more.</div>
-                                <button className="btn btn-dark text-light fw-bold">
+                                <button className="btn btn-dark text-light fw-bold" onClick={() => {
+                                    history.push("/products/product/6625f5e855a34e5c0fe374f8")
+                                }}>
                                     Purchase
                                 </button>
                             </div>
@@ -100,7 +102,9 @@ export const HomeNavbar = (props: any) => {
                                     As part of Apple's ongoing efforts to achieve carbon neutrality by 2030, iPhone 15 Pro and iPhone 15 Pro Max product ranges do not include power adapters and EarPods. Instead, a USB-C charging cable that supports fast charging and is compatible with USB‑C
                                     power adapters and computer ports is included.
                                 </div>
-                                <button className="btn btn-secondary text-light fw-bold">
+                                <button className="btn btn-secondary text-light fw-bold" onClick={() => {
+                                    history.push("/products/product/65f7e42f60e1dc09f5610500")
+                                }}>
                                     Purchase
                                 </button>
                             </div>
@@ -116,7 +120,11 @@ export const HomeNavbar = (props: any) => {
                                 </div>
                                 <div className="d-flex align-items-center gap-5 justify-content-center">
                                     <a href="" className="nav-link pt-4"> <span>LEARN MORE</span><i className="fa-solid ms-1 fa-arrow-up-right-from-square"></i></a>
-                                    <button className="mt-4 btn btn-secondary">PURCHASE</button>
+                                    <button className="mt-4 btn btn-secondary"
+                                        onClick={() => {
+                                            history.push("/products/product/6625fb4555a34e5c0fe37535")
+                                        }}
+                                    >PURCHASE</button>
                                 </div>
                             </div>
                         </Container>

@@ -182,7 +182,7 @@ const TrackOrderPage = (props: any) => {
                                     <span className="is-complete">
                                         <i className="fa-brands fa-shopify text-light fs-2"></i>
                                     </span>
-                                    <p>Order Sort<br /><b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder?.createdAt}</Moment></b></p>
+                                    <p>Order Sort<br /><b><Moment format="YYYY-MM-DD h:mm">{chosenOrder?.createdAt}</Moment></b></p>
                                 </div>
                                 <div className={
                                     chosenOrder?.order_status === "PROCESS" ? "order-tracking completed"
@@ -195,9 +195,9 @@ const TrackOrderPage = (props: any) => {
                                         <i className="fa-solid fa-wallet text-light fs-2"></i>
                                     </span>
                                     <p>Shipping<br />
-                                        {chosenOrder?.order_status === "PROCESS" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder?.order_shipping_time}</Moment></b>)
-                                            : chosenOrder?.order_status === "FINISHED" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder?.order_shipping_time}</Moment></b>) :
-                                                chosenOrder?.order_status === "DELIVERED" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder?.order_shipping_time}</Moment></b>) : (
+                                        {chosenOrder?.order_status === "PROCESS" ? (<b><Moment format="YYYY-MM-DD h:mm">{chosenOrder?.order_shipping_time}</Moment></b>)
+                                            : chosenOrder?.order_status === "FINISHED" ? (<b><Moment format="YYYY-MM-DD h:mm">{chosenOrder?.order_shipping_time}</Moment></b>) :
+                                                chosenOrder?.order_status === "DELIVERED" ? (<b><Moment format="YYYY-MM-DD h:mm">{chosenOrder?.order_shipping_time}</Moment></b>) : (
                                                     <i className="fa-solid fa-spinner fa-spin"></i>
                                                 )}
                                     </p>
@@ -210,8 +210,8 @@ const TrackOrderPage = (props: any) => {
                                         <i className="fa-solid fa-truck-fast text-light fs-2"></i>
                                     </span>
                                     <p>Shipped<br />
-                                        {chosenOrder?.order_status === "FINISHED" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder.order_shipped_time}</Moment></b>) :
-                                            chosenOrder?.order_status === "DELIVERED" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder.order_shipped_time}</Moment></b>) :
+                                        {chosenOrder?.order_status === "FINISHED" ? (<b><Moment format="YYYY-MM-DD h:mm">{chosenOrder.order_shipped_time}</Moment></b>) :
+                                            chosenOrder?.order_status === "DELIVERED" ? (<b><Moment format="YYYY-MM-DD h:mm">{chosenOrder.order_shipped_time}</Moment></b>) :
                                                 (<i className="fa-solid fa-spinner fa-spin"></i>)}
                                     </p>
                                 </div>
@@ -219,7 +219,7 @@ const TrackOrderPage = (props: any) => {
                                     <span className="is-complete">
                                         <i className="fa-solid fa-clipboard-check text-light fs-2"></i>
                                     </span>
-                                    <p>Delivered<br />{chosenOrder?.order_status === "DELIVERED" ? (<b><Moment format="YYYY-MM-DD hh:mm">{chosenOrder?.order_delivered_time}</Moment></b>) : (<i className="fa-solid fa-spinner fa-spin"></i>)}</p>
+                                    <p>Delivered<br />{chosenOrder?.order_status === "DELIVERED" ? (<b><Moment format="YYYY-MM-DD h:mm">{chosenOrder?.order_delivered_time}</Moment></b>) : (<i className="fa-solid fa-spinner fa-spin"></i>)}</p>
                                 </div>
                             </div>
                         </div>

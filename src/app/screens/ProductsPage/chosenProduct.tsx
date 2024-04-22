@@ -24,20 +24,16 @@ import { chosenProductRetriever, productReviewRetriever } from "./selector";
 import { serverApi } from "../../../lib/config";
 import { Review } from "../../types/review";
 import CommunityServiceApi from "../../apiServices/communityServiceApi";
-import { locations } from "../../../lib/locations";
 import { NewProducts } from "../HomePage/releasedProducts";
 import { AddCircle, Favorite, RemoveCircle } from "@mui/icons-material";
-import { MemberServiceApi } from "../../apiServices/memberServiceApi";
 import { handleViewItem } from "../../components/features/viewItem";
 import { handleLikeItem } from "../../components/features/likeItem";
-import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
-import OrderServiceApi from "../../apiServices/orderServiceApi";
-import { OrderItem } from "../../types/order";
-import assert from "assert";
-import Definer from "../../../lib/Definer";
-import { verifiedMemberData } from "../../apiServices/verified";
 import { handleBuyProduct } from "../../components/features/handleBuySingleItem";
 import { DownToUpBtn } from "../../components/features/downToUpBtn";
+import { BasketItem } from "../../types/order";
+import assert from "assert";
+import Definer from "../../../lib/Definer";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -57,38 +53,34 @@ const productReviewRetrieve = createSelector(
 
 export const ChosenProduct = (props: any) => {
     //Initilizations
-    const { product_id } = useParams<{ product_id: string }>()
-    const [chosenColor, setChosenColor] = useState<string>("")
-    const [value, setValue] = useState<string>("1");
-    const [scrolled, setScrolled] = useState<boolean>(false);
-    const [termsAgree, setTermsAgree] = useState<boolean>(false);
-    const [openChat, setOpenChat] = useState<boolean>(false);
-    const { chosenProduct } = useSelector(chosenProductRetrieve);
-    const { productReview } = useSelector(productReviewRetrieve)
-    const { setChosenProduct, setProductReview } = actionDispatch(useDispatch())
-    const [magnifyImg, setMagnifyImg] = useState<string>("")
-    const [chosenProductImgIndex, setChosenProductImgIndex] = useState<number>(0)
-    const [reBuild, setRebuild] = useState<Date>(new Date);
-    const [disabledBtn, setDisabledBtn] = useState<boolean>(false)
-    const main_img = magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`;
-    const history = useHistory()
-    const styleColor = {
-        borderColor: "#0066AE",
-        color: chosenColor,
-        borderWidth: "2px"
-    }
-    const location = useHistory()
-    const [productObj, setProductObj] = useState({
-        _id: chosenProduct?._id,
-        item_quantity: 1,
-        product_price: chosenProduct?.product_price,
-        product_color: chosenProduct?.product_color,
-        product_memory: chosenProduct?.product_memory,
-        product_name: chosenProduct?.product_name,
-        product_images: chosenProduct?.product_images,
-        costumize_product_contract: 0,
-        product_discount: chosenProduct?.product_discount ? chosenProduct?.product_discount : 0
-    })
+    const { product_id } = useParams<{ product_id: string }>(),
+        [chosenColor, setChosenColor] = useState<string>(""),
+        [value, setValue] = useState<string>("1"),
+        [scrolled, setScrolled] = useState<boolean>(false),
+        [termsAgree, setTermsAgree] = useState<boolean>(false),
+        [openChat, setOpenChat] = useState<boolean>(false),
+        { chosenProduct } = useSelector(chosenProductRetrieve),
+        { productReview } = useSelector(productReviewRetrieve),
+        { setChosenProduct, setProductReview } = actionDispatch(useDispatch()),
+        [magnifyImg, setMagnifyImg] = useState<string>(""),
+        [chosenProductImgIndex, setChosenProductImgIndex] = useState<number>(0),
+        [reBuild, setRebuild] = useState<Date>(new Date),
+        [disabledBtn, setDisabledBtn] = useState<boolean>(false),
+        main_img = magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`,
+        styleColor = {
+            borderColor: "#0066AE",
+            color: chosenColor,
+            borderWidth: "2px"
+        },
+        [productObj, setProductObj] = useState(
+            {
+                item_quantity: 1,
+                product_price: 0,
+                costumize_product_contract: 0,
+            }
+        ),
+        history = useHistory()
+
     //3 circle React Hook
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -130,6 +122,26 @@ export const ChosenProduct = (props: any) => {
         let rating_product: number = 0;
         productReview.map((ele) => (rating_product += ele.review_stars))
         return Math.floor(rating_product / productReview.length)
+    }
+    async function handleAddToCard() {
+        try {
+            assert.ok(chosenProduct, Definer.general_err1)
+            const cartItem: BasketItem = {
+                _id: chosenProduct._id,
+                item_quantity: productObj.item_quantity,
+                product_price: productObj.product_price ? productObj.product_price : chosenProduct.product_price,
+                product_color: chosenProduct.product_color,
+                product_memory: chosenProduct.product_memory,
+                product_name: chosenProduct.product_name,
+                product_images: chosenProduct.product_images,
+                costumize_product_contract: productObj.costumize_product_contract,
+                product_discount: chosenProduct.product_discount
+            }
+            console.log(cartItem)
+            props.handleSaveBasket(cartItem)
+        } catch (err) {
+            await sweetErrorHandling(err)
+        }
     }
     return (
         <Box className="chosen_product">
@@ -280,7 +292,7 @@ export const ChosenProduct = (props: any) => {
                         </Stack>
                         <Stack className="ask_about" flexDirection={"row"} gap={"10px"} alignItems={"center"}>
                             <i className="fa-regular fa-envelope fs-5 text-info"></i>
-                            <div className="fw-bold link_inquery" onClick={() => location.push("/faq")}>Ask About Delivery</div>
+                            <div className="fw-bold link_inquery" onClick={() => history.push("/faq")}>Ask About Delivery</div>
                         </Stack>
                     </Stack>
                     <Stack
@@ -393,16 +405,16 @@ export const ChosenProduct = (props: any) => {
                         alignItems={"center"}
                     >
                         <select className="form-select w-50" id="" onChange={(e) => {
-                            productObj.costumize_product_contract = parseInt(e.target.value)
                             if (parseInt(e.target.value) > 0) {
+                                productObj.costumize_product_contract = parseInt(e.target.value)
                                 productObj.item_quantity = 1
                                 //@ts-ignore
                                 productObj.product_price = Math.floor(chosenProduct?.product_price / parseInt(e.target.value))
                                 setDisabledBtn(true);
+                                setProductObj({ ...productObj })
                             } else {
                                 setDisabledBtn(false)
                             }
-                            setProductObj({ ...productObj })
                         }}>
                             <option>Not Monthly contract</option>
                             {
@@ -414,7 +426,7 @@ export const ChosenProduct = (props: any) => {
                                 })
                             }
                         </select>
-                        <button className="btn btn-dark" onClick={() => { props.handleSaveBasket(productObj) }}>ADD TO CART</button>
+                        <button className="btn btn-dark" onClick={handleAddToCard}>ADD TO CART</button>
                         <button className="btn btn-light" onClick={(e) => handleLikeItem(e, chosenProduct, "PRODUCT", null, props.setAmountRebuild, true)}>
                             <Favorite style={chosenProduct?.me_liked && chosenProduct.me_liked[0]?.mb_id ? { fill: "red" } : { fill: "gray" }} />
                         </button>
@@ -427,8 +439,7 @@ export const ChosenProduct = (props: any) => {
                         className={termsAgree ? "btn btn-warning mb-3" : "btn btn-warning mb-3 disabled"}
                         //@ts-ignore
                         onClick={async () => {
-                            await handleBuyProduct(chosenProduct, productObj)
-                            history.push("/track-order")
+                            await handleBuyProduct(chosenProduct, productObj,"/track-order")
                         }}
                     >
                         BUY IT NOW

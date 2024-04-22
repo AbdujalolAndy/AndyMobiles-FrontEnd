@@ -7,7 +7,7 @@ import { OrderItem } from "../../types/order";
 import { useHistory } from "react-router-dom";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
 
-export async function handleBuyProduct(product: any, obj: any) {
+export async function handleBuyProduct(product: any, obj: any, address?:string) {
     try {
         assert.ok(verifiedMemberData, Definer.auth_err1)
         const orderServiceApi = new OrderServiceApi();
@@ -23,6 +23,9 @@ export async function handleBuyProduct(product: any, obj: any) {
             item_storage: product?.product_memory ?? 0
         }]
         const result = await orderServiceApi.createOrder(orderItem)
+        if(address){
+            window.location.replace(address)
+        }
         assert.ok(result, Definer.general_err1);
     } catch (err) {
         console.log(err)

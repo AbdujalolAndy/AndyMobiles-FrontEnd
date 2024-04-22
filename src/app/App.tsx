@@ -77,7 +77,6 @@ const App: React.FC = () => {
   function handleSaveBasket(basketItem: BasketItem) {
     try {
       const doesExist = addItem.some((ele: OrderItem) => ele.order_id === basketItem._id)
-      console.log("basket Item", basketItem)
       if (doesExist) {
         sweetTopSmallSuccessAlert('You have already added!', 500, false);
         return false

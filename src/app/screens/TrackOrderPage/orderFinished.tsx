@@ -54,7 +54,7 @@ const OrderFinished = (props: any) => {
     return (
         <TabPanel value={props.value} index={props.index}>
             {
-                chosenOrder ? (
+                chosenOrder && (chosenOrder.order_status === "FINISHED" || chosenOrder?.order_status === "DELIVERED") ? (
                     <Box className="finished_orders">
                         <div className="order_info">
                             <div className="text-center fw-bold mb-3 fs-3">Order Transaction Info</div>
