@@ -1,13 +1,12 @@
 import { Provider } from 'react-redux'
 import ReactDom from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom'
-
 import { ThemeProvider } from "@mui/material/styles"
 import { store } from './app/store'
 import App from './app/App'
 import theme from './app/materialStyle';
-import { CssVarsProvider } from '@mui/joy';
 import React from 'react';
+import { socket, socketContext } from "./app/components/Context/socketIo"
 
 
 ReactDom.render(
@@ -15,7 +14,9 @@ ReactDom.render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>
         <Router>
-          <App />
+          <socketContext.Provider value={socket}>
+            <App />
+          </socketContext.Provider>
         </Router>
       </ThemeProvider>
     </React.StrictMode>

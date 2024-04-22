@@ -72,18 +72,11 @@
     min-width: 50px;
 }
 
-.clientChattingPage .chatting-body {
-    padding: 0 10px;
-    height: 86%;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-    background-image: url("../../../public/icons/telegram_wrapper.svg");
-}
-
 .chattingPage .chatting-body {
     height: 71%;
-    overflow-y: scroll;
+    overflow-y: auto;
     background-image: url("../../../public/icons/telegram_wrapper.svg");
+    padding: 0 10px;
 }
 
 .bot_sender_msg {
@@ -169,4 +162,33 @@
 
 .chatting-type button:focus {
     background-color: transparent;
+}
+
+.chatting-body .msg_right {
+    padding: 9px;
+    height: auto;
+    color: white;
+    display: flex;
+    background: rgb(231, 79, 125);
+    border-radius: 20px 20px 0px 20px;
+    line-height: 15px;
+    word-break: break-word;
+    white-space: pre-wrap;
+    position: relative;
+    max-width: 250px;
+}
+
+.chatting-body .msg_left {
+    margin-left: 10px;
+    padding: 9px;
+    height: auto;
+    color:white;
+    display: flex;
+    background: rgba(59, 58, 58, 0.688);
+    border-radius: 20px 20px 20px 0px;
+    line-height: 15px;
+    word-break: break-word;
+    white-space: pre-wrap;
+    position: relative;
+    max-width: 250px;
 }

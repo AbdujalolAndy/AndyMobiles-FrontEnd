@@ -48,7 +48,7 @@ export interface LikenItem {
 export interface WishListItem {
     product_id: string,
     product_name: string,
-    product_color:string,
+    product_color: string,
     product_image: string,
     product_price: number,
     product_discount: number,
@@ -62,4 +62,10 @@ export interface View {
     mb_id: string;
     view_item_id: string,
     view_group: string;
+}
+export interface Message {
+    msg_sender: string,
+    mb_img: string,
+    mb_id: string,
+    msg_text: string,
 }

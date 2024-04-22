@@ -128,122 +128,124 @@ const WishList = (props: any) => {
             </div>
             {
                 wishListItems && wishListItems[0] ? (
-                    <div className="wish_list mt-5">
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="center" colSpan={2} className="fw-bold">
-                                        PRODUCT
-                                    </TableCell>
-                                    <TableCell align="center" className="fw-bold">
-                                        PRICE
-                                    </TableCell>
-                                    <TableCell align="center" className="fw-bold">
-                                        QUANTITY
-                                    </TableCell>
-                                    <TableCell className="fw-bold">
-                                        TOTAL
-                                    </TableCell>
-                                    <TableCell className="fw-bold" align="center">
-                                        CHOICE
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
+                    <Box>
+                        <div className="wish_list mt-5">
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={2} className="fw-bold">
+                                            PRODUCT
+                                        </TableCell>
+                                        <TableCell align="center" className="fw-bold">
+                                            PRICE
+                                        </TableCell>
+                                        <TableCell align="center" className="fw-bold">
+                                            QUANTITY
+                                        </TableCell>
+                                        <TableCell className="fw-bold">
+                                            TOTAL
+                                        </TableCell>
+                                        <TableCell className="fw-bold" align="center">
+                                            CHOICE
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
 
-                            <TableBody>
-                                {wishListItems.map((product: WishListItem, index: number) => {
-                                    const image_url = `${serverApi}/${product.product_image}`
-                                    const actual_price: number = product.product_price
-                                    let fixed_price: any = product.product_discount > 1 ?
-                                        product.product_price - (product.product_price * (product.product_discount / 100)) :
-                                        0;
-                                    return (
-                                        <TableRow ref={(ele) => refs[product.product_name] = ele}>
-                                            <TableCell
-                                                align="center"
-                                                style={{
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    alignItems: "center"
-                                                }}
-                                            >
-                                                <img
-                                                    src={image_url}
-                                                    alt="image"
-                                                    style={{ height: "100px", width: "50px" }}
-                                                />
-                                            </TableCell>
-                                            <TableCell align="center" className=" fs-6">
-                                                {product.product_name} {product.product_memory < 10 ? product.product_memory + "TB" : product.product_memory + "GB"}
-                                            </TableCell>
-                                            <TableCell className="text-center">
-                                                {fixed_price ? (<Stack flexDirection={"row"} gap={"5px"}>
-                                                    <s className="text-secondary ms-2">{stringSplitterHandler(actual_price, 3, ".")}₩</s>
-                                                    <span className="fw-bold">{stringSplitterHandler(fixed_price, 3, ".")}₩</span>
-                                                </Stack>) : (<span>{actual_price}₩</span>)}
-                                            </TableCell>
-                                            <TableCell >
-                                                <Stack
-                                                    flexDirection={"row"}
-                                                    gap={"25px"}
+                                <TableBody>
+                                    {wishListItems.map((product: WishListItem, index: number) => {
+                                        const image_url = `${serverApi}/${product.product_image}`
+                                        const actual_price: number = product.product_price
+                                        let fixed_price: any = product.product_discount > 1 ?
+                                            product.product_price - (product.product_price * (product.product_discount / 100)) :
+                                            0;
+                                        return (
+                                            <TableRow ref={(ele) => refs[product.product_name] = ele}>
+                                                <TableCell
+                                                    align="center"
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center"
+                                                    }}
                                                 >
-                                                    <div
-                                                        onClick={(e) => handleChangeQnt(e, product, -1)}
-                                                        className="btn btn-outline-secondary fw-bold d-flex justify-content-center align-items-center"
-                                                        style={{
-                                                            width: "30px",
-                                                            height: "30px",
-                                                        }}
-                                                    ><RemoveCircle /></div>
-                                                    <div
-                                                        className="fs-5 fw-bold"
-                                                        ref={(ele) => (refs.current[product.product_id] = ele)}
-                                                    >{product.product_qnt}</div>
-                                                    <div
-                                                        onClick={(e) => handleChangeQnt(e, product, 1)}
-                                                        className="btn btn-outline-secondary fw-bold d-flex justify-content-center align-items-center"
-                                                        style={{
-                                                            width: "30px",
-                                                            height: "30px",
-                                                        }}
-                                                    ><AddCircle /></div>
-                                                </Stack>
-                                            </TableCell>
-                                            <TableCell
-                                                ref={(ele) => refs.current[product.product_image] = ele}
-                                                style={{ fontWeight: "bold" }}
-                                            >
-                                                {fixed_price ?
-                                                    stringSplitterHandler(fixed_price * product.product_qnt, 3, ".") + "₩" :
-                                                    stringSplitterHandler(product.product_price * product.product_qnt, 3, ".") + "₩"
-                                                }
-                                            </TableCell>
-                                            <TableCell>
-                                                <Stack
-                                                    flexDirection={"row"}
-                                                    gap="20px"
+                                                    <img
+                                                        src={image_url}
+                                                        alt="image"
+                                                        style={{ height: "100px", width: "50px" }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center" className=" fs-6">
+                                                    {product.product_name} {product.product_memory < 10 ? product.product_memory + "TB" : product.product_memory + "GB"}
+                                                </TableCell>
+                                                <TableCell className="text-center">
+                                                    {fixed_price ? (<Stack flexDirection={"row"} gap={"5px"}>
+                                                        <s className="text-secondary ms-2">{stringSplitterHandler(actual_price, 3, ".")}₩</s>
+                                                        <span className="fw-bold">{stringSplitterHandler(fixed_price, 3, ".")}₩</span>
+                                                    </Stack>) : (<span>{actual_price}₩</span>)}
+                                                </TableCell>
+                                                <TableCell >
+                                                    <Stack
+                                                        flexDirection={"row"}
+                                                        gap={"25px"}
+                                                    >
+                                                        <div
+                                                            onClick={(e) => handleChangeQnt(e, product, -1)}
+                                                            className="btn btn-outline-secondary fw-bold d-flex justify-content-center align-items-center"
+                                                            style={{
+                                                                width: "30px",
+                                                                height: "30px",
+                                                            }}
+                                                        ><RemoveCircle /></div>
+                                                        <div
+                                                            className="fs-5 fw-bold"
+                                                            ref={(ele) => (refs.current[product.product_id] = ele)}
+                                                        >{product.product_qnt}</div>
+                                                        <div
+                                                            onClick={(e) => handleChangeQnt(e, product, 1)}
+                                                            className="btn btn-outline-secondary fw-bold d-flex justify-content-center align-items-center"
+                                                            style={{
+                                                                width: "30px",
+                                                                height: "30px",
+                                                            }}
+                                                        ><AddCircle /></div>
+                                                    </Stack>
+                                                </TableCell>
+                                                <TableCell
+                                                    ref={(ele) => refs.current[product.product_image] = ele}
+                                                    style={{ fontWeight: "bold" }}
                                                 >
-                                                    <div
-                                                        className="bg-danger p-2 text-white rounded"
-                                                        style={{ cursor: "pointer" }}
-                                                        onClick={(e) => handleRemoveChosenItem(product)}
+                                                    {fixed_price ?
+                                                        stringSplitterHandler(fixed_price * product.product_qnt, 3, ".") + "₩" :
+                                                        stringSplitterHandler(product.product_price * product.product_qnt, 3, ".") + "₩"
+                                                    }
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Stack
+                                                        flexDirection={"row"}
+                                                        gap="20px"
                                                     >
-                                                        Remove
-                                                    </div>
-                                                    <div
-                                                        style={{ cursor: "pointer" }}
-                                                        className="bg-success p-2 text-white rounded"
-                                                        onClick={async () => handleBuySingleItem(product)}
-                                                    >
-                                                        CheckOut
-                                                    </div>
-                                                </Stack>
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                })}
-                            </TableBody>
-                        </Table>
+                                                        <div
+                                                            className="bg-danger p-2 text-white rounded"
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={(e) => handleRemoveChosenItem(product)}
+                                                        >
+                                                            Remove
+                                                        </div>
+                                                        <div
+                                                            style={{ cursor: "pointer" }}
+                                                            className="bg-success p-2 text-white rounded"
+                                                            onClick={async () => handleBuySingleItem(product)}
+                                                        >
+                                                            CheckOut
+                                                        </div>
+                                                    </Stack>
+                                                </TableCell>
+                                            </TableRow>
+                                        )
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </div>
                         <Stack
                             className="mt-4"
                             flexDirection={"row"}
@@ -266,7 +268,7 @@ const WishList = (props: any) => {
                                 CheckOut All
                             </button>
                         </Stack>
-                    </div>
+                    </Box>
                 ) : (
                     <div
                         className="text-secondary rounded mt-2 fs-6 p-2 text-center fw-bold"

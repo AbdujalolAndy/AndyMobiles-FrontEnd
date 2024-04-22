@@ -1,6 +1,6 @@
 import axios from "axios";
 import { serverApi } from "../../lib/config";
-import { searchBlogs } from "../types/others";
+import { Message, searchBlogs } from "../types/others";
 import { Blog, BlogCreate, SearchObjBlog } from "../types/blog";
 import { Review, reviewCreateData } from "../types/review";
 
@@ -111,6 +111,18 @@ class CommunityServiceApi {
             const imagePath: string = result.data.value;
             return imagePath
         } catch (err: any) {
+            throw err
+        }
+    }
+    async getAllMessages():Promise<Message[]>{
+        try{
+            const url =`${this.path}/socketIo/getAllMessages/`;
+            const result = await axios.get(url,{withCredentials:true});
+            console.log(`GET:  getAllMessages state, ${result.data.state}`)
+            const messages:Message[]=result.data.value;
+            console.log(messages)
+            return messages
+        }catch(err:any){
             throw err
         }
     }
