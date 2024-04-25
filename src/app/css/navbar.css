@@ -281,7 +281,7 @@
 
     .mobile-nav {
         display: flex !important;
-
+        z-index: 100000;
     }
 
     .slide_vid video {

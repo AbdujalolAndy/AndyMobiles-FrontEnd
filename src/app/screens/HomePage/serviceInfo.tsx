@@ -10,7 +10,9 @@ const ServiceInfo = () => {
                         <div className="title text-light fs-4 fw-bold">
                             Free shipping
                         </div>
-                        <img src="/icons/deliver_car.gif" alt="" />
+                        <div className="service_img">
+                            <img src="/icons/deliver_car.gif" alt="" />
+                        </div>
                         <p className="text-light fw-bold fs-6 ps-5 pe-5">Safe, contact-free delivery to your home, inside or outside.</p>
                         <a href="/faq">
                             <span className="text-info link_info">
@@ -23,7 +25,9 @@ const ServiceInfo = () => {
                         <div className="title text-light fs-4 fw-bold">
                             Free returns
                         </div>
-                        <img src="/icons/return.png" alt="" />
+                        <div className="service_img">
+                            <img src="/icons/return.png" alt="" />
+                        </div>
                         <p className="text-light fw-bold fs-6 ps-5 pe-5">Free returns up to 15 days after delivery of an appliance.</p>
                         <a href="/faq">
                             <a href="/faq" className="text-info link_info">
