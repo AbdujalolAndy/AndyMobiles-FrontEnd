@@ -1,12 +1,14 @@
 /* Track Order Style */
-.trackPage{
+.trackPage {
     background-image: url("https://media.secure-mobiles.com/website_engine/images/mobiles_2023/landing-pages/special-offers/new-design/phones-bg-texture.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
-.trackPage>div{
+
+.trackPage>div {
     margin-top: 70px;
 }
+
 .trackPage .track_order {
     background-color: white;
     box-shadow: 0 0 5px black;
@@ -20,7 +22,8 @@
     position: relative;
     display: block;
 }
-.trackPage .order-table{
+
+.trackPage .order-table {
     cursor: pointer;
 }
 
@@ -247,3 +250,9 @@
 }
 
 /* Track Order Style */
+
+@media only screen and (max-width:440px) {
+    .trackPage-main {
+        display: none !important;
+    }
+}

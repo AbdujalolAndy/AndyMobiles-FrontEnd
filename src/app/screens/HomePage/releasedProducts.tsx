@@ -79,7 +79,7 @@ export const NewProducts = (props: any) => {
             >
                 {randomNewProducts.map((ele: Product, index) => {
                     let image_url_1 = `${serverApi}/${ele.product_images[0]}`,
-                        image_url_2 = `${serverApi}/${ele.product_images[1]}`,
+                        image_url_2 = ele.product_images[1]?`${serverApi}/${ele.product_images[1]}`:`/pictures/products/${ele.product_color}_phone.webp`,
                         discount_price = ele.product_price - (ele.product_price * (ele.product_discount / 100))
                     return (
                         <SwiperSlide
@@ -94,7 +94,7 @@ export const NewProducts = (props: any) => {
                                     />
                                     <img
                                         src={image_url_2}
-                                        alt="phone1"
+                                        alt="2"
                                         className="product_img_2"
                                     />
                                     <Stack
@@ -107,7 +107,7 @@ export const NewProducts = (props: any) => {
                                         >
                                             <Favorite
                                                 style={{ fill: ele?.me_liked && ele?.me_liked[0]?.mb_id ? "red" : "white" }}
-                                                onClick={(e: any) => { handleLikeItem(e, ele, "PRODUCT", refs, props.setRebuild,true) }} />
+                                                onClick={(e: any) => { handleLikeItem(e, ele, "PRODUCT", refs, props.setRebuild, true) }} />
                                         </div>
                                         <div className="rounded btn btn-outline-warning border-0" onClick={() => props.handleSaveBasket(ele)}>
                                             <i className="fa-brands fa-shopify"></i>
@@ -146,7 +146,11 @@ export const NewProducts = (props: any) => {
                                         ele.product_new_released === "Y" ? (<div className="bg-danger position-absolute card-img_badge">NEW</div>) : (<div className="bg-danger position-absolute card-img_badge opacity-0">NEW</div>)
                                     }
                                 </div>
-                                <Stack flexDirection={"row"} justifyContent={"space-between"} className="mt-3 ps-1 pe-1">
+                                <Stack
+                                    flexDirection={"row"}
+                                    justifyContent={"space-between"}
+                                    className="mt-3 ps-1 pe-1 card-body"
+                                >
                                     <div className="card-text fs-6 fw-bold text-warning">
                                         {ele.product_name}
                                     </div>
@@ -156,8 +160,13 @@ export const NewProducts = (props: any) => {
                                         sx={{ fontSize: "12px" }}
                                         alignItems={"center"}
                                     >
-                                        <Stack flexDirection={"row"} gap={'3px'} alignItems={"center"}>
-                                            <i className="fa-solid fa-comments"></i>
+                                        <Stack
+                                            flexDirection={"row"}
+                                            gap={'3px'}
+                                            alignItems={"center"}
+                                            className="slider_icon"
+                                        >
+                                            <i className="fa-solid fa-comments "></i>
                                             {ele.product_comments ?? "0"}
                                         </Stack>
                                         |
@@ -165,8 +174,9 @@ export const NewProducts = (props: any) => {
                                             flexDirection={"row"}
                                             gap={'3px'}
                                             alignItems={"center"}
+                                            className="slider_icon"
                                         >
-                                            <Favorite sx={{ fontSize: 20, marginLeft: "5px" }} />
+                                            <i className="fa-solid fa-heart"></i>
                                             <div
                                                 ref={(htmlEl) => (refs.current[ele._id] = htmlEl)}
                                             >
@@ -174,13 +184,18 @@ export const NewProducts = (props: any) => {
                                             </div>
                                         </Stack>
                                         |
-                                        <Stack flexDirection={"row"} gap={'3px'} alignItems={"center"}>
+                                        <Stack
+                                            flexDirection={"row"}
+                                            gap={'3px'}
+                                            alignItems={"center"}
+                                            className="slider_icon"
+                                        >
                                             <i className="fa-solid fa-eye"></i>
                                             {ele.product_views ?? "0"}
                                         </Stack>
                                     </Stack>
                                 </Stack>
-                                <div className="card-text mt-3 fw-bold">
+                                <div className="card-price mt-3 fw-bold">
                                     {ele.product_discount ? (<div>{stringSplitterHandler(discount_price, 3, ".")}₩<span className="text-secondary ms-2"><s>{stringSplitterHandler(ele.product_price, 3, ".")}₩</s></span></div>) : stringSplitterHandler(ele.product_price, 3, ".") + "₩"}
                                 </div>
                             </Box>

@@ -473,3 +473,20 @@
 }
 
 /* Product Write Review */
+.notify-warn {
+    display: none;
+}
+
+@media only screen and (max-width:440px) {
+    .productPage {
+        display: none;
+    }
+
+    .notify-warn {
+        display: block;
+        font-size: 25px;
+        font-weight: bold;
+        margin: 150px 0;
+        text-align: center;
+    }
+}

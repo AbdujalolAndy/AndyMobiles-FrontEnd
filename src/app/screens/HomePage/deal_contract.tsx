@@ -24,7 +24,13 @@ export const DealContract = () => {
     return (
         <Box className="deal-contract">
             <Container className="mt-5">
-                <Stack flexDirection={"row"} justifyContent={"center"} gap={"100px"} alignItems={"center"}>
+                <Stack
+                    flexDirection={"row"}
+                    justifyContent={"center"}
+                    gap={"100px"}
+                    alignItems={"center"}
+                    className="deal-contract-body"
+                >
                     <div className="deal_img">
                         <img src="/icons/monthly_payment.jpg" alt="" />
                     </div>
@@ -35,8 +41,17 @@ export const DealContract = () => {
                         >
                             N<span ref={textRef}></span>
                         </div>
-                        <p className="text-secondary fs-6">We offer to our trustfull clients to buy product for monthly payment.</p>
-                        <Stack flexDirection={"row"} alignItems={"center"} gap={"20px"}>
+                        <p className="text-secondary fs-6">
+                            <div className="d-none"></div>
+                            <div> We offer to our trustfull clients to buy product for monthly payment.</div>
+                        </p>
+
+                        <Stack
+                            flexDirection={"row"}
+                            alignItems={"center"}
+                            gap={"20px"}
+                            className="deal_btns"
+                        >
                             <div className="deal_learn">
                                 <a href="/faq"> <span>LEARN MORE</span><i className="fa-solid ms-1 fa-arrow-up-right-from-square"></i></a>
                             </div>

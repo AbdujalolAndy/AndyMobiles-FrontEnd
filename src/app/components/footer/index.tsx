@@ -84,19 +84,19 @@ const Footer = () => {
                             <Box className={"mt-4"}>
                                 <div className="mt-2">
                                     <span><i className="fa-solid fa-square-phone me-3 text-warning fs-2"></i></span>
-                                    <span className="text-light fs-4 fw-bold">+8210 3201 1222</span>
+                                    <span className="text-light fs-4 fw-bold contact-us_info_text">+8210 3201 1222</span>
                                 </div>
                                 <div className="mt-2">
                                     <span><i className="fa-solid fa-envelope me-3 text-warning fs-2"></i></span>
-                                    <span className="text-light fs-4 fw-bold">abdujalolnabijonov20@gmail.com</span>
+                                    <span className="text-light fs-4 fw-bold contact-us_info_text">abdujalolnabijonov20@gmail.com</span>
                                 </div>
                                 <div className="mt-2">
                                     <span><i className="fa-solid fa-map-location-dot me-3 text-warning fs-2"></i></span>
-                                    <span className="text-light fs-4 fw-bold">South Korea, Yeosu-si</span>
+                                    <span className="text-light fs-4 fw-bold contact-us_info_text">South Korea, Yeosu-si</span>
                                 </div>
                                 <div className="mt-2">
                                     <span><i className="fa-solid fa-user-clock me-3 text-warning fs-2"></i></span>
-                                    <span className="text-light fs-4 fw-bold">Mon~Fri 24 hours</span>
+                                    <span className="text-light fs-4 fw-bold contact-us_info_text">Mon~Fri 24 hours</span>
                                 </div>
                             </Box>
                         </Box>

@@ -5,8 +5,8 @@ import { useEffect, useState } from "react"
 import { ArrowBack, ArrowForward } from "@mui/icons-material"
 import { Route, Switch, useRouteMatch } from "react-router-dom"
 import { ViewerPage } from "../../components/tuiEditor/tuiViewer"
-import "../../css/blogPage.css"
 import CommunityServiceApi from "../../apiServices/communityServiceApi"
+import "../../css/blogPage.css"
 
 //REDUX
 import { createSelector } from "reselect";
@@ -69,7 +69,7 @@ const BlogPage = () => {
     }
     return (
         <Box className="blogPage mt-3">
-            <Container>
+            <Container className="blogPage_main">
                 <Switch>
                     <Route path={`${blogPath}/:id`}>
                         <ViewerPage />
@@ -138,6 +138,12 @@ const BlogPage = () => {
                         />
                     </Route>
                 </Switch>
+            </Container>
+            <Container>
+                <Box className={"notify-warn"}>
+                    Mobile version is developing now <br />
+                    Enjoy with desktop version untill mobile version is done.
+                </Box>
             </Container>
         </Box>
     )

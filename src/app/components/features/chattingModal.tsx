@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Avatar, Badge, Box, Button, Menu, Stack } from "@mui/material";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
@@ -18,13 +18,14 @@ const Chatting = () => {
     const socket = useContext(socketContext)
     const [context, setContext] = useState<string>("")
     const [messages, setAllMessages] = useState<Message[]>([]);
-    const [onlineUsers, setOnlineUsers] = useState<number>(0)
+    const [onlineUsers, setOnlineUsers] = useState<number>(0);
+    const refs: any = useRef([])
     //LifeCircle
     useEffect(() => {
         socket.connect();
         socket?.on("connnect", () => {
         })
-        socket?.on("totalUser", (data:any) => {
+        socket?.on("totalUser", (data: any) => {
             console.log(data)
             setOnlineUsers(data.totalUser)
         })
@@ -48,8 +49,12 @@ const Chatting = () => {
                 msg_sender: verifiedMemberData?.mb_nick,
                 msg_text: context,
             })
+            refs.current['text'].value = ''
             setContext("")
         } catch (err: any) {
+            handleOpenChat()
+            refs.current['text'].value = ''
+            setContext("")
             await sweetErrorHandling(err)
         }
     }
@@ -86,7 +91,7 @@ const Chatting = () => {
                         Community Live Chatting
                         <RippleBadge
                             style={{ margin: "-30px 0 0 20px" }}
-                            badgeContent={verifiedMemberData?onlineUsers:0}
+                            badgeContent={verifiedMemberData ? onlineUsers : 0}
                         />
                     </div>
                 </Stack>
@@ -141,6 +146,7 @@ const Chatting = () => {
                 alignItems={"center"}
             >
                 <input
+                    ref={(ele) => refs.current["text"] = ele}
                     onKeyDown={hanleEnterTrigger}
                     type="text"
                     onChange={(e) => {

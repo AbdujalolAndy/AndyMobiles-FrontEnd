@@ -31,7 +31,7 @@ export const OurBrands = () => {
     const { targetTopBrands } = useSelector(targetBrandRetriever)
     const [scroll, setScroll] = useState<boolean>(false)
     const history = useHistory()
-
+    const screenWidth = window.screen.width
     //Three circle Hook
     useEffect(() => {
         function handlerScroll() {
@@ -61,13 +61,13 @@ export const OurBrands = () => {
             <Container>
                 <h1 className="text-center fw-bold">Shop by Brands</h1>
                 <Swiper
-                    slidesPerView={4}
+                    slidesPerView={screenWidth > 430 ? 4 : 3}
                     pagination={{ clickable: true }}
                     autoplay={{ delay: 2000, pauseOnMouseEnter: true }}
                     modules={[Autoplay, Pagination]}
                     data-aos="fade-left"
                     data-aos-delay={500}
-                    className={scroll ? "aos-animate" : ""}
+                    className={scroll ? "aos-animate brand-swiper" : "brand-swiper"}
                     style={{ transition: "all .3s ease-in-out" }}
                 >
                     <Stack className="brand_cards" flexDirection={"row"} justifyContent={"space-evenly"}>

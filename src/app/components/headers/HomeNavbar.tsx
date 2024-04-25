@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from "react"
-import { Box, Stack, Container } from "@mui/material"
+import { Box, Stack, Container, Menu, MenuItem } from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, EffectFade } from "swiper/modules"
 import { NavLink, useHistory } from "react-router-dom";
@@ -8,6 +8,10 @@ import { verifiedMemberData } from "../../apiServices/verified";
 import "swiper/css"
 import "../../css/general.css"
 import "../../css/navbar.css"
+import DeviceDetect from "../features/deviceDetector";
+import { MenuOutlined } from "@mui/icons-material";
+import { MobileNav } from "./mobileNav";
+import { MobileNavTop } from "./mobileNavTop";
 
 export const HomeNavbar = (props: any) => {
     //Initilizations
@@ -15,12 +19,11 @@ export const HomeNavbar = (props: any) => {
     const progressCircle = useRef(null);
     const progressContent = useRef(null);
     const [scrolled, setScrolled] = useState<Number>(0);
-    const history = useHistory()
-    if (props.device === "Mobile") {
-        modules.push(EffectFade)
-    }
+    const history = useHistory();
+    const [openMenu, setOpenMenu] = useState<boolean>(false)
     //
     useEffect(() => {
+
         const handleScroll = () => {
             setScrolled(window.scrollY);
         };
@@ -31,15 +34,26 @@ export const HomeNavbar = (props: any) => {
 
     }, [])
     //Handlers
+    const { isMobile } = DeviceDetect()
     const onAutoplayTimeLeft = (s: any, time: any, progress: any) => {
         //@ts-ignore
         progressCircle.current.style.setProperty('--progress', 1 - progress);
         //@ts-ignore
         progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
     };;
+    const handleOpenMenu = () => {
+        setOpenMenu(true)
+    }
+    const handleCloseMenu = () => {
+        setOpenMenu(false)
+    }
     return (
         <Box className="HomePage">
-            <Stack className={"position-relative"} justifyContent={"center"} flexDirection={"row"}>
+            <Stack
+                className={"position-relative"}
+                justifyContent={"center"}
+                flexDirection={"row"}
+            >
                 <Swiper
                     simulateTouch={true}
                     loop={true}
@@ -54,7 +68,7 @@ export const HomeNavbar = (props: any) => {
                     onAutoplayTimeLeft={onAutoplayTimeLeft}
                     className="homeSwiper"
                 >
-                    <SwiperSlide className=" slide_item_1 slide_vid position-relative">
+                    <SwiperSlide className="slide_item_1 slide_vid position-relative ">
                         <video
                             loop
                             muted
@@ -70,7 +84,7 @@ export const HomeNavbar = (props: any) => {
                             />
                         </video>
                         <Container>
-                            <div className="slide_vid_info position-absolute">
+                            <div className="slide_vid_info galaxy_slide position-absolute">
                                 <div className="vid-subtitle text-light btn btn-warning fw-bold">
                                     New
                                 </div>
@@ -98,7 +112,7 @@ export const HomeNavbar = (props: any) => {
                                 <div className="fs-1 text-secondary fw-bold">
                                     iPhone 15 Pro
                                 </div>
-                                <div className="text-white pb-4">
+                                <div className="text-white pb-4 apple_text">
                                     As part of Apple's ongoing efforts to achieve carbon neutrality by 2030, iPhone 15 Pro and iPhone 15 Pro Max product ranges do not include power adapters and EarPods. Instead, a USB-C charging cable that supports fast charging and is compatible with USB‑C
                                     power adapters and computer ports is included.
                                 </div>
@@ -244,6 +258,8 @@ export const HomeNavbar = (props: any) => {
                         </Stack>
                     </Box>
                 </Box>
+                <MobileNavTop handleLogOut={props.handleLogOut} handleSignUpOpen={props.handleSignUpOpen}/>
+                <MobileNav />
             </Stack>
         </Box>
     )

@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react"
+import { useEffect } from "react";
 
-export const DeviceDetector = () => {
-    const [device, setDevice] = useState<String>("");
-    useEffect(() => {
-        const handleDeviceDetector = () => {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isMobile = /iphone|ipad|ipod|android|blackberry|windows phone/g.test(userAgent);
-            const isTablet = /(ipad|tablet|playbook|silk)|(android(?!.*mobile))/g.test(userAgent);
-            if (isMobile && window.screen.width<600) {
-                setDevice("Mobile")
-            } else if (isTablet && window.screen.width<768) {
-                setDevice("Tablet")
-            } else {
-                setDevice("Desktop")
-            }
-        }
-        handleDeviceDetector();
-        window.addEventListener("resize", handleDeviceDetector)
-        return () => {
-            window.removeEventListener("resize", handleDeviceDetector)
-        }
-    }, [])
-    return device
-}
+const getDeviceDetect = (userAgent: NavigatorID["userAgent"]) => {
+    const isAndroid = () => Boolean(userAgent.match(/Android/i));
+    const isIos = () => Boolean(userAgent.match(/iPhone|iPad|iPod/i));
+    const isOpera = () => Boolean(userAgent.match(/Opera Mini/i));
+    const isWindows = () => Boolean(userAgent.match(/IEMobile/i));
+    const isSSR = () => Boolean(userAgent.match(/SSR/i));
+    const isMobile = () =>
+        Boolean(isAndroid() || isIos() || isOpera() || isWindows());
+    const isDesktop = () => Boolean(!isMobile() && !isSSR());
+    return {
+        isMobile,
+        isDesktop,
+        isAndroid,
+        isIos,
+        isSSR,
+    };
+};
+const DeviceDetect = () => {
+    useEffect(() => { }, []);
+    const userAgent =
+        typeof navigator === "undefined" ? "SSR" : navigator.userAgent;
+    return getDeviceDetect(userAgent);
+};
 
+export default DeviceDetect;

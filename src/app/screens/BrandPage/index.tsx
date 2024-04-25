@@ -213,8 +213,14 @@ const BrandPage = () => {
                         )}
                     />
                 </Container>
+                <DownToUpBtn address={"#"} />
             </Box>
-            <DownToUpBtn address={"#"} />
+            <Container>
+                <Box className={"notify-warn"}>
+                    Mobile version is developing now <br />
+                    Enjoy with desktop version untill mobile version is done.
+                </Box>
+            </Container>
         </Box>
     )
 }

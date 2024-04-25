@@ -36,5 +36,4 @@ function HomePage(props: any) {
         </Box>
     )
 }
-
 export default HomePage

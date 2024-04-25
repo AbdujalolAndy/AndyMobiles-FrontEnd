@@ -44,7 +44,7 @@
     background-repeat: no-repeat;
 }
 
-.redmi_home .redmi_info{
+.redmi_home .redmi_info {
     width: 400px;
     text-align: center;
 }
@@ -227,8 +227,107 @@
     color: black
 }
 
-@media only screen and (max-width:600px) {
-    .navbar-container{
+/*Adaptive design*/
+.container-mobile {
+    max-width: 430px !important;
+}
+
+.mobile-nav {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 100;
+    display: none;
+    margin-top: 0;
+    background-color: aliceblue;
+    padding: 10px;
+}
+
+.bottom_nav {
+    display: none;
+    position: fixed;
+    bottom: 0vh;
+    height: 70px;
+    left: 0;
+    width: 100%;
+    background-color: aliceblue;
+    padding: 20px 10px;
+    color: white;
+    z-index: 10000;
+    /* Adjust as needed */
+
+}
+
+.bottom_nav a {
+    text-decoration: none;
+    color: black
+}
+
+.bottom_nav_text {
+    font-size: 10px;
+    font-weight: bold
+}
+
+.bottom_nav .selected_nav {
+    color: #FFC107
+}
+
+
+
+@media only screen and (max-width:440px) {
+    .navbar-container {
         display: none;
     }
+
+    .mobile-nav {
+        display: flex !important;
+
+    }
+
+    .slide_vid video {
+        display: none;
+    }
+
+    .bottom_nav {
+        display: flex !important;
+
+    }
+
+    .slide_item_1 video {
+        display: none;
+    }
+
+    .slide_item_1 {
+        background-image: url("../../../public/pictures/products/galaxy_24.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .galaxy_slide .w-50 {
+        font-size: 12px;
+        color: white !important;
+    }
+
+    .slide_item_2 .apple_text {
+        font-size: 10px;
+    }
+
+    .slide_item_2 img {
+        width: 200px;
+    }
+
+    .redmi_home {
+        background-position: 55% 80% !important;
+    }
+
+    .redmi_info {
+        color: white;
+    }
+
+    /*Other Navbar*/
+    .otherNavbar,
+    .productNavbar {
+        display: none;
+    }
+
 }

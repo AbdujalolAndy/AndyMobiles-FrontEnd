@@ -1,10 +1,10 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import { Box, Container, Stack, Tab } from "@mui/material"
 import { useEffect, useState } from "react"
-import "../../css/faqPage.css"
 import Inquiry from "./inquiry"
 import { faq } from "./faqs"
 import { DownToUpBtn } from "../../components/features/downToUpBtn"
+import "../../css/faqPage.css"
 
 const FaqPage = () => {
     //initializations
@@ -28,11 +28,11 @@ const FaqPage = () => {
                         </Box>
                         <Box>
                             <TabList>
-                                <Tab className="fw-bold" value="1" label="General" onClick={() => handleValue("1")} />
-                                <Tab className="fw-bold" value="2" label="Payment" onClick={() => handleValue("2")} />
-                                <Tab className="fw-bold" value="3" label="Services" onClick={() => handleValue("3")} />
-                                <Tab className="fw-bold" value="4" label="Refund" onClick={() => handleValue("4")} />
-                                <Tab className="fw-bold" value="5" label="Contact" onClick={() => handleValue("5")} />
+                                <Tab className="fw-bold subtitle" value="1" label="General" onClick={() => handleValue("1")} />
+                                <Tab className="fw-bold subtitle" value="2" label="Payment" onClick={() => handleValue("2")} />
+                                <Tab className="fw-bold subtitle" value="3" label="Services" onClick={() => handleValue("3")} />
+                                <Tab className="fw-bold subtitle" value="4" label="Refund" onClick={() => handleValue("4")} />
+                                <Tab className="fw-bold subtitle_last " value="5" label="Contact" onClick={() => handleValue("5")} />
                             </TabList>
                         </Box>
 

@@ -5,7 +5,7 @@ import { DownToUpBtn } from "./downToUpBtn";
 
 
 const export_answer = [
-    "It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
+    "If you need to help for purchasing a product, please contact with us!",
     "Usually it depends on your location if you live on the island it takes about 2 business days",
     "Yes you can If you don't open product We can take back and 2~3 business day we will transit to your card",
     "We work 24 hours a day in full year, Feel free contact with us"
@@ -39,7 +39,7 @@ const ChattingClient = (props: any) => {
         <Stack
             data-aos="fade-up"
             data-aos-delay={100}
-            className={props.openChat ? "clientChattingPage aos-animate" : "clientChattingPage"}
+            className={props.openChat ? "clientChattingPage aos-animate " : "clientChattingPage"}
             style={props.openChat ? { zIndex: 10000 } : {}}
         >
             <Stack direction={"row"} justifyContent={"space-between"} className="chatting-header">

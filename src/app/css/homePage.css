@@ -85,9 +85,11 @@
 
 /* Swiper Style */
 
+
 /* Hot Products */
 .product-swiper {
     height: 400px;
+    overflow: hidden;
 }
 
 .hot-products-title {
@@ -553,7 +555,7 @@
 }
 
 .post_card .post_img img {
-    width:auto;
+    width: auto;
     max-height: 200px;
     position: relative;
     z-index: 10;
@@ -652,3 +654,211 @@
 /* Service Info Style */
 
 /*Screen Resolution*/
+@media (max-width:440px) {
+
+    /*HomeNavbar responsive*/
+    .brand-swiper {
+        opacity: 1 !important;
+        transform: translateZ(0)
+    }
+
+    .slider-card {
+        height: 100px !important;
+        width: 120px !important;
+    }
+
+    .card-body {
+        display: block !important;
+    }
+
+    .card-text {
+        font-size: 7px !important;
+    }
+
+    .slider_icon {
+        font-size: 6px;
+    }
+
+    .card-price {
+        font-size: 5px;
+    }
+
+    .color-select button {
+        height: 20px;
+        width: 20px;
+    }
+
+    .hot-products-title {
+        font-size: 20px !important;
+    }
+
+    .product-swiper {
+        height: 240px !important;
+        margin-bottom: 50px;
+    }
+
+    .product_sort .color-select>span {
+        font-size: 5px;
+    }
+
+    .product_sort {
+        display: flex;
+        z-index: 1000;
+    }
+
+    .card-img {
+        height: 140px !important;
+        display: flex;
+        align-items: center;
+    }
+    .card-img_badge{
+        height: 10px;
+        width: 30px;
+        font-size: 6px !important;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        left: 0px !important;
+    }
+
+
+    .swiper-card .card-img>img {
+        width: auto !important;
+        height: 100px;
+    }
+
+    /*DAEAL RESPONSIVE*/
+    .deal-contract {
+        background-image: url("../../../public/icons/monthly_payment.jpg");
+        background-size: contain;
+    }
+
+    .deal-contract .deal_info p>.d-none {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block !important;
+        height: 100%;
+        width: 100%;
+        background-color: white;
+        opacity: 0.6;
+        z-index: 2;
+    }
+
+    .deal-contract .deal_info p>div:nth-child(2) {
+        position: relative;
+        z-index: 10;
+    }
+
+    .deal-contract-body {
+        gap: 0 !important;
+    }
+
+    .deal-contract .deal_btns {
+        justify-content: center;
+    }
+
+    .deal-contract .deal_btns a:nth-child(2) {
+        font-weight: bold;
+        background-color: #f4f8f9;
+    }
+
+    .deal-contract .deal_learn span {
+        font-weight: bold;
+    }
+
+    .deal-contract .deal_info p {
+        position: relative;
+        color: black !important;
+        font-weight: bold;
+        width: 100%;
+    }
+
+    .deal-contract .deal_title {
+        height: 100px;
+        color: black;
+        font-size: 20px !important;
+    }
+
+    .deal-contract>div {
+        margin-top: 20px !important;
+    }
+
+    .deal-contract .deal_img img {
+        display: none;
+    }
+
+    .deal-contract .deal_title {
+        width: 100% !important;
+    }
+
+
+    .deal-contract .guarantee_img {
+        display: none;
+    }
+
+    .deal-contract .deal_info{
+        margin-top: 50px;
+    }
+
+    /*Our brands*/
+    .brand_card {
+        height: 120px;
+        width: 120px;
+        margin-right: 100px !important;
+    }
+    .brand_card .brand_img img{
+        width: 40px !important;
+    }
+
+    /*HOME Target Pictures*/
+    .product_card {
+        opacity: 1 !important;
+        transform: translateZ(0)
+    }
+
+    .product_card {
+        height: 350px;
+        width: 250px;
+    }
+
+    .product_cards {
+        justify-content: center !important;
+    }
+
+    /*Service */
+    .serviceInfo-body p {
+        font-size: 10px !important;
+        padding: 0 !important;
+    }
+
+    .title {
+        font-size: 14px !important;
+        margin-bottom: 10px;
+    }
+
+    /*Footer*/
+    .social-links a {
+        padding: 10px;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+    }
+    .privacies>div>div{
+        font-size: 8px !important;
+    }
+
+    .contact-us_info_text{
+        font-size: 14px !important;
+    }
+    /*DowntoUp Btn*/
+    .down-to-up{
+        bottom: 100px !important;
+    }
+
+    /*Chatting*/
+    .chattingPage{
+        z-index: 100000000 !important;
+    }
+}

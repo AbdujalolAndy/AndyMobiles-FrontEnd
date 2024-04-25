@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { Route, Switch, useParams, useRouteMatch } from "react-router-dom"
 import { ChosenProduct } from "./chosenProduct"
 import AllProducts from "./allProducts"
-import { Box } from "@mui/material"
+import { Box, Container } from "@mui/material"
 import "../../css/productPage.css"
 
 
@@ -30,6 +30,12 @@ const ProductsPage = (props: any) => {
                     </Route>
                 </Switch>
             </Box>
+            <Container>
+                <Box className={"notify-warn"}>
+                    Mobile version is developing now <br />
+                    Enjoy with desktop version untill mobile version is done.
+                </Box>
+            </Container>
         </Box>
     )
 }

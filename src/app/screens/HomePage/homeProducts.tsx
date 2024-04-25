@@ -27,7 +27,12 @@ export const HomeProducts = (props: HomePageProducts) => {
         props.setSearchObjHome({ ...props.searchObjHome })
     }
     return (
-        <Stack className="product_cards" flexDirection={"row"} flexWrap={"wrap"} justifyContent={"start"}>
+        <Stack
+            className="product_cards"
+            flexDirection={"row"}
+            flexWrap={"wrap"}
+            justifyContent={"start"}
+        >
             {props.products.map((ele: Product, index) => {
                 const image_url_1 = `${serverApi}/${ele.product_images[0]}`
                 const image_url_2 = `${serverApi}/${ele.product_images[1]}`

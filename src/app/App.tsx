@@ -13,7 +13,6 @@ import { AuthenticationModal } from './components/authModal'
 import { Basket } from './components/basket'
 import { ProductNavbar } from './components/headers/productNavbar'
 import Chatting from './components/features/chattingModal'
-import { DeviceDetector } from './components/features/deviceDetector'
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../lib/sweetAlert'
 import { MemberServiceApi } from './apiServices/memberServiceApi'
 import MemberPage from './screens/MyPage'
@@ -37,7 +36,6 @@ const actionDispatch = (dispatch: Dispatch) => ({
 const App: React.FC = () => {
 
   //Initilizations
-  const device = DeviceDetector();
   const { pathname } = useLocation();
   const [openAuth, setOpenAuth] = useState(false);
   const [openBasket, setOpenBasket] = useState(false);
@@ -109,7 +107,6 @@ const App: React.FC = () => {
         handleSignUpOpen={handleSignUpOpen}
         handleBasketOpen={handleBasketOpen}
         handleLogOut={handleLogOut}
-        device={device}
         likedItemAmount={likedItemAmount}
         ordersAmount={ordersAmount}
       /> :
@@ -203,7 +200,6 @@ const App: React.FC = () => {
         </Route>
         <Route path='/'>
           <HomePage
-            deviceDetect={device}
             setRebuild={setRebuild}
             handleSaveBasket={handleSaveBasket}
           />

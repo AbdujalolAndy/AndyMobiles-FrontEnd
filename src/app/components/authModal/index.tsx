@@ -20,6 +20,7 @@ export const AuthenticationModal = (props: any) => {
     const [login_mb_nick, set_login_mb_nick] = useState<string>("")
     const [login_mb_email, set_login_mb_email] = useState<string>("")
     const [login_mb_password, set_login_mb_password] = useState<string>("")
+    const resizeWidth = window.screen.width
     //Handlers
     const handleSignUpRequest = async () => {
         try {
@@ -95,7 +96,7 @@ export const AuthenticationModal = (props: any) => {
         }
     }
     return (
-        <Box>
+        <Box className="modal_auth">
             <Modal
                 aria-labelledby="transition modal-title"
                 aria-describedby="transition modal description"
@@ -108,7 +109,7 @@ export const AuthenticationModal = (props: any) => {
                 <Fade
                     in={props.openAuth}
                 >
-                    <Stack className="bg-light" sx={{ width: "800px", height: "400px", position: "absolute", top: "25%", left: "26%", borderRadius: "20px" }}>
+                    <Stack className="bg-light authMain" sx={{ width: "800px", height: "400px", position: "absolute", top: "25%", left: "26%", borderRadius: "20px" }}>
                         <Box className="auth_container">
                             <Box className={"auth_signUp"} style={signIn ? {} : { transform: "translateX(100%)", opacity: "1", zIndex: "5" }}>
                                 <Box className={"signUp_body"}>
@@ -119,6 +120,10 @@ export const AuthenticationModal = (props: any) => {
                                     <input type="password" placeholder="Password" onChange={(e) => { setPassword(e.target.value) }} />
                                     <input onKeyDown={handleKeyDownSignUp} type="password" placeholder="Re-enter Password" onChange={(e) => { setCheckPassword(e.target.value) }} />
                                     <button className={'btn btn-dark'} onClick={handleSignUpRequest} >Sign Up</button>
+                                    {resizeWidth < 450 ? (
+                                        <div className="text-danger mt-2" onClick={() => toggle(true)}>Sign In</div>
+                                    ) : null}
+
                                 </Box>
                             </Box>
                             <Box className={"auth_logIn"}>
@@ -128,6 +133,9 @@ export const AuthenticationModal = (props: any) => {
                                     <input onKeyDown={handleKeyDownLogIn} type="password" placeholder="Password" onChange={(e) => set_login_mb_password(e.target.value)} />
                                     <a className={"auth_anchor text-danger"} href="#">If you forget your password, you can log in with your signed up email address </a>
                                     <button className="btn btn-dark" onClick={handleLogInRequest}>Sign In</button>
+                                    {resizeWidth < 450 ? (
+                                        <div className="text-danger mt-2" onClick={() => toggle(false)}>Sign Up</div>
+                                    ) : null}
                                 </Box>
                             </Box>
                             <Box className={"auth_overlay bg-warning"} style={signIn ? {} : { transform: "translateX(-100%)" }}>

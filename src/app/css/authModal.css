@@ -118,6 +118,7 @@
     transform: translateX(0);
     transition: transform 0.6s ease-in-out;
 }
+
 .overlay_panel {
     display: flex;
     align-items: center;
@@ -147,4 +148,41 @@ p {
     line-height: 20px;
     letter-spacing: 0.5px;
     margin: 30px 0 70px;
+}
+
+@media only screen and (max-width:440px) {
+    .modal_auth {
+        position: relative;
+    }
+
+    .authMain {
+        top: 25%;
+        left: 0% !important;
+        width: 100% !important;
+        height: 300px !important;
+    }
+
+    .auth_logIn {
+        width: 100%;
+    }
+
+    .auth_signUp {
+        width: 100% !important;
+        transform: translateX(0%) !important;
+    }
+
+    .overlay_panel {
+        /* Adjust the width of the overlay panel for mobile */
+        width: 100%;
+    }
+
+    .righ_overlay,
+    .auth_overlay {
+        display: none !important;
+    }
+
+    p {
+        /* Adjust paragraph font size for mobile */
+        font-size: 16px;
+    }
 }

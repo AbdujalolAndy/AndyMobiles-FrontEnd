@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Stack, Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs } from "@mui/material";
 import { AddCircle, RemoveCircle } from "@mui/icons-material";
-import "../../css/trackOrderPage.css"
 import OrderServiceApi from "../../apiServices/orderServiceApi";
 import { CardDetail, Order, OrderItem } from "../../types/order";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material"
+import "../../css/trackOrderPage.css"
 
 //REDUX
 import { createSelector } from "reselect"
@@ -166,7 +166,7 @@ const TrackOrderPage = (props: any) => {
     }
     return (
         <Box className={"trackPage"}>
-            <Container>
+            <Container className="trackPage-main">
                 <Box className={"track_order"}>
                     <div className="track_title fw-bold fs-2">
                         Track your Order
@@ -347,8 +347,14 @@ const TrackOrderPage = (props: any) => {
                         </Box>
                     </Box>
                 </Box>
+                <DownToUpBtn address={"#"} />
             </Container>
-            <DownToUpBtn address={"#"} />
+            <Container>
+                <Box className={"notify-warn"}>
+                    Mobile version is developing now <br />
+                    Enjoy with desktop version untill mobile version is done.
+                </Box>
+            </Container>
         </Box>
     )
 }
