@@ -8,7 +8,8 @@
       "esnext"
     ],
     "types": [
-      "kakao.maps.d.ts"
+      "kakao.maps.d.ts",
+      "node"
     ],
     "allowJs": true,
     "skipLibCheck": true,

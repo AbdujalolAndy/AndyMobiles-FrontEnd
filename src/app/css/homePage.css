@@ -665,6 +665,7 @@
     .slider-card {
         height: 100px !important;
         width: 120px !important;
+        border-radius: 0;
     }
 
     .card-body {
@@ -710,8 +711,10 @@
         height: 140px !important;
         display: flex;
         align-items: center;
+        border-radius: 0 !important;
     }
-    .card-img_badge{
+
+    .card-img_badge {
         height: 10px;
         width: 30px;
         font-size: 6px !important;
@@ -727,10 +730,55 @@
         height: 100px;
     }
 
+    .card-features {
+        top: 10px;
+        right: 10px;
+    }
+
+    .card-features div {
+        height: 25px;
+        width: 25px;
+        border-radius: 50% !important;
+    }
+
+    .card-features div i {
+        font-size: 10px;
+    }
+    .product_sort{
+        display: flex !;
+        justify-content: space-evenly !important;
+        border-radius: 0 !important;
+        height: 50px;
+        width: 90% !important;
+        padding: 0px !important;
+    }
+    .product_sort .color-select{
+        padding: 0 !important;
+    }
+    .product_sort .color-select>span {
+        font-size: 5px;
+        font-weight: bold;
+        color: black;
+        padding: 0;
+        border-radius: 5px;
+    }
+
+    .color-select button {
+        height: 20px;
+        width: 20px;
+    }
+    .color-select button img{
+        width: 10px !important;
+        height: 15px;
+    }
+
     /*DAEAL RESPONSIVE*/
     .deal-contract {
         background-image: url("../../../public/icons/monthly_payment.jpg");
         background-size: contain;
+        background-repeat: no-repeat;
+        height: auto;
+        padding: 20px 0;
     }
 
     .deal-contract .deal_info p>.d-none {
@@ -741,8 +789,9 @@
         height: 100%;
         width: 100%;
         background-color: white;
-        opacity: 0.6;
+        opacity: 0.7;
         z-index: 2;
+        border-radius: 10px;
     }
 
     .deal-contract .deal_info p>div:nth-child(2) {
@@ -772,6 +821,7 @@
         color: black !important;
         font-weight: bold;
         width: 100%;
+        padding: 10px;
     }
 
     .deal-contract .deal_title {
@@ -797,9 +847,6 @@
         display: none;
     }
 
-    .deal-contract .deal_info{
-        margin-top: 50px;
-    }
 
     /*Our brands*/
     .brand_card {
@@ -807,7 +854,8 @@
         width: 120px;
         margin-right: 100px !important;
     }
-    .brand_card .brand_img img{
+
+    .brand_card .brand_img img {
         width: 40px !important;
     }
 
@@ -845,20 +893,27 @@
         align-items: center;
         text-decoration: none;
     }
-    .privacies>div>div{
+
+    .privacies>div>div {
         font-size: 8px !important;
     }
 
-    .contact-us_info_text{
+    .contact-us_info_text {
         font-size: 14px !important;
     }
+
     /*DowntoUp Btn*/
-    .down-to-up{
+    .down-to-up {
         bottom: 100px !important;
     }
 
     /*Chatting*/
-    .chattingPage{
+    .chattingPage {
         z-index: 100000000 !important;
+    }
+
+    /* Post Blog*/
+    .communityHomePosts {
+        margin-top: 200px;
     }
 }

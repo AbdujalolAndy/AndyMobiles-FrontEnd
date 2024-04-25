@@ -38,6 +38,7 @@ export const NewProducts = (props: any) => {
     const history = useHistory();
     const location = useLocation()
     const refs: any = useRef([])
+    const resizeWidth = window.screen.width
     //3 circle
     useEffect(() => {
         const productServiceApi = new ProductServiceApi();
@@ -63,7 +64,7 @@ export const NewProducts = (props: any) => {
                 Shop all latest offers
             </Box>
             <Swiper
-                slidesPerView={5}
+                slidesPerView={resizeWidth < 440 ? 4 : 5}
                 spaceBetween={30}
                 loop={true}
                 pagination={{
@@ -79,7 +80,7 @@ export const NewProducts = (props: any) => {
             >
                 {randomNewProducts.map((ele: Product, index) => {
                     let image_url_1 = `${serverApi}/${ele.product_images[0]}`,
-                        image_url_2 = ele.product_images[1]?`${serverApi}/${ele.product_images[1]}`:`/pictures/products/${ele.product_color}_phone.webp`,
+                        image_url_2 = ele.product_images[1] ? `${serverApi}/${ele.product_images[1]}` : `/pictures/products/${ele.product_color}_phone.webp`,
                         discount_price = ele.product_price - (ele.product_price * (ele.product_discount / 100))
                     return (
                         <SwiperSlide
@@ -106,6 +107,7 @@ export const NewProducts = (props: any) => {
 
                                         >
                                             <Favorite
+                                                className="heart_mobile_size"
                                                 style={{ fill: ele?.me_liked && ele?.me_liked[0]?.mb_id ? "red" : "white" }}
                                                 onClick={(e: any) => { handleLikeItem(e, ele, "PRODUCT", refs, props.setRebuild, true) }} />
                                         </div>

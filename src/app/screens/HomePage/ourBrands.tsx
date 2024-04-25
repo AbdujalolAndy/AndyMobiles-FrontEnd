@@ -61,7 +61,7 @@ export const OurBrands = () => {
             <Container>
                 <h1 className="text-center fw-bold">Shop by Brands</h1>
                 <Swiper
-                    slidesPerView={screenWidth > 430 ? 4 : 3}
+                    slidesPerView={screenWidth > 430 ? 4 : screenWidth < 400 ? 2 : 3}
                     pagination={{ clickable: true }}
                     autoplay={{ delay: 2000, pauseOnMouseEnter: true }}
                     modules={[Autoplay, Pagination]}
@@ -92,9 +92,7 @@ export const OurBrands = () => {
                             )
                         })}
                     </Stack>
-
                 </Swiper>
-
             </Container>
         </Box>
     )
