@@ -47,7 +47,6 @@ export  const MyPage = (props: any) => {
     const { setChosenMember, setChosenBlog, setTargetReviews } = actionDispatch(useDispatch());
     const { chosenMember } = useSelector(retrieveChosenMember);
     const [reBuild, setRebuild] = useState<Date>(new Date());
-    const history = useHistory()
     let localValue: any;
     //React Hook
     useEffect(() => {
