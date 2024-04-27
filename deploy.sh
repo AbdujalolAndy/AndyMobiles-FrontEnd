@@ -7,7 +7,7 @@ git pull origin master
 npm i yarn -g
 yarn
 yarn run build
-pm2 start "yarn run start:prod" --name=ANDYMOBILE-REACT
+pm2 start "serve -s build" --name=ANDYMOBILE-REACT
 
 # DEVELOPMENT
 # npm i yarn -g
