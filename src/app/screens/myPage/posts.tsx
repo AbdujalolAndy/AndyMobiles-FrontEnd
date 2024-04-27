@@ -1,8 +1,7 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import { Box, Stack, Tab } from "@mui/material"
 import { useEffect, useState } from "react"
-import TargetPosts from "./targetPosts"
-import { verifiedMemberData } from "../../apiServices/verified"
+import { TargetPosts } from "./targetPosts"
 import CommunityServiceApi from "../../apiServices/communityServiceApi"
 
 //Redux

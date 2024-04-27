@@ -9,16 +9,16 @@ import { useEffect, useState } from "react"
 import { verifiedMemberData } from "../../apiServices/verified"
 import { sweetErrorHandling, sweetFailureProvider } from "../../../lib/sweetAlert"
 import Definer from "../../../lib/Definer"
-import Followers from "./followers"
+import {Followers} from "./followers"
 import Followings from "./followings"
 
 //Redux
 import { createSelector } from "reselect";
 import { MemberServiceApi } from "../../apiServices/memberServiceApi"
-import { Dispatch, createSlice } from "@reduxjs/toolkit"
+import { Dispatch} from "@reduxjs/toolkit"
 import { Member } from "../../types/member"
 import { setChosenBlog, setChosenMember, setTargetReviews } from "./slice"
-import { chosenBlogRetrieve, chosenMemberRetrieve, targetBlogsRetrieve, targetReviewsRetrieve } from "./selector"
+import { chosenMemberRetrieve} from "./selector"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation, useParams } from "react-router-dom"
 import { ViewerPage } from "../../components/tuiEditor/tuiViewer"
@@ -40,16 +40,8 @@ const retrieveChosenMember = createSelector(
     (chosenMember) => ({ chosenMember })
 )
 
-const chosenBlogRetriever = createSelector(
-    chosenBlogRetrieve,
-    (chosenBlog) => ({ chosenBlog })
-)
-const retrieveTargetReviews = createSelector(
-    targetReviewsRetrieve,
-    (targetReviews) => ({ targetReviews })
-)
 
-export const MyPage = (props: any) => {
+export  const MyPage = (props: any) => {
     //Initilizations
     const [value, setValue] = useState<string>("1");
     const { setChosenMember, setChosenBlog, setTargetReviews } = actionDispatch(useDispatch());

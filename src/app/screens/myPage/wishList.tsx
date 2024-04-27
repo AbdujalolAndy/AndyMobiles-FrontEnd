@@ -2,9 +2,8 @@ import { Box, Button, Stack, Table, TableBody, TableCell, TableHead, TableRow } 
 
 //REDUX 
 import { createSelector } from "reselect"
-import { setWishListItems } from "./slice";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useEffect, useRef} from "react";
 import { MemberServiceApi } from "../../apiServices/memberServiceApi";
 import { serverApi } from "../../../lib/config";
 import { stringSplitterHandler } from "../../components/features/stringSplitter";
@@ -36,7 +35,7 @@ const WishList = (props: any) => {
         }
     }, [])
 
-    //Handlers
+    //Handle
     async function handleChangeQnt(e: any, product: WishListItem, modifier: number) {
         try {
             //fixed_price

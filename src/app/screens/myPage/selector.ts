@@ -1,4 +1,3 @@
-import MemberPage from ".";
 import { AppRootState } from "../../types/screen";
 import { createSelector } from 'reselect'
 const selectMembePage = (state: AppRootState) => state.memberPage

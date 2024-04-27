@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 
 //Redux
 import { createSelector } from "reselect"
-import { setFollowers, setFollowings } from "./slice";
-import { followersRetrieve, followingsRetrieve } from "./selector";
+import { setFollowings } from "./slice";
+import { followingsRetrieve } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 

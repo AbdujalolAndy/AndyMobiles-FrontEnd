@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, Stack } from "@mui/material"
+import { Box, Stack } from "@mui/material"
 import { verifiedMemberData } from "../../apiServices/verified"
 import { sweetErrorHandling, sweetTopSmallSuccessAlert, sweetTopSuccessAlert } from "../../../lib/sweetAlert"
 import { MemberServiceApi } from "../../apiServices/memberServiceApi"

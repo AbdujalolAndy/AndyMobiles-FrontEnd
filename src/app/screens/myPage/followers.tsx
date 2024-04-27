@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 
 //Redux
 import { createSelector } from "reselect"
-import { setFollowers, setFollowings } from "./slice";
-import { followersRetrieve, followingsRetrieve } from "./selector";
+import { setFollowers} from "./slice";
+import { followersRetrieve} from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import { verifiedMemberData } from "../../apiServices/verified";
 import { useHistory } from "react-router-dom";
@@ -24,7 +24,7 @@ const retrieveFollowers = createSelector(
     followersRetrieve,
     (followers) => ({ followers })
 )
-const Followers = (props: any) => {
+export const Followers = (props: any) => {
     //Initializations
     const { setFollowers } = actionDispatch(useDispatch())
     const { followers } = useSelector(retrieveFollowers)
@@ -189,5 +189,3 @@ const Followers = (props: any) => {
         </Box>
     )
 }
-
-export default Followers

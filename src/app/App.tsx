@@ -15,7 +15,7 @@ import { ProductNavbar } from './components/headers/productNavbar'
 import Chatting from './components/features/chattingModal'
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../lib/sweetAlert'
 import { MemberServiceApi } from './apiServices/memberServiceApi'
-import MemberPage from './screens/MyPage'
+import MemberPage from './screens/MyPage/index'
 import "./css/general.css"
 import "./css/navbar.css"
 
@@ -24,8 +24,6 @@ import { Dispatch } from '@reduxjs/toolkit'
 import { WishListItem } from './types/others'
 import { setWishListItems } from './screens/MyPage/slice'
 import { useDispatch } from 'react-redux'
-import { verifiedMemberData } from './apiServices/verified'
-import { Product } from './types/product'
 import { BasketItem, OrderItem } from './types/order'
 
 

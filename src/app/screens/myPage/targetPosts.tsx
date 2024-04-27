@@ -9,7 +9,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { verifiedMemberData } from "../../apiServices/verified"
 
-const TargetPosts = (props: any) => {
+export const TargetPosts = (props: any) => {
 
     //Handlers
     async function handleDeletePost(blog_id: string) {
@@ -189,5 +189,3 @@ const TargetPosts = (props: any) => {
         </Stack >
     )
 }
-
-export default TargetPosts
