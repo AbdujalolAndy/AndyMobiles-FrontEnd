@@ -618,7 +618,7 @@
     width: 100%;
     height: 330px;
     position: relative;
-    z-index: 100;
+    z-index: 99;
 }
 
 .service-wrapper {

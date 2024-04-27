@@ -73,7 +73,6 @@ export const Basket = (props: any) => {
                         <div className="fs-3">Cart</div>
                         <div className="close_toggle" onClick={props.handleBasketClose}><i className="fa-solid fa-xmark"></i></div>
                     </Stack>
-                    <hr />
                     <Stack
                         className="basket_products "
                         justifyContent={"center"}
@@ -88,7 +87,7 @@ export const Basket = (props: any) => {
                                     style={{ padding: "20px 10px", borderBottom: "1px solid Black" }}
                                 >
                                     <div className="product_img">
-                                        <img src={basket_image_url} style={{ width: "40px" }} alt="" />
+                                        <img src={basket_image_url} alt="" />
                                     </div>
                                     <Stack className="product_info ms-4" flexDirection={"row"}>
                                         <Stack className="product_price" flexDirection={"column"} gap="10px">
@@ -129,7 +128,7 @@ export const Basket = (props: any) => {
                         })}
                     </Stack>
 
-                    <div className="mt-4">
+                    <div className="mt-4 basket-footer">
                         <hr />
                         <Stack flexDirection={"row"} justifyContent={"space-between"} className="fw-bold">
                             <div>Total:</div>

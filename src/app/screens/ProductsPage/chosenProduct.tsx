@@ -7,7 +7,6 @@ import { TabContext, TabPanel } from "@mui/lab";
 import ProductDescription from "./ProductDescription";
 import ProductReview from "./productReview";
 import ReviewWriting from "./reviewWriting";
-import PickUpCenter from "./pickupCenter";
 import ChattingClient from "../../components/features/clientChattingModal";
 import ProductServiceApi from "../../apiServices/productServiceApi";
 import ReactImageMagnify from "react-image-magnify"
@@ -34,6 +33,7 @@ import { BasketItem } from "../../types/order";
 import assert from "assert";
 import Definer from "../../../lib/Definer";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import KakaoMap from "../../components/features/kakaoMap";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -67,6 +67,8 @@ export const ChosenProduct = (props: any) => {
         [reBuild, setRebuild] = useState<Date>(new Date),
         [disabledBtn, setDisabledBtn] = useState<boolean>(false),
         main_img = magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`,
+        address = chosenProduct?.company_data.mb_address,
+        [coords, setCoords] = useState<{ lat: any, lng: any }>({ lat: 3123, lng: 122 }),
         styleColor = {
             borderColor: "#0066AE",
             color: chosenColor,
@@ -105,6 +107,19 @@ export const ChosenProduct = (props: any) => {
         }
     }, [reBuild])
 
+    //lifecirle
+    useEffect(() => {
+        if (chosenProduct && chosenProduct.company_data && chosenProduct.company_data.mb_address) {
+            const geocoder = new kakao.maps.services.Geocoder();
+            const addressToSearch = chosenProduct.company_data.mb_address;
+            geocoder.addressSearch(addressToSearch, (result: any, status) => {
+                if (status === kakao.maps.services.Status.OK) {
+                    const newcoords = { lat: parseFloat(result[0].y), lng: parseFloat(result[0].x) };
+                    setCoords(newcoords);
+                }
+            });
+        }
+    }, [chosenProduct])
     //Handlers
     function handleOpenChat() { setOpenChat(true) };
     function handleCloseChat() { setOpenChat(false) };
@@ -439,7 +454,7 @@ export const ChosenProduct = (props: any) => {
                         className={termsAgree ? "btn btn-warning mb-3" : "btn btn-warning mb-3 disabled"}
                         //@ts-ignore
                         onClick={async () => {
-                            await handleBuyProduct(chosenProduct, productObj,"/track-order")
+                            await handleBuyProduct(chosenProduct, productObj, "/track-order")
                         }}
                     >
                         BUY IT NOW
@@ -499,8 +514,17 @@ export const ChosenProduct = (props: any) => {
                         <ReviewWriting product_id={chosenProduct?._id} title_enabled={true} item_group={"PRODUCT"} setRebuildReview={setRebuild} />
                     </TabPanel>
                 </TabContext>
-                <PickUpCenter lat={chosenProduct?.company_data?.lat} lng={chosenProduct?.company_data?.lng} title={chosenProduct?.company_data?.mb_nick} />
-                <NewProducts searchProducts={{ limit: 5, order: "createdAt", random: true, contractMonth: [] }} />
+                <Box>
+                    <div className="fw-bold fs-3 text-center pt-3 pb-3">Visit Our Self-Pickup Center</div>
+                    <KakaoMap
+                        coords={coords}
+                        title={chosenProduct?.company_data?.mb_nick}
+                    />
+                </Box>
+                <NewProducts
+                    searchProducts={{ limit: 5, order: "createdAt", random: true, contractMonth: [] }}
+                    handleSaveBasket={props.handleSaveBasket}
+                />
             </Box>
             <DownToUpBtn address={"#"} />
         </Box>
