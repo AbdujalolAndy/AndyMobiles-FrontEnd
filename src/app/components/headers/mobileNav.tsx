@@ -1,5 +1,6 @@
 import { Stack } from "@mui/material"
 import { NavLink } from "react-router-dom"
+import { verifiedMemberData } from "../../apiServices/verified"
 
 export const MobileNav = () => {
     return (
@@ -34,18 +35,23 @@ export const MobileNav = () => {
                     <div className="bottom_nav_text">HOME</div>
                 </Stack>
             </NavLink>
-            <NavLink to="/user-page" activeClassName="selected_nav">
-                <Stack alignItems={"center"}>
-                    <div><i className="fa-solid fa-user"></i></div>
-                    <div className="bottom_nav_text">MY PAGE</div>
-                </Stack>
-            </NavLink>
-            <NavLink to="/track-order" activeClassName="selected_nav">
-                <Stack alignItems={"center"}>
-                    <div><i className="fa-solid fa-truck-fast"></i></div>
-                    <div className="bottom_nav_text">TRACK ORDER</div>
-                </Stack>
-            </NavLink>
+            {
+                verifiedMemberData ? (<div>
+                    <NavLink to="/user-page" activeClassName="selected_nav">
+                        <Stack alignItems={"center"}>
+                            <div><i className="fa-solid fa-user"></i></div>
+                            <div className="bottom_nav_text">MY PAGE</div>
+                        </Stack>
+                    </NavLink>
+                    <NavLink to="/track-order" activeClassName="selected_nav">
+                        <Stack alignItems={"center"}>
+                            <div><i className="fa-solid fa-truck-fast"></i></div>
+                            <div className="bottom_nav_text">TRACK ORDER</div>
+                        </Stack>
+                    </NavLink>
+                </div>
+                ) : null
+            }
             <NavLink to="/faq" activeClassName="selected_nav">
                 <Stack alignItems={"center"}>
                     <div><i className="fa-solid fa-question"></i></div>
