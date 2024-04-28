@@ -9,6 +9,14 @@ export const MobileNav = () => {
             flexDirection={"row"}
             justifyContent={"space-evenly"}
         >
+            <NavLink to="/" activeClassName="selected_nav">
+                <Stack alignItems={"center"} >
+                    <div>
+                        <i className="fa-solid fa-house"></i>
+                    </div>
+                    <div className="bottom_nav_text">HOME</div>
+                </Stack>
+            </NavLink>
             <NavLink to="/brands" activeClassName="selected_nav">
                 <Stack alignItems={"center"}>
                     <div><i className="fa-solid fa-shop"></i></div>
@@ -27,31 +35,22 @@ export const MobileNav = () => {
                     <div className="bottom_nav_text">BLOG</div>
                 </Stack>
             </NavLink>
-            <NavLink to="/" activeClassName="selected_nav">
-                <Stack alignItems={"center"} >
-                    <div>
-                        <i className="fa-solid fa-house"></i>
-                    </div>
-                    <div className="bottom_nav_text">HOME</div>
-                </Stack>
-            </NavLink>
-            {
-                verifiedMemberData ? (<div>
-                    <NavLink to="/user-page" activeClassName="selected_nav">
-                        <Stack alignItems={"center"}>
-                            <div><i className="fa-solid fa-user"></i></div>
-                            <div className="bottom_nav_text">MY PAGE</div>
-                        </Stack>
-                    </NavLink>
-                    <NavLink to="/track-order" activeClassName="selected_nav">
-                        <Stack alignItems={"center"}>
-                            <div><i className="fa-solid fa-truck-fast"></i></div>
-                            <div className="bottom_nav_text">TRACK ORDER</div>
-                        </Stack>
-                    </NavLink>
-                </div>
-                ) : null
-            }
+            {verifiedMemberData ? (
+                <NavLink to="/user-page" activeClassName="selected_nav">
+                    <Stack alignItems={"center"}>
+                        <div><i className="fa-solid fa-user"></i></div>
+                        <div className="bottom_nav_text">MY PAGE</div>
+                    </Stack>
+                </NavLink>
+            ) : null}
+            {verifiedMemberData ? (
+                <NavLink to="/track-order" activeClassName="selected_nav">
+                    <Stack alignItems={"center"}>
+                        <div><i className="fa-solid fa-truck-fast"></i></div>
+                        <div className="bottom_nav_text">TRACK ORDER</div>
+                    </Stack>
+                </NavLink>
+            ) : null}
             <NavLink to="/faq" activeClassName="selected_nav">
                 <Stack alignItems={"center"}>
                     <div><i className="fa-solid fa-question"></i></div>
