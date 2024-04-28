@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material"
 import { Viewer } from "@toast-ui/react-editor"
 import "@toast-ui/editor/dist/toastui-editor.css"
-import React, { useEffect, useMemo, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import ReviewWriting from "../../screens/ProductsPage/reviewWriting"
 import ProductReview from "../../screens/ProductsPage/productReview"
 
@@ -10,10 +10,9 @@ import { createSelector } from "reselect"
 import { chosenBlogRetrieve, targetReviewsRetrieve } from "../../screens/MyPage/selector"
 import { useDispatch, useSelector } from "react-redux"
 import CommunityServiceApi from "../../apiServices/communityServiceApi"
-import { Dispatch, createSlice } from "@reduxjs/toolkit"
+import { Dispatch } from "@reduxjs/toolkit"
 import { Review } from "../../types/review"
 import { setTargetReviews } from "../../screens/MyPage/slice"
-import { useLocation } from "react-router-dom"
 
 
 //Slice
@@ -32,7 +31,6 @@ const retrieveChosenBlog = createSelector(
 )
 export const ViewerPage = () => {
     //Initializations
-    const refViewer = useRef();
     const { targetReviews } = useSelector(retrieveTargetReviews)
     const { setTargetReviews } = actionDispatch(useDispatch())
     const { chosenBlog } = useSelector(retrieveChosenBlog);

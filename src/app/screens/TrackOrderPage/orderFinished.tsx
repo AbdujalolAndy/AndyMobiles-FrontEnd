@@ -10,7 +10,6 @@ import { chosenOrderRetrieve, chosenTargetTransactionRetrieve } from "./selector
 
 import Moment from "react-moment";
 import { sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
-import { useEffect } from "react";
 
 
 //SELECTOR

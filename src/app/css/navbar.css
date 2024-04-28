@@ -185,35 +185,22 @@
 }
 
 .basket_modal .close_toggle {
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transform: rotate(0);
-    transition: transform 1s ease-in-out;
-}
-
-.basket_modal .close_toggle:hover {
-    transform: rotate(180deg);
+    border-radius: 10px;
 }
 
 .basket_products .product_img {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #c6bfbf;
     width: 100px;
     padding: 10px;
     height: 100px;
     border-radius: 10px;
+    overflow: visible;
 }
 
 .basket_products .product_img img {
-    width: 100%;
-}
-
-.basket_products .product_remove_btn:hover {
-    color: rgb(214, 63, 158);
-    cursor: pointer;
+    max-width:100px;
 }
 
 .basket_modal .terms input {
@@ -356,7 +343,7 @@
     .basket_products .product_img {
         width: 140px !important;
         border-radius: 0;
-        padding: 10px;
+        padding: 0px;
         background-color:transparent;
         overflow: visible;
     }

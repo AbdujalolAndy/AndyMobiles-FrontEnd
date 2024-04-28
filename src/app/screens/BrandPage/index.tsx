@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Box, Button, Container, Pagination, PaginationItem, Stack } from "@mui/material"
+import { Box,  Container, Pagination, PaginationItem, Stack } from "@mui/material"
 import { ArrowBack, ArrowForward, Favorite, RemoveRedEye, Comment } from "@mui/icons-material"
 import "../../css/brandsPage.css";
 

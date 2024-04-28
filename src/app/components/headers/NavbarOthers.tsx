@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Stack, Container, Button } from "@mui/material"
+import { Box, Stack, Container } from "@mui/material"
 import { NavLink, useHistory } from "react-router-dom";
 import "../../css/navbar.css"
 import { verifiedMemberData } from "../../apiServices/verified";
@@ -174,7 +174,12 @@ export const NavbarOthers = (props: any) => {
                     </Container>
                 </Box>
             </Box>
-            <MobileNavTop />
+            <MobileNavTop
+                handleLogOut={props.handleLogOut}
+                handleSignUpOpen={props.handleSignUpOpen}
+                handleBasketOpen={props.handleBasketOpen}
+                ordersAmount={props.ordersAmount}
+            />
             <MobileNav />
         </Box>
     )

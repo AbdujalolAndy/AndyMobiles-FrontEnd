@@ -1,5 +1,4 @@
 import { Box } from "@mui/material"
-import { useEffect, useState } from "react"
 import { Map, MapMarker } from "react-kakao-maps-sdk"
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, } from "react"
 import { Box, Container, Stack } from "@mui/material"
-import { Autoplay, Navigation, Pagination } from "swiper/modules"
+import { Autoplay} from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Favorite } from "@mui/icons-material"
 import ProductServiceApi from "../../apiServices/productServiceApi"
@@ -15,9 +15,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { serverApi } from "../../../lib/config"
 import { stringSplitterHandler } from "../../components/features/stringSplitter"
 import { useHistory, useLocation } from "react-router-dom"
-import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert"
-import { MemberServiceApi } from "../../apiServices/memberServiceApi"
-import Definer from "../../../lib/Definer"
 import { handleLikeItem } from "../../components/features/likeItem"
 
 //REDUX Slice
