@@ -114,11 +114,26 @@ export const AuthenticationModal = (props: any) => {
                             <Box className={"auth_signUp"} style={signIn ? {} : { transform: "translateX(100%)", opacity: "1", zIndex: "5" }}>
                                 <Box className={"signUp_body"}>
                                     <div className="login_title fw-bold m-0 mb-2 fs-2">Create Account</div>
-                                    <input type="text" placeholder="Name/Email" onChange={(e) => { setMb_nick(e.target.value) }} />
-                                    <input type="email" placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
-                                    <input type="text" placeholder="Phone Number" onChange={(e) => { setMb_phone(e.target.value) }} />
-                                    <input type="password" placeholder="Password" onChange={(e) => { setPassword(e.target.value) }} />
-                                    <input onKeyDown={handleKeyDownSignUp} type="password" placeholder="Re-enter Password" onChange={(e) => { setCheckPassword(e.target.value) }} />
+                                    <div className="form-floating w-100">
+                                        <input type="text" className="form-control" id="floatingUser" placeholder="User Name" onChange={(e) => { setMb_nick(e.target.value) }} />
+                                        <label htmlFor="floatingUser">User Name</label>
+                                    </div>
+                                    <div className="form-floating w-100">
+                                        <input type="email" className="form-control" id="floatingEmail" placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
+                                        <label htmlFor="floatingEmail">Email</label>
+                                    </div>
+                                    <div className="form-floating w-100">
+                                        <input type="text" className="form-control" id="floatingphone" placeholder="Phone Number" onChange={(e) => { setMb_phone(e.target.value) }} />
+                                        <label htmlFor="floatingphone">Phone Number</label>
+                                    </div>
+                                    <div className="form-floating w-100">
+                                        <input type="password" className="form-control" id="floatingpassword" placeholder="Password" onChange={(e) => { setPassword(e.target.value) }} />
+                                        <label htmlFor="floatingpassword">Password</label>
+                                    </div>
+                                    <div className="form-floating w-100">
+                                        <input type="password" className="form-control" id="floatingre" placeholder="Re-enter Password" onKeyDown={handleKeyDownSignUp} onChange={(e) => { setCheckPassword(e.target.value) }} />
+                                        <label htmlFor="floatingre">Re-enter Password</label>
+                                    </div>
                                     <button className={'btn btn-dark'} onClick={handleSignUpRequest} >Sign Up</button>
                                     {resizeWidth < 450 ? (
                                         <div className="text-danger mt-2" onClick={() => toggle(true)}>Sign In</div>
@@ -129,8 +144,14 @@ export const AuthenticationModal = (props: any) => {
                             <Box className={"auth_logIn"}>
                                 <Box className={"logIn_body"} style={signIn ? {} : { transform: "translateX(100%)" }}>
                                     <div className="signup_title fw-bold m-0 fs-2 mb-2">Sign in</div>
-                                    <input type="text" placeholder="User Name/Email" onChange={handleLogInUserName} />
-                                    <input onKeyDown={handleKeyDownLogIn} type="password" placeholder="Password" onChange={(e) => set_login_mb_password(e.target.value)} />
+                                    <div className="form-floating w-100">
+                                        <input type="text" className="form-control" id="floatinguser" placeholder="User Name" onChange={handleLogInUserName} />
+                                        <label htmlFor="floatinguser">User Name</label>
+                                    </div>
+                                    <div className="form-floating w-100">
+                                        <input type="password" className="form-control" id="floatingpassord" placeholder="Password" onKeyDown={handleKeyDownLogIn} onChange={(e) => set_login_mb_password(e.target.value)} />
+                                        <label htmlFor="floatingpassword">Password</label>
+                                    </div>
                                     <a className={"auth_anchor text-danger"} href="#">If you forget your password, you can log in with your signed up email address </a>
                                     <button className="btn btn-dark" onClick={handleLogInRequest}>Sign In</button>
                                     {resizeWidth < 450 ? (

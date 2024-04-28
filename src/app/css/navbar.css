@@ -200,7 +200,7 @@
 }
 
 .basket_products .product_img img {
-    max-width:100px;
+    max-width:100%;
 }
 
 .basket_modal .terms input {
@@ -349,6 +349,10 @@
     }
 
     .basket_products .product_img img {
-        width: 40px;
+        max-width: 40px;
+    }
+    .basket_products .product_remove_btn{
+        position: absolute;
+        right: 20px;
     }
 }

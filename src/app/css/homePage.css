@@ -694,8 +694,8 @@
     }
 
     .product-swiper {
-        height: 240px !important;
-        margin-bottom: 50px;
+        height: 250px !important;
+        margin-bottom: 10px;
     }
 
     .product_sort .color-select>span {

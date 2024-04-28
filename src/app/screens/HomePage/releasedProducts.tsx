@@ -194,7 +194,7 @@ export const NewProducts = (props: any) => {
                                         </Stack>
                                     </Stack>
                                 </Stack>
-                                <div className="card-price mt-3 fw-bold">
+                                <div className="card-price mt-2 fw-bold">
                                     {ele.product_discount ? (<div>{stringSplitterHandler(discount_price, 3, ".")}₩<span className="text-secondary ms-2"><s>{stringSplitterHandler(ele.product_price, 3, ".")}₩</s></span></div>) : stringSplitterHandler(ele.product_price, 3, ".") + "₩"}
                                 </div>
                             </Box>
