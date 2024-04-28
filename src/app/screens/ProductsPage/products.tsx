@@ -138,15 +138,19 @@ export const Products = (props: any) => {
                                             </Stack>
                                         ) : null
                                     }
-                                    <Stack flexDirection={"row"} alignItems={'center'}>
-                                        <div>
-                                            <i className="fa-solid fa-circle-plus p-1 me-2"></i>
-                                        </div>
-                                        <Box>
-                                            <div>Monthly deal: <b>{ele.product_contract} months</b></div>
-                                            <div>Each Month: <b>{stringSplitterHandler(Math.floor(ele.product_price / ele.product_contract), 3, ".")}₩</b></div>
-                                        </Box>
-                                    </Stack>
+                                    {
+                                        ele.product_contract <= 0 ? null : (
+                                            <Stack flexDirection={"row"} alignItems={'center'}>
+                                                <div>
+                                                    <i className="fa-solid fa-circle-plus p-1 me-2"></i>
+                                                </div>
+                                                <Box>
+                                                    <div>Monthly deal: <b>{ele?.product_contract} months</b></div>
+                                                    <div>Each Month: <b>{stringSplitterHandler(Math.floor(ele.product_price / ele.product_contract), 3, ".")}₩</b></div>
+                                                </Box>
+                                            </Stack>
+                                        )
+                                    }
                                     <Stack flexDirection={"row"} alignItems={"center"}>
                                         <div><i className="fa-solid fa-circle-plus p-1 me-2"></i></div>
                                         <div>{ele.product_display} inch display</div>
