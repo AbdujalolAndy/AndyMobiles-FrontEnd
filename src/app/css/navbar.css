@@ -164,42 +164,43 @@
     width: 25%;
     height: 100vh;
     position: absolute;
+    z-index: 1000000;
     top: 0;
     right: 0%;
     border: none;
-    padding: 20px 30px;
     transition: transform 4s ease-in-out;
     transform: translateX(-100%);
     overflow-y: auto;
 }
 
-
-.basket_modal .close_toggle {
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transform: rotate(0);
-    transition: transform 1s ease-in-out;
+.basket_title {
+    padding: 20px;
+    border-bottom: 1px solid black;
+    font-weight: 500;
 }
 
-.basket_modal .close_toggle:hover {
-    transform: rotate(180deg);
+.basket_products,
+.basket-footer {
+    padding: 20px 30px;
+}
+
+.basket_modal .close_toggle {
+    border-radius: 10px;
 }
 
 .basket_products .product_img {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #c6bfbf;
     width: 100px;
-    padding: 15px;
+    padding: 10px;
     height: 100px;
     border-radius: 10px;
+    overflow: visible;
 }
 
-.basket_products .product_remove_btn:hover {
-    color: rgb(214, 63, 158);
-    cursor: pointer;
+.basket_products .product_img img {
+    max-width:100%;
 }
 
 .basket_modal .terms input {
@@ -235,6 +236,7 @@
 .mobile-nav {
     position: fixed;
     top: 0px;
+    height: 70px;
     width: 100%;
     z-index: 100;
     display: none;
@@ -253,7 +255,7 @@
     background-color: aliceblue;
     padding: 20px 10px;
     color: white;
-    z-index: 10000;
+    z-index: 100;
     /* Adjust as needed */
 
 }
@@ -281,7 +283,6 @@
 
     .mobile-nav {
         display: flex !important;
-        z-index: 100000;
     }
 
     .slide_vid video {
@@ -330,4 +331,28 @@
         display: none;
     }
 
+    /*Basket*/
+    .basket_modal {
+        width: 80%;
+    }
+
+    .swal2-container {
+        margin-top: 100px !important;
+    }
+
+    .basket_products .product_img {
+        width: 140px !important;
+        border-radius: 0;
+        padding: 0px;
+        background-color:transparent;
+        overflow: visible;
+    }
+
+    .basket_products .product_img img {
+        max-width: 40px;
+    }
+    .basket_products .product_remove_btn{
+        position: absolute;
+        right: 20px;
+    }
 }

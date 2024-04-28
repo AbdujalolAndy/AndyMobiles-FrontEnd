@@ -206,7 +206,12 @@ export const ProductNavbar = (props: any) => {
                     </SwiperSlide>
                 </Swiper>
             </Box>
-            <MobileNavTop />
+            <MobileNavTop
+                handleLogOut={props.handleLogOut}
+                handleSignUpOpen={props.handleSignUpOpen}
+                handleBasketOpen={props.handleBasketOpen}
+                ordersAmount={props.ordersAmount}
+            />
             <MobileNav />
         </Box>
     )

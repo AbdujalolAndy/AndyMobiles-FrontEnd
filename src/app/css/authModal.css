@@ -6,7 +6,7 @@
     overflow: hidden;
     width: 100%;
     max-width: 100%;
-    min-height: 400px;
+    min-height: 450px;
 }
 
 .auth_signUp {
@@ -149,7 +149,14 @@ p {
     letter-spacing: 0.5px;
     margin: 30px 0 70px;
 }
-
+.form-floating input:focus{
+    padding: 3px !important;
+    border-bottom:1px solid black  !important;
+    box-shadow: none !important;
+}
+.form-floating>.form-control:not(:placeholder-shown){
+    padding: 0px 5px !important;
+}
 @media only screen and (max-width:440px) {
     .modal_auth {
         position: relative;

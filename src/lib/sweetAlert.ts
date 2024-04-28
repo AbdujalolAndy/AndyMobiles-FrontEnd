@@ -20,7 +20,10 @@ export const sweetTopSuccessAlert = async (msg: string, duration: number = 2000,
         icon: "success",
         title: msg,
         showConfirmButton: false,
-        timer: duration
+        timer: duration,
+        customClass: {
+            popup: 'custom-swal-popup'
+        }
     })
     if (reload) {
         window.location.reload()

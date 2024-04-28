@@ -618,7 +618,7 @@
     width: 100%;
     height: 330px;
     position: relative;
-    z-index: 100;
+    z-index: 99;
 }
 
 .service-wrapper {
@@ -694,8 +694,8 @@
     }
 
     .product-swiper {
-        height: 240px !important;
-        margin-bottom: 50px;
+        height: 250px !important;
+        margin-bottom: 10px;
     }
 
     .product_sort .color-select>span {

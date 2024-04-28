@@ -1,5 +1,5 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Stack, Typography } from "@mui/material"
-import { useEffect, useRef, useState } from "react"
+import {useRef, useState } from "react"
 import { CardDetail, OrderItem } from "../../types/order"
 import { verifiedMemberData } from "../../apiServices/verified"
 import { sweetErrorHandling } from "../../../lib/sweetAlert"

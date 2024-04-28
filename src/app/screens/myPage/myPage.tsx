@@ -20,7 +20,6 @@ import { Member } from "../../types/member"
 import { setChosenBlog, setChosenMember, setTargetReviews } from "./slice"
 import { chosenMemberRetrieve} from "./selector"
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory, useLocation, useParams } from "react-router-dom"
 import { ViewerPage } from "../../components/tuiEditor/tuiViewer"
 import { Blog } from "../../types/blog"
 import CommunityServiceApi from "../../apiServices/communityServiceApi"
@@ -47,7 +46,6 @@ export  const MyPage = (props: any) => {
     const { setChosenMember, setChosenBlog, setTargetReviews } = actionDispatch(useDispatch());
     const { chosenMember } = useSelector(retrieveChosenMember);
     const [reBuild, setRebuild] = useState<Date>(new Date());
-    const history = useHistory()
     let localValue: any;
     //React Hook
     useEffect(() => {

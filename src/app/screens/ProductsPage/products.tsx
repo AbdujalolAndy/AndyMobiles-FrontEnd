@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { serverApi } from "../../../lib/config";
 import { ArrowBack, ArrowForward, Favorite, RemoveRedEye } from "@mui/icons-material";
 import { stringSplitterHandler } from "../../components/features/stringSplitter";
-import { useHistory } from "react-router-dom";
 import { handleLikeItem } from "../../components/features/likeItem";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { useHistory } from "react-router-dom";
+
 
 export const Products = (props: any) => {
     //Initializations
@@ -27,7 +29,7 @@ export const Products = (props: any) => {
         setChosenColor(e.target.value)
         setPoductKey(key)
     }
-    function handleRequestSingleProduct(product_id: string) {
+    async function handleRequestSingleProduct(product_id: string) {
         history.push(`/products/product/${product_id}`)
     }
 

@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Tab } from "@mui/material"
+import {Container, Stack, Tab } from "@mui/material"
 import { useEffect, useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import { HomeProducts } from "./homeProducts";

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, } from "react"
 import { Box, Container, Stack } from "@mui/material"
-import { Autoplay, Navigation, Pagination } from "swiper/modules"
+import { Autoplay} from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Favorite } from "@mui/icons-material"
 import ProductServiceApi from "../../apiServices/productServiceApi"
@@ -15,9 +15,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { serverApi } from "../../../lib/config"
 import { stringSplitterHandler } from "../../components/features/stringSplitter"
 import { useHistory, useLocation } from "react-router-dom"
-import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert"
-import { MemberServiceApi } from "../../apiServices/memberServiceApi"
-import Definer from "../../../lib/Definer"
 import { handleLikeItem } from "../../components/features/likeItem"
 
 //REDUX Slice
@@ -197,7 +194,7 @@ export const NewProducts = (props: any) => {
                                         </Stack>
                                     </Stack>
                                 </Stack>
-                                <div className="card-price mt-3 fw-bold">
+                                <div className="card-price mt-2 fw-bold">
                                     {ele.product_discount ? (<div>{stringSplitterHandler(discount_price, 3, ".")}₩<span className="text-secondary ms-2"><s>{stringSplitterHandler(ele.product_price, 3, ".")}₩</s></span></div>) : stringSplitterHandler(ele.product_price, 3, ".") + "₩"}
                                 </div>
                             </Box>

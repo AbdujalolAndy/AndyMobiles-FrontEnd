@@ -27,10 +27,12 @@ export const Basket = (props: any) => {
         localStorage.setItem("basket_items", JSON.stringify(fixedItems))
     }
     function handleRemoveOrder(item: OrderItem) {
+        console.log(props.addItems)
         const updatedList = props.addItems.filter((ele: OrderItem) => ele.order_id !== item.order_id);
+        console.log(updatedList)
         props.setAddItem([...updatedList])
         props.setOrdersAmount(updatedList.length)
-        localStorage.setItem("basket_items", JSON.stringify(props.addItems))
+        localStorage.setItem("basket_items", JSON.stringify(updatedList))
     }
 
     async function handlePurchaseAll(products: OrderItem[]) {
@@ -71,9 +73,8 @@ export const Basket = (props: any) => {
 
                     >
                         <div className="fs-3">Cart</div>
-                        <div className="close_toggle" onClick={props.handleBasketClose}><i className="fa-solid fa-xmark"></i></div>
+                        <div className="close_toggle btn btn-outline-danger" onClick={props.handleBasketClose}><i className="fa-solid fa-xmark"></i></div>
                     </Stack>
-                    <hr />
                     <Stack
                         className="basket_products "
                         justifyContent={"center"}
@@ -88,10 +89,10 @@ export const Basket = (props: any) => {
                                     style={{ padding: "20px 10px", borderBottom: "1px solid Black" }}
                                 >
                                     <div className="product_img">
-                                        <img src={basket_image_url} style={{ width: "40px" }} alt="" />
+                                        <img src={basket_image_url} alt="" />
                                     </div>
-                                    <Stack className="product_info ms-4" flexDirection={"row"}>
-                                        <Stack className="product_price" flexDirection={"column"} gap="10px">
+                                    <Stack className="product_info ms-2" flexDirection={"row"}>
+                                        <Stack className="product_price" flexDirection={"column"} gap="5px">
                                             <div className="product_name fs-5">
                                                 {basket.item_name}
                                             </div>
@@ -121,7 +122,7 @@ export const Basket = (props: any) => {
                                             </Stack>
                                         </Stack>
                                     </Stack>
-                                    <div className="ms-4 product_remove_btn" onClick={() => handleRemoveOrder(basket)}>
+                                    <div className="product_remove_btn btn btn-outline-secondary" onClick={() => handleRemoveOrder(basket)}>
                                         <i className="fa-solid fa-xmark"></i>
                                     </div>
                                 </Stack>
@@ -129,7 +130,7 @@ export const Basket = (props: any) => {
                         })}
                     </Stack>
 
-                    <div className="mt-4">
+                    <div className="mt-4 basket-footer">
                         <hr />
                         <Stack flexDirection={"row"} justifyContent={"space-between"} className="fw-bold">
                             <div>Total:</div>

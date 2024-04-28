@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Stack, Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs } from "@mui/material";
-import { AddCircle, RemoveCircle } from "@mui/icons-material";
+import { Box, Container, Stack, Tab, Tabs } from "@mui/material";
 import OrderServiceApi from "../../apiServices/orderServiceApi";
-import { CardDetail, Order, OrderItem } from "../../types/order";
+import { Order} from "../../types/order";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material"
 import "../../css/trackOrderPage.css"
@@ -11,12 +10,11 @@ import "../../css/trackOrderPage.css"
 import { createSelector } from "reselect"
 import { Dispatch } from "@reduxjs/toolkit";
 import { setChosenOrder, setChosenTargetTransaction, setTargetOrders } from "./slice";
-import { chosenOrderRetrieve, chosenTargetTransactionRetrieve, targetOrdersRetrieve } from "./selector";
+import { chosenOrderRetrieve, targetOrdersRetrieve } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
-import { serverApi } from "../../../lib/config";
 import { stringSplitterHandler } from "../../components/features/stringSplitter";
 import Moment from "react-moment";
-import { sweetErrorHandling, sweetFailureProvider, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import { sweetFailureProvider, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 import { verifiedMemberData } from "../../apiServices/verified";
 import Definer from "../../../lib/Definer";
 import { Transaction } from "../../types/bank";
@@ -44,11 +42,6 @@ const retrieverChosenOrder = createSelector(
     (chosenOrder) => ({ chosenOrder })
 )
 
-const retrieverChosenTargetTransaction = createSelector(
-    chosenTargetTransactionRetrieve,
-    (chosenTargetTransaction) => ({ chosenTargetTransaction })
-)
-
 const TrackOrderPage = (props: any) => {
     //Initilizations
     const [orderStatus, setOderStatus] = useState<string>("PAUSED")
@@ -64,8 +57,8 @@ const TrackOrderPage = (props: any) => {
     const theme = useTheme()
     //three circle React Hook
     useEffect(() => {
+        window.scrollTo(0,0)
         const orderServiceApi = new OrderServiceApi();
-        const transactionServiceApi = new TransactionServiceApi()
         if (!verifiedMemberData) {
             sweetFailureProvider(Definer.auth_err1, false, true)
         }

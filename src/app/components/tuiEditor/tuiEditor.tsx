@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState} from "react";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 
@@ -8,14 +8,11 @@ import {
     FormControl,
     MenuItem,
     Stack,
-    Typography,
     Select,
-    TextField,
 } from "@mui/material";
-import { useHistory } from "react-router-dom";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 import CommunityServiceApi from "../../apiServices/communityServiceApi";
-import { Blog, BlogCreate } from "../../types/blog";
+import { BlogCreate } from "../../types/blog";
 import { serverApi } from "../../../lib/config";
 import assert from "assert";
 import Definer from "../../../lib/Definer";
@@ -32,11 +29,6 @@ export const TuiEditor = (props: any) => {
 
 
     //Handlers
-
-    function handleGetTitle(e: any) {
-        setBlogData({ ...blogData, blog_title:e.target.value })
-    }
-
     function hadleGetCategory(e: any) {
         blogData.blog_category = e.target.value
         setBlogData({ ...blogData })

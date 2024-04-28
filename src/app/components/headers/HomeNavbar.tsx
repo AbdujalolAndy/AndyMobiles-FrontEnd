@@ -258,7 +258,12 @@ export const HomeNavbar = (props: any) => {
                         </Stack>
                     </Box>
                 </Box>
-                <MobileNavTop handleLogOut={props.handleLogOut} handleSignUpOpen={props.handleSignUpOpen}/>
+                <MobileNavTop
+                    handleLogOut={props.handleLogOut}
+                    handleSignUpOpen={props.handleSignUpOpen}
+                    handleBasketOpen={props.handleBasketOpen}
+                    ordersAmount={props.ordersAmount}
+                />
                 <MobileNav />
             </Stack>
         </Box>
