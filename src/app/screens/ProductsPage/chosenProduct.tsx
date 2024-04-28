@@ -34,6 +34,7 @@ import assert from "assert";
 import Definer from "../../../lib/Definer";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
 import KakaoMap from "../../components/features/kakaoMap";
+import { useKakaoLoader as useKakaoLoaderOrigin } from "react-kakao-maps-sdk";
 
 //SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -67,7 +68,6 @@ export const ChosenProduct = (props: any) => {
         [reBuild, setRebuild] = useState<Date>(new Date),
         [disabledBtn, setDisabledBtn] = useState<boolean>(false),
         main_img = magnifyImg ? magnifyImg : `${serverApi}/${chosenProduct?.product_images[0]}`,
-        address = chosenProduct?.company_data.mb_address,
         [coords, setCoords] = useState<{ lat: any, lng: any }>({ lat: 3123, lng: 122 }),
         styleColor = {
             borderColor: "#0066AE",
@@ -106,7 +106,12 @@ export const ChosenProduct = (props: any) => {
             window.removeEventListener("scroll", handleScroll)
         }
     }, [reBuild])
+    const appkey = process.env.REACT_APP_KAKAO_API_KEY;
 
+    useKakaoLoaderOrigin({
+        appkey: `${appkey}`,
+        libraries: ["clusterer", "drawing", "services"],
+    });
     //lifecirle
     useEffect(() => {
         if (chosenProduct && chosenProduct.company_data && chosenProduct.company_data.mb_address) {
