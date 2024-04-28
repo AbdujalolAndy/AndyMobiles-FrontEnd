@@ -106,12 +106,6 @@ export const ChosenProduct = (props: any) => {
             window.removeEventListener("scroll", handleScroll)
         }
     }, [reBuild])
-    const appkey = process.env.REACT_APP_KAKAO_API_KEY;
-
-    useKakaoLoaderOrigin({
-        appkey: `${appkey}`,
-        libraries: ["clusterer", "drawing", "services"],
-    });
     //lifecirle
     useEffect(() => {
         if (chosenProduct && chosenProduct.company_data && chosenProduct.company_data.mb_address) {

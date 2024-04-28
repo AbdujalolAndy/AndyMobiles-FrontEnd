@@ -45,7 +45,7 @@ const retrieverTargetReviews = createSelector(
 
 
 
-const AllProducts = (props:any) => {
+const AllProducts = (props: any) => {
     //Hook intilizations 
     const [boxSize, setBoxSize] = useState<string>("45%");
     const { setTargetProducts, setTargetReviews } = actionDispath(useDispatch());
@@ -70,6 +70,7 @@ const AllProducts = (props:any) => {
     })
     //React Hook 
     useEffect(() => {
+        window.scrollTo(0, 0)
         //Target Products
         const productServiceApi = new ProductServiceApi;
         productServiceApi.getTargetProducts(searchObj).then(data => setTargetProducts(data)).catch(err => console.log(err))

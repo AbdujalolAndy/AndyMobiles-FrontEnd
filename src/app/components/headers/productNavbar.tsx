@@ -34,7 +34,7 @@ export const ProductNavbar = (props: any) => {
         <Box>
             <Box className="productNavbar position-relative">
                 <Stack
-                    style={scrolled ? {} : { zIndex: "9", position: "relative" }}
+                    style={scrolled ? {} : { zIndex: "11", position: "relative" }}
                     className={scrolled ? "bg-light navbar-container" : ' bg-light container'}>
                     <Box className={scrolled ? "navbar container" : " text-light navbar container position-absolute "} flexDirection={"row"}>
                         <Box className="navbar-brand nav-item">
