@@ -80,7 +80,7 @@ function CommunityPosts(props: any) {
                                 <div
                                     onClick={(e) => {
                                         e.stopPropagation()
-                                        handleLikeItem(e, blog, "COMMUNITY", refs, setRebuild)
+                                        handleLikeItem(e, blog, "COMMUNITY", refs, setRebuild, true)
                                     }}
                                     className='rounded btn btn-secondary border-0'
                                     style={{
