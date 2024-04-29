@@ -1,5 +1,5 @@
 import { Box, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState} from "react"
 import { stringSplitterHandler } from "../../components/features/stringSplitter"
 import { AddCircle, RemoveCircle } from "@mui/icons-material"
 import { OrderItem } from "../../types/order"
@@ -24,24 +24,16 @@ const OrderPaused = (props: any) => {
     const { chosenOrder } = useSelector(retrieveChosenOrder)
     const refs: any = useRef([])
     //Handlers
-    async function handleModifier(num: number, orderItem: OrderItem) {
-        const orderServiceApi = new OrderServiceApi();
-        const updateData = { item_quantity: orderItem.item_quantity + num };
-        try {
-            if (chosenOrder && updateData.item_quantity === 0) {
-                await orderServiceApi.removeOrderItem(orderItem._id);
-                await orderServiceApi.updateOrderData(orderItem.order_id, { order_total_amount: chosenOrder.order_total_amount - orderItem.item_price });
-            } else {
-                await orderServiceApi.updateOrderItem(orderItem._id, updateData);
-            }
-            props.setRebuild(new Date());
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
     function TabPanel(props: any) {
         const { children, value, index, ...other } = props;
+
+    async function handleSubmitOrder(){
+        try{
+
+        }catch(err){
+
+        }
+    }
 
         return (
             <div
@@ -58,11 +50,6 @@ const OrderPaused = (props: any) => {
                 )}
             </div>
         );
-    }
-    function handleRemoveAllPausedProducts() {
-        if (window.confirm("Do you want to remove all products?")) {
-            alert("yes")
-        }
     }
     return (
         <TabPanel value={props.value} index={props.index}>
@@ -109,13 +96,7 @@ const OrderPaused = (props: any) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Stack direction={"row"} gap={"20px"} alignItems={"center"} justifyContent={"center"}>
-                                                <div onClick={async () => await handleModifier(-1, order)} className="btn btn-outline-danger">
-                                                    <RemoveCircle />
-                                                </div>
                                                 <span className="fw-bold fs-5" ref={(ele) => refs.current[order._id] = ele}>{order?.item_quantity}</span>
-                                                <div onClick={async () => await handleModifier(1, order)} className="btn btn-outline-secondary">
-                                                    <AddCircle />
-                                                </div>
                                             </Stack>
                                         </TableCell>
                                         <TableCell>
@@ -145,7 +126,6 @@ const OrderPaused = (props: any) => {
                     >
                         <a href="/products" className="btn btn-info" >Continue Shopping</a>
                         <button className="btn btn-success" onClick={async () => await props.handleProcessCheckout("PROCESS")}>Process Checkout</button>
-                        <button className="btn btn-danger" onClick={handleRemoveAllPausedProducts}>Remove All</button>
                     </Stack>
                 </Stack>
             </Box>

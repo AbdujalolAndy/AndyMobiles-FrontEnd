@@ -57,7 +57,6 @@ const TrackOrderPage = (props: any) => {
     const theme = useTheme()
     //three circle React Hook
     useEffect(() => {
-        window.scrollTo(0,0)
         const orderServiceApi = new OrderServiceApi();
         if (!verifiedMemberData) {
             sweetFailureProvider(Definer.auth_err1, false, true)
