@@ -107,18 +107,18 @@ export const ChosenProduct = (props: any) => {
         }
     }, [reBuild])
     //lifecirle
-    useEffect(() => {
-        if (chosenProduct && chosenProduct.company_data && chosenProduct.company_data.mb_address) {
-            const geocoder = new kakao.maps.services.Geocoder();
-            const addressToSearch = chosenProduct.company_data.mb_address;
-            geocoder.addressSearch(addressToSearch, (result: any, status) => {
-                if (status === kakao.maps.services.Status.OK) {
-                    const newcoords = { lat: parseFloat(result[0].y), lng: parseFloat(result[0].x) };
-                    setCoords(newcoords);
-                }
-            });
-        }
-    }, [chosenProduct])
+    // useEffect(() => {
+    //     if (chosenProduct && chosenProduct.company_data && chosenProduct.company_data.mb_address) {
+    //         const geocoder = new kakao.maps.services.Geocoder();
+    //         const addressToSearch = chosenProduct.company_data.mb_address;
+    //         geocoder.addressSearch(addressToSearch, (result: any, status) => {
+    //             if (status === kakao.maps.services.Status.OK) {
+    //                 const newcoords = { lat: parseFloat(result[0].y), lng: parseFloat(result[0].x) };
+    //                 setCoords(newcoords);
+    //             }
+    //         });
+    //     }
+    // }, [chosenProduct])
     //Handlers
     function handleOpenChat() { setOpenChat(true) };
     function handleCloseChat() { setOpenChat(false) };
@@ -214,7 +214,7 @@ export const ChosenProduct = (props: any) => {
                     </Swiper>
                     <Box className="main_pic_box">
                         <ReactImageMagnify
-                            style={{ maxWidth: '100%', maxHeight: '100%' }}
+                            style={{ maxWidth: '100%', maxHeight: '100%',position: 'relative' }}
                             {...{
                                 smallImage: {
                                     alt: "Wristwatch by Ted Baker London",
@@ -223,11 +223,13 @@ export const ChosenProduct = (props: any) => {
                                 },
                                 largeImage: {
                                     src: main_img,
-                                    width: 1000,
-                                    height: 1480,
+                                    width: 400,
+                                    height: 1000,
                                 },
                                 enlargedImageContainerStyle: {
                                     zIndex: "1500",
+                                    position:"absolute",
+                                    top: -50,
                                 },
                                 enlargedImageContainerDimensions: {
                                     width: !main_img.includes("webp") ? "100%" : "400%",
