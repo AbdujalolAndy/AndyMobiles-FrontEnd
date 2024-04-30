@@ -214,26 +214,20 @@ export const ChosenProduct = (props: any) => {
                     </Swiper>
                     <Box className="main_pic_box">
                         <ReactImageMagnify
-                            style={{ maxWidth: '100%', maxHeight: '100%',position: 'relative' }}
+                        className="w-100"
                             {...{
                                 smallImage: {
                                     alt: "Wristwatch by Ted Baker London",
                                     isFluidWidth: true,
-                                    src: main_img
+                                    src: main_img,
                                 },
                                 largeImage: {
                                     src: main_img,
-                                    width: 400,
-                                    height: 1000,
+                                    width: 900,
+                                    height: 900,
                                 },
                                 enlargedImageContainerStyle: {
                                     zIndex: "1500",
-                                    position:"absolute",
-                                    top: -50,
-                                },
-                                enlargedImageContainerDimensions: {
-                                    width: !main_img.includes("webp") ? "100%" : "400%",
-                                    height: !main_img.includes("webp") ? "100%" : "160%",
                                 },
                             }}
                         />

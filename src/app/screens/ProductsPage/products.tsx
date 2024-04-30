@@ -76,8 +76,8 @@ export const Products = (props: any) => {
                                 }}>
                                     <Favorite style={ele.me_liked && ele.me_liked[0]?.mb_id ? { fill: "red" } : { fill: "white" }} />
                                 </button>
-                                <img src={`${serverApi}/${pictures[0]}`} alt="phone" className="product_img_1" style={{ width: "auto" }} />
-                                <img src={`${serverApi}/${pictures[1]}`} alt="phone" className="product_img_2" style={{ width: "auto" }} />
+                                <img src={`${serverApi}/${pictures[0]}`} alt="phone" className="product_img_1 w-100" />
+                                <img src={`${serverApi}/${pictures[1]}`} alt="phone" className="product_img_2 w-100" />
                             </Box>
                             <div
                                 className="product_item-info p-2"

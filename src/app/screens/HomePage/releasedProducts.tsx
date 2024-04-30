@@ -88,12 +88,12 @@ export const NewProducts = (props: any) => {
                                     <img
                                         src={image_url_1}
                                         alt="phone1"
-                                        className="product_img_1"
+                                        className="product_img_1 w-100"
                                     />
                                     <img
                                         src={image_url_2}
                                         alt="2"
-                                        className="product_img_2"
+                                        className="product_img_2 w-100"
                                     />
                                     <Stack
                                         className="card-features"

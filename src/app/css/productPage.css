@@ -176,17 +176,13 @@
 
 .product_img {
     overflow: hidden;
+    background-color: #FFFFFF;
 }
 
 .product_img {
     height: 100%;
     transition: transform .2s ease-in-out;
     padding: 15px;
-}
-
-.product_img img {
-    max-height: 200px;
-    max-width: 150px;
 }
 
 .product_img button {
@@ -330,6 +326,7 @@
     transform: scale(1);
     transition: all .3s ease-in-out;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .product_swiper .chosen_product_img {

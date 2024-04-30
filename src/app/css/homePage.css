@@ -115,12 +115,14 @@
 }
 
 .card-img {
-    background-color: #F2F5FA;
+    background-color:#FDFDFC;
+    border: 1px solid gray;
     display: flex;
     padding: 20px 0;
     box-sizing: border-box;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .card-img>img {
@@ -384,7 +386,7 @@
     overflow: hidden;
     text-decoration: none;
     box-shadow: 0 0 3px black;
-    background-color: #edeced;
+    background-color: #FDFDFC;
 }
 
 .product_card .card_img {
@@ -441,6 +443,7 @@
 
 
 .product_card .card__overlay {
+    border-top: 1px solid black;
     position: absolute;
     bottom: 0;
     left: 0;
