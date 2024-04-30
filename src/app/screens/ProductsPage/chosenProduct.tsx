@@ -107,18 +107,18 @@ export const ChosenProduct = (props: any) => {
         }
     }, [reBuild])
     //lifecirle
-    // useEffect(() => {
-    //     if (chosenProduct && chosenProduct.company_data && chosenProduct.company_data.mb_address) {
-    //         const geocoder = new kakao.maps.services.Geocoder();
-    //         const addressToSearch = chosenProduct.company_data.mb_address;
-    //         geocoder.addressSearch(addressToSearch, (result: any, status) => {
-    //             if (status === kakao.maps.services.Status.OK) {
-    //                 const newcoords = { lat: parseFloat(result[0].y), lng: parseFloat(result[0].x) };
-    //                 setCoords(newcoords);
-    //             }
-    //         });
-    //     }
-    // }, [chosenProduct])
+    useEffect(() => {
+        if (chosenProduct && chosenProduct.company_data && chosenProduct.company_data.mb_address) {
+            const geocoder = new kakao.maps.services.Geocoder();
+            const addressToSearch = chosenProduct.company_data.mb_address;
+            geocoder.addressSearch(addressToSearch, (result: any, status) => {
+                if (status === kakao.maps.services.Status.OK) {
+                    const newcoords = { lat: parseFloat(result[0].y), lng: parseFloat(result[0].x) };
+                    setCoords(newcoords);
+                }
+            });
+        }
+    }, [chosenProduct])
     //Handlers
     function handleOpenChat() { setOpenChat(true) };
     function handleCloseChat() { setOpenChat(false) };
