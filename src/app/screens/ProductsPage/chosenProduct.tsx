@@ -258,17 +258,17 @@ export const ChosenProduct = (props: any) => {
                     >
                         <Stack
                             flexDirection={"row"}
-                            gap={"10px"}
+                            gap={"5px"}
                         >
                             <div><i className="fa-solid fa-sack-dollar"></i></div>
-                            <div className="text-secondary fw-bold">Product Price:</div>
+                            <div className="text-secondary fw-bold fs-6">Product Price:</div>
                         </Stack>
                         {chosenProduct?.product_discount ? (
                             <Stack
                                 className="fw-bold"
                                 flexDirection={"row"}
                                 alignItems={"center"}
-                                gap={"10px"}
+                                gap={"5px"}
                             >
                                 <div>
                                     {
@@ -338,12 +338,12 @@ export const ChosenProduct = (props: any) => {
                             gap={"10px"}
                         >{
                                 chosenProduct?.product_related.map((product: Product) => {
-                                    const product_color = product.product_color.toLowerCase() === "silver" ? "white" : product.product_color.toLowerCase()
+                                    const product_color = product.product_color.toLowerCase()
                                     return (
                                         <Box>
                                             <Box
                                                 className="product_color"
-                                                style={chosenColor == product_color ? styleColor : {}}
+                                                style={chosenColor === product_color || chosenProduct.product_color.toLowerCase()===product_color ? styleColor : {}}
                                                 onClick={() => handleChosenColor(product_color, product._id)}
                                             >
                                                 <img

@@ -96,7 +96,7 @@ export const HomeNavbar = (props: any) => {
                                     of Galaxy AI. From researching on the spot to capturing every detail of your projects day or night,
                                     unleash new ways to stay productive, collaborate and more.</div>
                                 <button className="btn btn-dark text-light fw-bold" onClick={() => {
-                                    history.push("/products/product/6625f5e855a34e5c0fe374f8")
+                                    history.push("/products/product/66310f10628274d1bb980693")
                                 }}>
                                     Purchase
                                 </button>
@@ -117,7 +117,7 @@ export const HomeNavbar = (props: any) => {
                                     power adapters and computer ports is included.
                                 </div>
                                 <button className="btn btn-secondary text-light fw-bold" onClick={() => {
-                                    history.push("/products/product/65f7e42f60e1dc09f5610500")
+                                    history.push("/products/product/66310c22628274d1bb980686")
                                 }}>
                                     Purchase
                                 </button>
@@ -136,7 +136,7 @@ export const HomeNavbar = (props: any) => {
                                     <a href="" className="nav-link pt-4"> <span>LEARN MORE</span><i className="fa-solid ms-1 fa-arrow-up-right-from-square"></i></a>
                                     <button className="mt-4 btn btn-secondary"
                                         onClick={() => {
-                                            history.push("/products/product/6625fb4555a34e5c0fe37535")
+                                            history.push("/products/product/66311b1d628274d1bb9806e5")
                                         }}
                                     >PURCHASE</button>
                                 </div>
