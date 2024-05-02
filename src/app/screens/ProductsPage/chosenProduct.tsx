@@ -214,7 +214,7 @@ export const ChosenProduct = (props: any) => {
                     </Swiper>
                     <Box className="main_pic_box">
                         <ReactImageMagnify
-                        className="w-100"
+                            className="w-100"
                             {...{
                                 smallImage: {
                                     alt: "Wristwatch by Ted Baker London",
@@ -343,7 +343,7 @@ export const ChosenProduct = (props: any) => {
                                         <Box>
                                             <Box
                                                 className="product_color"
-                                                style={chosenColor === product_color || chosenProduct.product_color.toLowerCase()===product_color ? styleColor : {}}
+                                                style={chosenColor === product_color || chosenProduct.product_color.toLowerCase() === product_color ? styleColor : {}}
                                                 onClick={() => handleChosenColor(product_color, product._id)}
                                             >
                                                 <img
@@ -519,6 +519,7 @@ export const ChosenProduct = (props: any) => {
                 <NewProducts
                     searchProducts={{ limit: 5, order: "createdAt", random: true, contractMonth: [] }}
                     handleSaveBasket={props.handleSaveBasket}
+                    setRebuild={props.setAmountRebuild}
                 />
             </Box>
             <DownToUpBtn address={"#"} />

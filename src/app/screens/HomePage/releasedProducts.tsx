@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, } from "react"
+import React, { useEffect, useRef, useState, } from "react"
 import { Box, Container, Stack } from "@mui/material"
-import { Autoplay} from "swiper/modules"
+import { Autoplay } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Favorite } from "@mui/icons-material"
 import ProductServiceApi from "../../apiServices/productServiceApi"
