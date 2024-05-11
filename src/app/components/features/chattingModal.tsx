@@ -19,7 +19,8 @@ const Chatting = () => {
     const [context, setContext] = useState<string>("")
     const [messages, setAllMessages] = useState<Message[]>([]);
     const [onlineUsers, setOnlineUsers] = useState<number>(0);
-    const refs: any = useRef([])
+    const refs: any = useRef([]);
+    const [rebuild, setRebuild] = useState<Date>(new Date())
     //LifeCircle
     useEffect(() => {
         socket.connect();
@@ -37,7 +38,7 @@ const Chatting = () => {
             const communityServiceApi = new CommunityServiceApi();
             communityServiceApi.getAllMessages().then((data: Message[]) => setAllMessages(data.reverse())).catch((err: any) => console.log(err))
         }
-    }, [socket])
+    }, [socket, rebuild])
     //Handlers
     async function handleSubmitMsg() {
         try {
@@ -50,7 +51,8 @@ const Chatting = () => {
                 msg_text: context,
             })
             refs.current['text'].value = ''
-            setContext("")
+            setContext("");
+            setRebuild(new Date())
         } catch (err: any) {
             handleOpenChat()
             refs.current['text'].value = ''
